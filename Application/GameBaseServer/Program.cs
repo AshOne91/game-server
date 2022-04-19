@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace game_server
+namespace GameBaseServer
 {
     class Program
     {
