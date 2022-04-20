@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Base\" />
+    <ProjectReference Include="..\..\Service.Net\Service.Net.csproj" />
   </ItemGroup>
 
 </Project>
