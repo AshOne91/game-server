@@ -1,0 +1,41 @@
+{
+    "serverConfig":[
+        {
+            // 1 : Login // 첫 유저 접속 서버(중복 로그인 감지, 서버 주소 내려주는 거는 DNS 서버 사용 예정)
+            // 2 : Game  // 실제 게임서버
+            // 3 : Master //서버관리, 접속주소 내려주기 등등
+            // 4 : Proxy //일단 보류(시간 남으면 하기)(게임서버 부하 줄이는 용도, 클라이언트 서버 이동 없이 같이 플레이 가능하게 하는 용도)
+            "mode" : 1,
+            "shardDBConn":"-1",
+            "globalDBConn":"-1",
+            "ip": "0.0.0.0",
+            "port": 1000,
+            "master_ip": "127.0.0.1",
+            "master_port": 3000,
+            "cacheServer_ip": "127.0.0.1",
+            "cacheServer_port": 6379
+        },
+        {
+            "mode" : 2,
+            "shardDBConn":"Server=133.186.139.97;Database=shardingdb;Uid=gameserver;Pwd=Tlqktls^^321@#;",
+            "globalDBConn":"Server=133.186.139.97;Database=shardingdb;Uid=gameserver;Pwd=Tlqktls^^321@#;",
+            "ip": "0.0.0.0",
+            "port": "2000",
+            "master_ip": "127.0.0.1",
+            "master_port": 3000,
+            "cacheServer_ip": "127.0.0.1",
+            "cacheServer_port": 6379
+        },
+        {
+            "mode" : 3,
+            "shardDBConn":"-1",
+            "globalDBConn":"-1",
+            "ip": "0.0.0.0",
+            "port": 3000,
+            "master_ip": "-1",
+            "master_port": "-1",
+            "cacheServer_ip": "127.0.0.1",
+            "cacheServer_port": 6379
+        }
+    ]
+}
