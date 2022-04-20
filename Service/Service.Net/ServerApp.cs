@@ -16,7 +16,7 @@ namespace Service.Net
         Proxy
     }
 
-    abstract class ServerApp
+    public abstract class ServerApp
     {
         public ELogLevel _logLevel = ELogLevel.Always;
         public EServerMode _serverMode = EServerMode.Login;

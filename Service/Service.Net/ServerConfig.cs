@@ -2,30 +2,30 @@
 
 namespace Service.Net
 {
-    public class ServerConfiguration
+    public class ServerConfig
     {
-        public bool noDelay = true;
-        public bool lingerState = false;
-        public bool keepAlive = true;
-        public int keepAliveInterval = 5000;
-        public bool reuseAddress = true;
+        public bool NoDelay = true;
+        public bool LingerState = false;
+        public bool KeepAlive = true;
+        public int KeepAliveInterval = 5000;
+        public bool ReuseAddress = true;
 
-        public int pendingConnectionBacklog = 200;
-        public int connectTimeout = 15000;
-        public int receiveBufferSize = 65536;
-        public int sendBufferSize = 65536;
-        public int receiveTimeout = 0;
-        public int sendTimeout = 0;
+        public int PendingConnectionBacklog = 200;
+        public int ConnectTimeout = 15000;
+        public int ReceiveBufferSize = 65536;
+        public int SendBufferSize = 65536;
+        public int ReceiveTimeout = 0;
+        public int SendTimeout = 0;
 
-        public bool allowNatTraversal = false;
-        public bool useSessionEventQueue = false;
+        public bool AllowNatTraversal = false;
+        public bool UseSessionEventQueue = false;
 
-        public int sendQueueSize = 100;
-        public int packetPoolCount = 1000;
-        public int evtPoolCount = 2000;
-        public int evtQueueSize = 10000000;
-        public int dbThreadCount = 6;
+        public int SendQueueSize = 100;
+        public int PacketPoolCount = 1000;
+        public int EvtPoolCount = 2000;
+        public int EvtQueueSize = 10000000;
+        public int DBThreadCount = 6;
 
-        public ServerConfiguration() {}
+        public ServerConfig() {}
     }
 }
