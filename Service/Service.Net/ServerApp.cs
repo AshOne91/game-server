@@ -20,7 +20,7 @@ namespace Service.Net
     {
         public ELogLevel _logLevel = ELogLevel.Always;
         public EServerMode _serverMode = EServerMode.Login;
-        public Config _config;
+        public ServerConfig _config;
         public virtual bool StartUp(ELogLevel logLevel, EServerMode serverMode, string configPath)
         {
             /*#if (!DEBUG)
@@ -34,14 +34,18 @@ namespace Service.Net
                 _serverMode = serverMode;
 
                 string jsonStr = reader.ReadToEnd();
-                _config = JsonConvert.DeserializeObject<Config>(jsonStr);
-
-                //공용 설정파일 추가 예정
-                Console.Title = "server:" + _serverMode.ToString() + System.Diagnostics.Process.GetCurrentProcess().Id;
-                Logger.Default = new Logger();
-                Logger.Default.Create(true, _serverMode.ToString());
-                Logger.Default.Log(_logLevel, "Start " + _serverMode.ToString() + " Server");
+                _config = JsonConvert.DeserializeObject<ServerConfig>(jsonStr);
             }
+            //공용 설정파일 추가 예정
+            Console.Title = "server:" + _serverMode.ToString() + System.Diagnostics.Process.GetCurrentProcess().Id;
+            Logger.Default = new Logger();
+            Logger.Default.Create(true, _serverMode.ToString());
+            Logger.Default.Log(_logLevel, "Start " + _serverMode.ToString() + " Server");
+
+
+            
+
+
 
             return true;
         }
