@@ -48,12 +48,12 @@ namespace Service.Net
     }
 
     [Serializable()]
-    public class NwPacketException : System.Exception
+    public class PacketException : System.Exception
     {
-        public NwPacketException() : base() { }
-        public NwPacketException(string message) : base(message) { }
-        public NwPacketException(string message, System.Exception inner) : base(message, inner) { }
-        protected NwPacketException(System.Runtime.Serialization.SerializationInfo info,
+        public PacketException() : base() { }
+        public PacketException(string message) : base(message) { }
+        public PacketException(string message, System.Exception inner) : base(message, inner) { }
+        protected PacketException(System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context)
         { }
     }
@@ -191,7 +191,7 @@ namespace Service.Net
         {
             if (nSize > PACKETBUFFERSIZE)
             {
-                throw new NwPacketException("NwPacket CopyToBuffer out of range");
+                throw new PacketException("NwPacket CopyToBuffer out of range");
             }
 
             Clear();
@@ -210,7 +210,7 @@ namespace Service.Net
         {
             if (_writePosition + size > PACKETBUFFERSIZE)
             {
-                throw new NwPacketException("NwPacket WriteData out of range");
+                throw new PacketException("NwPacket WriteData out of range");
             }
 
             ushort nPrevSize = GetDataFieldSize();
@@ -229,7 +229,7 @@ namespace Service.Net
         {
             if (_readPosition + size > PACKETBUFFERSIZE)
             {
-                throw new NwPacketException("NwPacket ReadData out of range");
+                throw new PacketException("NwPacket ReadData out of range");
             }
 
             _buffer.Seek(PACKETHEADERSIZE + _readPosition, SeekOrigin.Begin);
