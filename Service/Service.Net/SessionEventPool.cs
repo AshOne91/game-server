@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Service.Net
 {
-    class SessionEventPool : ObjectPool<SessionEvent>
+    public class SessionEventPool : ObjectPool<SessionEvent>
     {
         public void Initialize(int initialCount = 1000)
         {
