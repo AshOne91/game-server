@@ -43,7 +43,7 @@ namespace Service.Net
             lock (_activeSessionMap)
             {
                 ++_uidCnt;
-                session = new SocketSession(_uidCnt, _serverApp, _serverConfig, this);
+                session = new SocketSession(_uidCnt, _serverApp, _serverConfig.PeerConfig, this);
 
                 bool result = _activeSessionMap.TryAdd(_uidCnt, session);
                 if (result)
@@ -72,7 +72,7 @@ namespace Service.Net
             lock (_activeSessionMap)
             {
                 ++_uidCnt;
-                SocketSession session = new SocketSession(_uidCnt, _serverApp, _serverConfig, this);
+                SocketSession session = new SocketSession(_uidCnt, _serverApp, _serverConfig.PeerConfig, this);
 
                 bool result = _activeSessionMap.TryAdd(_uidCnt, session);
                 if (result)

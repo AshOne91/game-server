@@ -346,7 +346,7 @@ namespace Service.Net
                 }
                 else
                 {
-                    FireSocketErrorEvent(se):
+                    FireSocketErrorEvent(se);
                 }
             }
         }
@@ -479,7 +479,7 @@ namespace Service.Net
 
             OnClose();
         }
-        private void FirePacketEvent(NwPacket packet)
+        private void FirePacketEvent(Packet packet)
         {
             ServerApp.AddRecvBytes(packet.GetPacketSize());
             ServerApp.AddRecvCount();
