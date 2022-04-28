@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Service.Net
 {
+
     public class ServerConfig
     {
         public int Mode;

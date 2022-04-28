@@ -7,7 +7,8 @@ namespace GameBase.Common
 {
     public sealed class PACKET_LC_HELLO_NOTI : PacketBaseNotification
     {
-        public PACKET_LC_HELLO_NOTI() : base(1) { }
+        public static readonly ushort ProtocolId = 1;
+        public PACKET_LC_HELLO_NOTI() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -20,7 +21,8 @@ namespace GameBase.Common
     }
     public sealed class PACKET_CL_HEART_BEAT_REQ : PacketBaseRequest
     {
-        public PACKET_CL_HEART_BEAT_REQ() : base(2) { }
+        public static readonly ushort ProtocolId = 2;
+        public PACKET_CL_HEART_BEAT_REQ() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -33,7 +35,8 @@ namespace GameBase.Common
     }
     public sealed class PACKET_LC_HEART_BEAT_RES : PacketBaseResponse
     {
-        public PACKET_LC_HEART_BEAT_RES() : base(3) { }
+        public static readonly ushort ProtocolId = 3;
+        public PACKET_LC_HEART_BEAT_RES() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -46,7 +49,8 @@ namespace GameBase.Common
     }
     public sealed class PACKET_CL_CHECK_VERSION_REQ : PacketBaseRequest
     {
-        public PACKET_CL_CHECK_VERSION_REQ() : base(4) { }
+        public static readonly ushort ProtocolId = 4;
+        public PACKET_CL_CHECK_VERSION_REQ() : base(ProtocolId) { }
         public string ProtocolGUID = "";
         public string Ver = "";
         public override void Serialize(Packet packet)
@@ -64,7 +68,8 @@ namespace GameBase.Common
     }
     public sealed class PACKET_LC_CHECK_VERSION_RES : PacketBaseResponse
     {
-        public PACKET_LC_CHECK_VERSION_RES() : base(5) { }
+        public static readonly ushort ProtocolId = 5;
+        public PACKET_LC_CHECK_VERSION_RES() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -77,7 +82,8 @@ namespace GameBase.Common
     }
     public sealed class PACKET_CL_CHECK_AUTH_REQ : PacketBaseRequest
     {
-        public PACKET_CL_CHECK_AUTH_REQ() : base(6) { }
+        public static readonly ushort ProtocolId = 6;
+        public PACKET_CL_CHECK_AUTH_REQ() : base(ProtocolId) { }
         public string SiteUserId = "";
         public override void Serialize(Packet packet)
         {
@@ -92,7 +98,8 @@ namespace GameBase.Common
     }
     public sealed class PACKET_LC_CHECK_AUTH_RES : PacketBaseResponse
     {
-        public PACKET_LC_CHECK_AUTH_RES() : base(7) { }
+        public static readonly ushort ProtocolId = 7;
+        public PACKET_LC_CHECK_AUTH_RES() : base(ProtocolId) { }
         public string Passport = "";
         public string IP = "";
         public ushort Port = 0;
@@ -117,7 +124,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_CL_GEN_GUEST_ID_REQ : PacketBaseRequest
     {
-        public PACKET_CL_GEN_GUEST_ID_REQ() : base(8) { }
+        public static readonly ushort ProtocolId = 8;
+        public PACKET_CL_GEN_GUEST_ID_REQ() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -131,7 +139,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_LC_GEN_GUEST_ID_RES : PacketBaseResponse
     {
-        public PACKET_LC_GEN_GUEST_ID_RES() : base(9) { }
+        public static readonly ushort ProtocolId = 9;
+        public PACKET_LC_GEN_GUEST_ID_RES() : base(ProtocolId) { }
         public string SiteUserId = "";
         public override void Serialize(Packet packet)
         {
@@ -147,7 +156,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_LC_DUPLICATE_LOGIN_NOTI : PacketBaseNotification
     {
-        public PACKET_LC_DUPLICATE_LOGIN_NOTI() : base(10) { }
+        public static readonly ushort ProtocolId = 10;
+        public PACKET_LC_DUPLICATE_LOGIN_NOTI() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -164,7 +174,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_GC_HELLO_NOTI : PacketBaseNotification
     {
-        public PACKET_GC_HELLO_NOTI() : base(1001) { }
+        public static readonly ushort ProtocolId = 1001;
+        public PACKET_GC_HELLO_NOTI() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -178,7 +189,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_CG_HEARTBEAT_REQ : PacketBaseRequest
     {
-        public PACKET_CG_HEARTBEAT_REQ() : base(1002) { }
+        public static readonly ushort ProtocolId = 1002;
+        public PACKET_CG_HEARTBEAT_REQ() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -192,7 +204,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_GC_HEARTBEAT_RES : PacketBaseResponse
     {
-        public PACKET_GC_HEARTBEAT_RES() : base(1003) { }
+        public static readonly ushort ProtocolId = 1003;
+        public PACKET_GC_HEARTBEAT_RES() : base(ProtocolId) { }
         public DateTime Time = new DateTime();
         public override void Serialize(Packet packet)
         {
@@ -208,7 +221,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_GC_HEARTBEAT_NOTI : PacketBaseNotification
     {
-        public PACKET_GC_HEARTBEAT_NOTI() : base(1004) { }
+        public static readonly ushort ProtocolId = 1004;
+        public PACKET_GC_HEARTBEAT_NOTI() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -222,7 +236,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_CG_CHECK_AUTH_REQ : PacketBaseRequest
     {
-        public PACKET_CG_CHECK_AUTH_REQ() : base(1005) { }
+        public static readonly ushort ProtocolId = 1005;
+        public PACKET_CG_CHECK_AUTH_REQ() : base(ProtocolId) { }
         public string ProtocolGUID = "";
         public string Ver = "";
         public string Passport = "";
@@ -244,7 +259,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_GC_CHECK_AUTH_RES : PacketBaseResponse
     {
-        public PACKET_GC_CHECK_AUTH_RES() : base(1006) { }
+        public static readonly ushort ProtocolId = 1006;
+        public PACKET_GC_CHECK_AUTH_RES() : base(ProtocolId) { }
         public string PlayerName = "";
         public Int64 PlayerIdx = 0;
         public string SiteUserId = "";
@@ -267,7 +283,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_MG_HELLO_NOTI : PacketBaseNotification
     {
-        public PACKET_MG_HELLO_NOTI() : base(1007) { }
+        public static readonly ushort ProtocolId = 1007;
+        public PACKET_MG_HELLO_NOTI() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -281,7 +298,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_GM_HEART_BEAT_REQ : PacketBaseRequest
     {
-        public PACKET_GM_HEART_BEAT_REQ() : base(1008) { }
+        public static readonly ushort ProtocolId = 1008;
+        public PACKET_GM_HEART_BEAT_REQ() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -295,7 +313,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_MG_HEART_BEAT_RES : PacketBaseResponse
     {
-        public PACKET_MG_HEART_BEAT_RES() : base(1009) { }
+        public static readonly ushort ProtocolId = 1009;
+        public PACKET_MG_HEART_BEAT_RES() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -309,7 +328,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_GM_CHECK_AUTH_REQ : PacketBaseRequest
     {
-        public PACKET_GM_CHECK_AUTH_REQ() : base(1010) { }
+        public static readonly ushort ProtocolId = 1010;
+        public PACKET_GM_CHECK_AUTH_REQ() : base(ProtocolId) { }
         public string ServerGUID = "";
         public string Ver = "";
         public string IP = "127.0.0.1";
@@ -333,7 +353,8 @@ namespace GameBase.Common
     }
     public sealed class PACKET_MG_CHECK_AUTH_RES : PacketBaseResponse
     {
-        public PACKET_MG_CHECK_AUTH_RES() : base(1011) { }
+        public static readonly ushort ProtocolId = 1011;
+        public PACKET_MG_CHECK_AUTH_RES() : base(ProtocolId) { }
         public int ServerId = 0;
         public override void Serialize(Packet packet)
         {
@@ -350,7 +371,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_ML_HELLO_NOTI : PacketBaseNotification
     {
-        public PACKET_ML_HELLO_NOTI() : base(3001) { }
+        public static readonly ushort ProtocolId = 3001;
+        public PACKET_ML_HELLO_NOTI() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -364,7 +386,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_LM_HEART_BEAT_REQ : PacketBaseRequest
     {
-        public PACKET_LM_HEART_BEAT_REQ() : base(3002) { }
+        public static readonly ushort ProtocolId = 3002;
+        public PACKET_LM_HEART_BEAT_REQ() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -378,7 +401,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_ML_HEART_BEAT_RES : PacketBaseResponse
     {
-        public PACKET_ML_HEART_BEAT_RES() : base(3003) { }
+        public static readonly ushort ProtocolId = 3003;
+        public PACKET_ML_HEART_BEAT_RES() : base(ProtocolId) { }
 
         public override void Serialize(Packet packet)
         {
@@ -392,7 +416,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_LM_CHECK_AUTH_REQ : PacketBaseRequest
     {
-        public PACKET_LM_CHECK_AUTH_REQ() : base(3004) { }
+        public static readonly ushort ProtocolId = 3004;
+        public PACKET_LM_CHECK_AUTH_REQ() : base(ProtocolId) { }
         public string ServerGUID = "";
         public string Ver = "";
         public string HostIP = "127.0.0.1";
@@ -409,7 +434,8 @@ namespace GameBase.Common
 
     public sealed class PACKET_ML_CHECK_AUTH_RES : PacketBaseResponse
     {
-        public PACKET_ML_CHECK_AUTH_RES() : base(3005) { }
+        public static readonly ushort ProtocolId = 3005;
+        public PACKET_ML_CHECK_AUTH_RES() : base(ProtocolId) { }
         public int ServerId = 0;
         public override void Serialize(Packet packet)
         {

@@ -25,17 +25,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Core", "Service\Ser
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Template", "Template", "{988F560E-2992-4C63-848F-1BEA14EB3B63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameBase", "Template\GameBase\GameBase\GameBase.csproj", "{42E73B46-052C-4DD6-B538-ED01B001161A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameBase", "Template\GameBase\GameBase\GameBase.csproj", "{42E73B46-052C-4DD6-B538-ED01B001161A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Account", "Account", "{8DB12195-FAFF-499A-A1A9-815AAB03CD81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameBaseAccount", "Template\Account\GameBaseAccount\GameBaseAccount.csproj", "{A5C9A424-FCED-4B4C-BA23-E26E6DF12367}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameBaseAccount", "Template\Account\GameBaseAccount\GameBaseAccount.csproj", "{A5C9A424-FCED-4B4C-BA23-E26E6DF12367}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Net.Login", "Service\Service.Net.Login\Service.Net.Login\Service.Net.Login.csproj", "{57DC579C-B010-4A68-8987-A05679AEA2CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Net.Login", "Service\Service.Net.Login\Service.Net.Login\Service.Net.Login.csproj", "{57DC579C-B010-4A68-8987-A05679AEA2CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Net.Master", "Service\Service.Net.Master\Service.Net.Master\Service.Net.Master.csproj", "{D5771207-538A-4489-9AB7-5888FC909F98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Net.Master", "Service\Service.Net.Master\Service.Net.Master\Service.Net.Master.csproj", "{D5771207-538A-4489-9AB7-5888FC909F98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Net.Game", "Service\Service.Net.Game\Service.Net.Game\Service.Net.Game.csproj", "{8C58B2E2-41B0-4EFD-9A92-4F72FCF79223}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Net.Game", "Service\Service.Net.Game\Service.Net.Game\Service.Net.Game.csproj", "{8C58B2E2-41B0-4EFD-9A92-4F72FCF79223}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal", "Internal", "{21E2101F-AFB6-4AA7-9A88-D6FA4D8A55BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameBaseInternal", "Template\Internal\GameBaseInternal\GameBaseInternal.csproj", "{12798D1D-5F77-455F-83F6-82339507EFBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +95,10 @@ Global
 		{8C58B2E2-41B0-4EFD-9A92-4F72FCF79223}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C58B2E2-41B0-4EFD-9A92-4F72FCF79223}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C58B2E2-41B0-4EFD-9A92-4F72FCF79223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12798D1D-5F77-455F-83F6-82339507EFBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12798D1D-5F77-455F-83F6-82339507EFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12798D1D-5F77-455F-83F6-82339507EFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12798D1D-5F77-455F-83F6-82339507EFBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +117,8 @@ Global
 		{57DC579C-B010-4A68-8987-A05679AEA2CD} = {89DFAAFC-DD72-486F-8F3C-667E0FD59463}
 		{D5771207-538A-4489-9AB7-5888FC909F98} = {89DFAAFC-DD72-486F-8F3C-667E0FD59463}
 		{8C58B2E2-41B0-4EFD-9A92-4F72FCF79223} = {89DFAAFC-DD72-486F-8F3C-667E0FD59463}
+		{21E2101F-AFB6-4AA7-9A88-D6FA4D8A55BF} = {988F560E-2992-4C63-848F-1BEA14EB3B63}
+		{12798D1D-5F77-455F-83F6-82339507EFBB} = {21E2101F-AFB6-4AA7-9A88-D6FA4D8A55BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AE4B29B-1FE0-4B46-86DD-31660C1C8520}

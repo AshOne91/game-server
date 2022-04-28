@@ -401,7 +401,7 @@ namespace Service.Net
         {
             if (_config.UseSessionEventQueue)
             {
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.evtType = SessionEvent.EvtType.Accept;
                 evt.session = this;
                 evt.localEP = localEp;
@@ -417,7 +417,7 @@ namespace Service.Net
         {
             if (_config.UseSessionEventQueue)
             {
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.evtType = SessionEvent.EvtType.Connect;
                 evt.session = this;
                 evt.remoteEP = ep;
@@ -432,7 +432,7 @@ namespace Service.Net
         {
             if (_config.UseSessionEventQueue)
             {
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.session = this;
                 evt.evtType = SessionEvent.EvtType.ConnectFailed;
                 evt.msg = e.ToString();
@@ -449,7 +449,7 @@ namespace Service.Net
             if (_config.UseSessionEventQueue)
             {
 
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.session = this;
                 evt.evtType = SessionEvent.EvtType.LocalDisconnected;
                 evt.msg = "LocalDisconnected";
@@ -465,7 +465,7 @@ namespace Service.Net
         {
             if (_config.UseSessionEventQueue)
             {
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.evtType = SessionEvent.EvtType.RemoteDisconnected;
                 evt.session = this;
                 evt.msg = "RemoteDisconnectedEvent";
@@ -486,7 +486,7 @@ namespace Service.Net
 
             if (_config.UseSessionEventQueue)
             {
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.evtType = SessionEvent.EvtType.RecvPacket;
                 evt.session = this;
                 evt.packet = packet;
@@ -503,7 +503,7 @@ namespace Service.Net
         {
             if (_config.UseSessionEventQueue)
             {
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.evtType = SessionEvent.EvtType.SendComplete;
                 evt.session = this;
                 evt.transBytes = transBytes;
@@ -518,7 +518,7 @@ namespace Service.Net
         {
             if (_config.UseSessionEventQueue)
             {
-                SessionEvent evt = _serverApp.GetEvtPool().Take();
+                SessionEvent evt = _serverApp.GetEventPool().Take();
                 evt.evtType = SessionEvent.EvtType.SocketError;
                 evt.session = this;
                 evt.msg = e.ToString();
