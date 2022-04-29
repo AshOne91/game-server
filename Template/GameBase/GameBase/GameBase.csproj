@@ -8,8 +8,4 @@
     <ProjectReference Include="..\..\..\Service\Service.Net\Service.Net.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
-
 </Project>

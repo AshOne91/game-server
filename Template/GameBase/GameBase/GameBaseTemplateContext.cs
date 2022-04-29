@@ -8,50 +8,22 @@ namespace GameBase.Common
     public enum ETemplateType
     {
         None,
-        InternalGame,
-        InternalLogin,
-        InternalMaster
+        Internal
     }
     public static class GameBaseTemplateContext
     {
         static Dictionary<ETemplateType, GameBaseTemplate> _templates = new Dictionary<ETemplateType, GameBaseTemplate>();
 
-        static InternalGameTemplate _internalGame = null;
-        public static InternalGameTemplate InternalGame
+        static GameBaseInternalTemplate _internal = null;
+        public static GameBaseInternalTemplate Internal
         {
             get
             {
-                if (_internalGame == null)
+                if (_internal == null)
                 {
-                    _internalGame = GetTemplate<InternalGameTemplate>(ETemplateType.InternalGame);
+                    _internal = GetTemplate<GameBaseInternalTemplate>(ETemplateType.Internal);
                 }
-                return _internalGame;
-            }
-        }
-
-        static InternalLoginTemplate _internalLogin = null;
-        public static InternalLoginTemplate InternalLogin
-        {
-            get
-            {
-                if (_internalLogin == null)
-                {
-                    _internalLogin = GetTemplate<InternalLoginTemplate>(ETemplateType.InternalLogin);
-                }
-                return _internalLogin;
-            }
-        }
-
-        static InternalMasterTemplate _InternalMaster = null;
-        public static InternalMasterTemplate InternalMaster
-        {
-            get
-            {
-                if (_InternalMaster == null)
-                {
-                    _InternalMaster = GetTemplate<InternalMasterTemplate>(ETemplateType.InternalMaster);
-                }
-                return _InternalMaster;
+                return _internal;
             }
         }
 
