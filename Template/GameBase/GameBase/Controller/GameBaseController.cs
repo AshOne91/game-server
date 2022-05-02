@@ -1,5 +1,6 @@
 ﻿using GameBase.Base;
 using GameBase.Common;
+using Service.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,11 +9,11 @@ namespace GameBase.Controller
 {
     public class GameBaseController
     {
-        GameBaseProtocol _protocol;
+        public GameBaseProtocol _protocol;
 
-        public GameBaseController()
+        public GameBaseController(UserObject obj)
         {
-            GameBaseInternalTemplate template = GameBaseTemplateContext.GetTemplate<GameBaseInternalTemplate>(ETemplateType.InternalGame);
+            GameBaseInternalTemplate template = GameBaseTemplateContext.GetTemplate<GameBaseInternalTemplate>(ETemplateType.Internal);
 
             _protocol = new GameBaseProtocol();
             _protocol.ON_LC_HELLO_NOTI_CALLBACK = template.ON_LC_HELLO_NOTI_CALLBACK;

@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Template\GameBase\GameBase\GameBase.csproj" />
+    <ProjectReference Include="..\..\Service.Core\Service.Core.csproj" />
+    <ProjectReference Include="..\..\Service.Net\Service.Net.csproj" />
+  </ItemGroup>
+
 </Project>

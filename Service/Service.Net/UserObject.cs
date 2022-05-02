@@ -10,13 +10,12 @@ namespace Service.Net
     public class UserObject : IDisposable
     {
         static private long s_userObjectCnt;
-        SocketSession _session = null;
+        protected SocketSession _session = null;
         protected ulong _objectID;
         protected int _lastCheckTick = 0;
         protected int _timeOverCount = 0;
         protected int _maxTimerOverCount = 5;
         protected int _timeOverInterval = 60 * 1000;
-
 
         public UserObject()
         {
@@ -26,6 +25,7 @@ namespace Service.Net
         ~UserObject()
         {
             Interlocked.Decrement(ref UserObject.s_userObjectCnt);
+            Dispose(false);//추가
         }
 
         #region IDisposable Members
@@ -64,7 +64,7 @@ namespace Service.Net
         #endregion
 
         public void SetSocketSession(SocketSession session) { _session = session;}
-        public SocketSession Session() { return _session; }
+        public SocketSession GetSession() { return _session; }
 
         public ulong GetObjectID() { return _objectID; }
         public static long GetUserObjCount() { return s_userObjectCnt; }
@@ -76,7 +76,7 @@ namespace Service.Net
         public virtual void OnAccept(IPEndPoint ep) { }
         public virtual void OnConnect(IPEndPoint ep) { }
         public virtual void OnClose() { }
-        public virtual void OnSendComplate() { }
+        public virtual void OnSendComplete() { }
         public virtual void OnFailedKeepAlive() { }
         public virtual void CheckKeepALive()
         {

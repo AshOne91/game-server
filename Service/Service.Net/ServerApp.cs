@@ -21,6 +21,14 @@ namespace Service.Net
         Proxy
     }
 
+    public enum ObjectType
+    {
+        Master = 100,
+        User = 200,
+        Login = 300,
+        Game = 400
+    }
+
     public abstract class ServerApp : TimeDispatcher
     {
         public static long _totalSendBytes = 0;
@@ -286,7 +294,7 @@ namespace Service.Net
 
         public PacketPool GetPacketPool() { return _packetPool; }
         public SessionEventPool GetEventPool() { return _evtPool; }
-        public virtual void OnAccept(SocketSession session, IPEndPoint localEp, IPEndPoint remoteEp) {}
+        public virtual void OnAccept(SocketSession session, IPEndPoint localEP, IPEndPoint remoteEP) {}
         public virtual void OnConnect(SocketSession session, IPEndPoint ep) { }
         public virtual void OnConnectFailed(SocketSession session, string e) { }
         public virtual void OnDisconnected(SocketSession session, bool bRemote, string e) { }

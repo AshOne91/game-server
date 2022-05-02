@@ -94,7 +94,13 @@ namespace GameBase.Base
         }
         public void ON_ML_HELLO_NOTI_CALLBACK(UserObject userObject, PACKET_ML_HELLO_NOTI packet)
         {
-
+            PACKET_LM_CHECK_AUTH_REQ sendData = new PACKET_LM_CHECK_AUTH_REQ();
+            sendData.ServerGUID = PacketDefine.SERVER_GUID;
+            sendData.Ver = "1.0.0";
+            sendData.HostIP = LoginServerEntry.GetConfig()._LoginIP;
+            sendData.HostPort = LoginServerEntry.GetConfig()._LoginPort;
+            userObject.GetSession().SendPacket(sendData.Serialize());
+            
         }
         public void ON_LM_HEART_BEAT_REQ_CALLBACK(UserObject userObject, PACKET_LM_HEART_BEAT_REQ packet)
         {
@@ -110,7 +116,14 @@ namespace GameBase.Base
         }
         public void ON_ML_CHECK_AUTH_RES_CALLBACK(UserObject userObject, PACKET_ML_CHECK_AUTH_RES packet)
         {
+            if (packet.ErrorCode == GServerCode.SUCCESS)
+            {
+                MasterOb
+            }
+            else
+            {
 
+            }
         }
     }
 }

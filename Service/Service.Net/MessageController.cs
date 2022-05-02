@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Service.Net
 {
-    public delegate void ControllerDelegate(Packet packet);
+    public delegate void ControllerDelegate(UserObject obj, Packet packet);
     class MessageController
     {
         Dictionary<UInt16, ControllerDelegate> _controllers;
