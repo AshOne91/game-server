@@ -35,7 +35,7 @@ namespace Service.Net.Login
         {
             _objectID = (int)ObjectType.User;
             _baseController = new GameBaseController(this);
-            _PacketAbuser = new PacketAbuseChecker();
+            _packetAbuser = new PacketAbuseChecker();
         }
 
         public override void Dispose(bool disposing)//에러시 확인하기

@@ -1,6 +1,8 @@
-﻿using Service.Core;
+﻿using GameBase.Common;
+using Service.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -205,9 +207,237 @@ namespace Service.Net.Master
         public override void OnAsyncTask(AsyncTaskObject task) { }
         public override void OnPacket(SocketSession session, Packet packet)
         {
-            //FIXMEFIXME
+            UserObject userObj = session.GetUserObject();
+            if (userObj != null)
+            {
+                userObj.OnPacket(packet);
+            }
+        }
+        public override void OnSendComplete(SocketSession session, int transBytes) { }
+        public override void OnAddSendQueue(SocketSession session, ushort protocol, int transBytes) { }
+        public override void OnPacketError(SocketSession session, Packet packet)
+        {
+            Logger.Default.Log(ELogLevel.Err, "OnPacketError = {0}", packet.GetId());
+            session.Disconnect();
+        }
+        public override void OnError(string errorMsg)
+        {
+            Logger.Default.Log(ELogLevel.Fatal, "OnError In MasterServer => {0}", errorMsg);
+        }
+        public override void OnUpdate(float dt)
+        {
+            SendGameServerInfo();
+            CheckKeepAlive_Game();
+            CheckKeepAlive_Login();
+
+            if (_debugTimer.IsFinished())
+            {
+                _userSessionManager.DebugPrintSessions();
+                _debugTimer.Start(5000);
+            }
+
+            _userSessionManager.RemoveSessionByTimeout();
+            OnUpdateAMate(dt);
         }
 
+        void CheckKeepAlive_Game()
+        {
+            try
+            {
+                _gameServerObjMapLock.Enter("CheckKeepAlive_Game");
+                var enumerator = _gameServerObjMap.Values.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    GameServerObject obj = enumerator.Current as GameServerObject;
+                    if (obj != null)
+                    {
+                        obj.CheckKeepAlive();
+                    }
+                }
+            }
+            finally
+            {
+                _gameServerObjMapLock.Exit();
+            }
+        }
 
+        void SendGameServerInfo()
+        {
+            List<GameServerInfo> gameServerInfoArray = new List<GameServerInfo>();
+
+            try
+            {
+                _gameServerObjMapLock.Enter("SendGameServerInfo");
+
+                foreach (KeyValuePair<int, GameServerObject> kv in _gameServerObjMap)
+                {
+                    gameServerInfoArray.Add(kv.Value.GetInfo());
+                }
+            }
+            finally
+            {
+                _gameServerObjMapLock.Exit();
+            }
+
+            PACKET_ML_GAMESERVER_INFO_NOTI sendToLoginData = new PACKET_ML_GAMESERVER_INFO_NOTI();
+            sendToLoginData.GameServerInfoArray = gameServerInfoArray;
+            BroadCastToServers(ObjectType.Login, sendToLoginData);
+        }
+
+        void BroadcastToServers(ObjectType serverType, GPacket packet)
+        {
+            PriorityLock curLock = null;
+            try
+            {
+                switch (serverType)
+                {
+                    case ObjectType.Game:
+                        {
+                            curLock = _gameServerObjMapLock;
+                            _gameServerObjMapLock.Enter("BroadCastToGameServers");
+                            foreach (KeyValuePair<int, GameServerObject> kv in _gameServerObjMap)
+                            {
+                                kv.Value.SendPacket(packet);
+                            }
+                        }
+                        break;
+                    case ObjectType.Login:
+                        {
+                            curLock = _loginServerObjMapLock; ;
+                            _loginServerObjMapLock.Enter("BroadCastToLoginServers");
+                            foreach(KeyValuePair<int, LoginServerObject> kv in _loginServerObjMap)
+                            {
+                                kv.Value.SendPacket(packet);
+                            }
+                        }
+                        break;
+                }
+            }
+            finally
+            {
+                if (curLock != null)
+                {
+                    curLock.Exit();
+                }
+            }
+        }
+        public void SendPacketToGameServer(int serverId, GPacket packet)
+        {
+            try
+            {
+                _gameServerObjMapLock.Enter("SendPacketToGameServer");
+                GameServerObject gameServer = null;
+                bool result = _gameServerObjMap.TryGetValue(serverId, out gameServer);
+                if (result && gameServer != null)
+                {
+                    gameServer.SendPacket(packet);
+                }
+            }
+            finally
+            {
+                Logger.Default.Log(ELogLevel.Err, "SendPacketToGameServer Failed serverId:{0}", serverId);
+            }
+        }
+
+        int AllocServerIdx(ObjectType type)
+        {
+            switch(type)
+            {
+                case ObjectType.Game:
+                    {
+                        try
+                        {
+                            _gameServerObjMapLock.Enter("AllocServerIdx_Game");
+                            for (int i = 1; i < 1000; ++i)
+                            {
+                                bool result = _gameServerObjMap.ContainsKey(i);
+                                if (result == false)
+                                {
+                                    return i;
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            _gameServerObjMapLock.Exit();
+                        }
+                    }
+                    break;
+                case ObjectType.Login:
+                    {
+                        _loginServerObjMapLock.Enter("AllocServerIdx_Login");
+
+                        for (int i = 1000; i < 2000; ++i)
+                        {
+                            bool 
+                        }
+                    }
+                    break;
+            }
+            throw new Exception("");
+            return -1;
+        }
+
+        public void SendRegionServerIPs()
+        {
+            PACKET_MG_REGION_SERVER_INFO_NOTI sendData = new PACKET_MG_REGION_SERVER_INFO_NOTI();
+            sendData.RegionServerIPs = _GetUniqueRegionIPs();
+            BroadcastToServers(ObjectType.Game, sendData);
+        }
+
+        private List<string> _GetUniqueRegionIPs()
+        {
+            List<string> uniqueRegionIPs = new List<string>();
+
+            try
+            {
+                foreach (GameServerObject serverObj in _gameServerObjMap.Values.ToList())
+                {
+                    string regionIP = serverObj.GetSession().GetIP();
+
+                    int splitIdx = regionIP.IndexOfAny(new char[] { ':' });
+                    regionIP = regionIP.Substring(0, splitIdx);
+
+                    if (regionIP.Equals("127.0.0.1"))
+                    {
+                        IPHostEntry ipEntry = Dns.GetHostEntry(Dns.GetHostName());
+                        foreach (IPAddress curIP in ipEntry.AddressList)
+                        {
+                            if (curIP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                            {
+                                _AddUniqueGameServerIP(uniqueRegionIPs, curIP.ToString());
+                                break;
+                            }
+                        }
+
+                        string externalIP = new WebClient().DownloadString("https://api.ipify.org");
+                        _AddUniqueGameServerIP(uniqueRegionIPs, externalIP);
+                    }
+                    else
+                    {
+                        _AddUniqueGameServerIP(uniqueRegionIPs, regionIP);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Default.Log(ELogLevel.Err, e.Message);
+            }
+
+            return uniqueRegionIPs;
+        }
+
+        private void _AddUniqueGameServerIP(List<string> result, string newIP)
+        {
+            if (result == null)
+            {
+                return;
+            }
+
+            if (result.Contains(newIP) == false)
+            {
+                result.Add(newIP);
+            }
+        }
     }
 }
