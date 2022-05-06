@@ -7,4 +7,9 @@
     <StartupObject />
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Template\GameBase\GameBase\GameBase.csproj" />
+    <ProjectReference Include="..\..\Service.Net\Service.Net.csproj" />
+  </ItemGroup>
+
 </Project>
