@@ -8,10 +8,12 @@ namespace Service.Net
     class MessageController
     {
         Dictionary<UInt16, ControllerDelegate> _controllers;
+        UserObject _userObject;
 
-        public MessageController()
+        public MessageController(UserObject obj)
         {
             _controllers = new Dictionary<UInt16, ControllerDelegate>();
+            _userObject = obj;
         }
 
         public bool AddController(UInt16 protocolId, ControllerDelegate callback)
@@ -42,7 +44,7 @@ namespace Service.Net
                 return;
             }
 
-            controllerCallback(packet);
+            controllerCallback(_userObject, packet);
         }
     }
 }
