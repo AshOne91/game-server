@@ -1,4 +1,5 @@
 ﻿using GameBase.Base;
+using Service.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -83,50 +84,46 @@ namespace GameBase.Common
 
 
 
-        /*public static void CreateClient(IDatabaseClient dbClient, ClientSession clientSession)
+        public static void CreateClient(UserObject clientSession)
         {
             foreach (var t in _templates.Values)
             {
-                t.OnClientCreate(dbClient, clientSession);
+                t.OnClientCreate(clientSession);
             }
         }
 
 
-        public static void UpdateClient(IDatabaseClient dbClient, ClientSession clientSession)
+        public static void UpdateClient(UserObject clientSession)
         {
             foreach (var t in _templates.Values)
             {
-                t.OnClientUpdate(dbClient, clientSession);
+                t.OnClientUpdate(clientSession);
             }
-}
+        }
 
-/*public static void DeleteClient(IDatabaseClient dbClient, string userId)
-{
-    foreach (var t in _templates.Values)
-    {
-        t.OnClientDelete(dbClient, userId);
-    }
-}*/
-
-        //public static /*(List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam)*/ void AddItem(/*IDatabaseItem dbItem, int itemId, long value, int parentItemId = -1, int groupIndex = 0*/)
-
-        public static void AddItem()
+        public static void DeleteClient(string userId)
         {
-            //List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
-            //List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
+            foreach (var t in _templates.Values)
+            {
+                t.OnClientDelete(userId);
+            }
+        }
 
-            //string userId = dbItem.GetPKValue();
+        public static (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) AddItem(UserObject userObject, int itemId, long value, int parentItemId = -1, int groupIndex = 0)
+        {
+            List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
+            List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
+
             //Dictionary<string, string> hashValues = null;
             foreach (var t in _templates.Values)
             {
-                //var res = t.OnAddItem(dbItem, itemId, value, parentItemId, groupIndex);
-                t.OnAddItem(/*dbItem, itemId, value, parentItemId, groupIndex*/);
-                /*if (res.listItemInfo != null)
+                var res = t.OnAddItem(userObject, itemId, value, parentItemId, groupIndex);
+                if (res.listItemInfo != null)
                 {
                     listItemInfo.AddRange(res.listItemInfo);
 
                     // 최상위 함수에서만 아이템 추적 로그를 전송한다.
-                    if (parentItemId == -1)
+                    /*if (parentItemId == -1)
                     {
                         if (hashValues == null)
                         {
@@ -150,29 +147,27 @@ namespace GameBase.Common
                                     }.ToString()}
                                 });
                         }
-                    }
+                    }*/
                 }
 
                 if (res.listQuestCompleteParam != null)
                 {
                     listQuestCompleteParam.AddRange(res.listQuestCompleteParam);
-                }*/
+                }
             }
 
-            //return (listItemInfo, listQuestCompleteParam);
+            return (listItemInfo, listQuestCompleteParam);
         }
 
-        public static /*(List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam)*/ void DeleteItem(/*IDatabaseItem dbItem, int itemId, long value, int parentItemId = -1, int groupIndex = 0*/)
+        public static (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) DeleteItem(UserObject userObject, int itemId, long value, int parentItemId = -1, int groupIndex = 0)
         {
-            //List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
-            // List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
+            List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
+            List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
 
-            // string userId = dbItem.GetPKValue();
             Dictionary<string, string> hashValues = null;
             foreach (var t in _templates.Values)
             {
-                //var res = t.OnDeleteItem(/*dbItem, itemId, value, parentItemId, groupIndex*/);
-                t.OnDeleteItem(/*dbItem, itemId, value, parentItemId, groupIndex*/);
+                var res = t.OnDeleteItem(userObject, itemId, value, parentItemId, groupIndex);
                 /*if (res.listItemInfo != null)
                 {
                     listItemInfo.AddRange(res.listItemInfo);
@@ -203,23 +198,23 @@ namespace GameBase.Common
                                 });
                         }
                     }
-                }
+                }*/
 
                 if (res.listQuestCompleteParam != null)
                 {
                     listQuestCompleteParam.AddRange(res.listQuestCompleteParam);
-                }*/
+                }
             }
 
-            //return (listItemInfo, listQuestCompleteParam);
+            return (listItemInfo, listQuestCompleteParam);
         }
 
 
-        public static bool HasItemId(/*IDatabaseItem dbItem, int itemId*/)
+        public static bool HasItemId(UserObject userObject, int itemId)
         {
             foreach (var template in _templates.Values)
             {
-                if (template.OnHasItemId(/*dbItem, itemId*/) == true)
+                if (template.OnHasItemId(userObject, itemId) == true)
                 {
                     return true;
                 }
@@ -228,11 +223,11 @@ namespace GameBase.Common
             return false;
         }
 
-        public static bool HasItemType(/*IDatabaseItem dbItem, ItemType itemType*/)
+        public static bool HasItemType(UserObject userObject, int itemType)
         {
             foreach (var template in _templates.Values)
             {
-                if (template.OnHasItemType(/*dbItem, itemType*/) == true)
+                if (template.OnHasItemType(userObject, itemType) == true)
                 {
                     return true;
                 }
@@ -241,11 +236,11 @@ namespace GameBase.Common
             return false;
         }
 
-        public static bool HasItemSubType(/*IDatabaseItem dbItem, EItemSubType itemSubType*/)
+        public static bool HasItemSubType(UserObject userObject, int itemSubType)
         {
             foreach (var template in _templates.Values)
             {
-                if (template.OnHasItemSubType(/*dbItem, itemSubType*/) == true)
+                if (template.OnHasItemSubType(userObject, itemSubType) == true)
                 {
                     return true;
                 }

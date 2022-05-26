@@ -222,7 +222,7 @@ namespace Service.Net.Master
         }
         public override void OnError(string errorMsg)
         {
-            Logger.Default.Log(ELogLevel.Fatal, "OnError In MasterServer => {0}", errorMsg);
+            Logger.Default.Log(ELogLevel.Err, "OnError In MasterServer => {0}", errorMsg);
         }
         public override void OnUpdate(float dt)
         {

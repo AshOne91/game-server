@@ -102,7 +102,7 @@ namespace Service.Net.Master
         }
         public override void OnFailedKeepAlive()
         {
-            Log(ELogLevel.Fatal, "OnFailedKeepAlive OnClose! ServerID:{0}", this._serverId);
+            Log(ELogLevel.Err, "OnFailedKeepAlive OnClose! ServerID:{0}", this._serverId);
             Disconnect();
         }
         public override void OnPacket(Packet packet)

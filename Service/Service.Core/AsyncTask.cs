@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Service.Core
 {
@@ -43,7 +44,13 @@ namespace Service.Core
                 {
                     for (int i = 0; i < 10; i++)
                     {
-
+                        result = taskThread.EnqueueAsyncTask(task);
+                        if (result)
+                            return true;
+                        else
+                        {
+                            Thread.Sleep(waitSleepTime);
+                        }
                     }
                 }
 

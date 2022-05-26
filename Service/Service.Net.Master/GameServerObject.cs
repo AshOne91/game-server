@@ -69,7 +69,7 @@ namespace Service.Net.Master
         public override void OnSendComplete() { }
         public override void OnFailedKeepAlive()
         {
-            Log(ELogLevel.Fatal, "OnFailedKeepAlive OnClose! ServerID:{0}", this._info.ServerId);
+            Log(ELogLevel.Err, "OnFailedKeepAlive OnClose! ServerID:{0}", this._info.ServerId);
             Disconnect();
         }
         public void Disconnect(bool force = true)

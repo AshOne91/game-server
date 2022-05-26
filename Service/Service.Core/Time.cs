@@ -94,6 +94,8 @@ namespace Service.Core
         // ForceFinish()는 IsFinished()를 true만들어서, 바인딩된 함수 한번 실행 후 타이머 종료
         public void ForceFinish() { _Duration = 0; }
 
+        public int GetDuration() { return _Duration; }
+
         private bool _Active;
         private int _Duration;
         private int _Time;
