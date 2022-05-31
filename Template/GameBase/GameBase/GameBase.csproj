@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Service\Service.DB\Service.DB.csproj" />
     <ProjectReference Include="..\..\..\Service\Service.Net\Service.Net.csproj" />
   </ItemGroup>
 

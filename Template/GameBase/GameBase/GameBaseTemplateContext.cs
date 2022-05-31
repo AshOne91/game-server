@@ -1,30 +1,269 @@
 ﻿using GameBase.Base;
+using GameBase.Common;
 using Service.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameBase.Common
+namespace GameBase
 {
     public enum ETemplateType
     {
         None,
-        Internal
+        Account,
+        Admin,
+        Advert,
+        Attendance,
+        Auction,
+        Battle,
+        Building,
+        Character,
+        Internal,
+        Item,
+        MailBox,
+        Matching,
+        Notice,
+        Quest,
+        Rank,
+        Report,
+        Season,
+        Shop
     }
     public static class GameBaseTemplateContext
     {
         static Dictionary<ETemplateType, GameBaseTemplate> _templates = new Dictionary<ETemplateType, GameBaseTemplate>();
 
-        static GameBaseInternalTemplate _internal = null;
-        public static GameBaseInternalTemplate Internal
+        static AccountTemplate _account = null;
+        public static AccountTemplate Account
+        {
+            get
+            {
+                if (_account == null)
+                {
+                    _account = GetTemplate<AccountTemplate>(ETemplateType.Account);
+                }
+                return _account;
+            }
+        }
+
+        static AdminTemplate _admin = null;
+        public static AdminTemplate Admin
+        {
+            get
+            {
+                if (_admin == null)
+                {
+                    _admin = GetTemplate<AdminTemplate>(ETemplateType.Admin);
+                }
+                return _admin;
+            }
+        }
+
+        static AdvertTemplate _advert = null;
+        public static AdvertTemplate Advert
+        {
+            get
+            {
+                if (_advert == null)
+                {
+                    _advert = GetTemplate<AdvertTemplate>(ETemplateType.Advert);
+                }
+                return _advert;
+            }
+        }
+
+        static AttendanceTemplate _attendance = null;
+        public static AttendanceTemplate Attendance
+        {
+            get
+            {
+                if (_attendance == null)
+                {
+                    _attendance = GetTemplate<AttendanceTemplate>(ETemplateType.Attendance);
+                }
+                return _attendance;
+            }
+        }
+
+        static AuctionTemplate _auction = null;
+        public static AuctionTemplate Auction
+        {
+            get
+            {
+                if (_auction == null)
+                {
+                    _auction = GetTemplate<AuctionTemplate>(ETemplateType.Auction);
+                }
+                return _auction;
+            }
+        }
+
+        static BattleTemplate _battle = null;
+        public static BattleTemplate Battle
+        {
+            get
+            {
+                if (_battle == null)
+                {
+                    _battle = GetTemplate<BattleTemplate>(ETemplateType.Battle);
+                }
+                return _battle;
+            }
+        }
+
+        static BuildingTemplate _building = null;
+        public static BuildingTemplate Building
+        {
+            get
+            {
+                if (_building == null)
+                {
+                    _building = GetTemplate<BuildingTemplate>(ETemplateType.Building);
+                }
+                return _building;
+            }
+        }
+
+        static CharacterTemplate _character = null;
+        public static CharacterTemplate Character
+        {
+            get
+            {
+                if (_character == null)
+                {
+                    _character = GetTemplate<CharacterTemplate>(ETemplateType.Character);
+                }
+                return _character;
+            }
+        }
+
+        static InternalTemplate _internal = null;
+        public static InternalTemplate Internal
         {
             get
             {
                 if (_internal == null)
                 {
-                    _internal = GetTemplate<GameBaseInternalTemplate>(ETemplateType.Internal);
+                    _internal = GetTemplate<InternalTemplate>(ETemplateType.Internal);
                 }
                 return _internal;
+            }
+        }
+
+        static ItemTemplate _item = null;
+        public static ItemTemplate Item
+        {
+            get
+            {
+                if (_item == null)
+                {
+                    _item = GetTemplate<ItemTemplate>(ETemplateType.Item);
+                }
+                return _item;
+            }
+        }
+
+        static MailBoxTemplate _mailBox = null;
+        public static MailBoxTemplate MailBox
+        {
+            get
+            {
+                if (_mailBox == null)
+                {
+                    _mailBox = GetTemplate<MailBoxTemplate>(ETemplateType.MailBox);
+                }
+                return _mailBox;
+            }
+        }
+
+        static MatchingTemplate _matching = null;
+        public static MatchingTemplate Matching
+        {
+            get
+            {
+                if (_matching == null)
+                {
+                    _matching = GetTemplate<MatchingTemplate>(ETemplateType.Matching);
+                }
+                return _matching;
+            }
+        }
+
+        static NoticeTemplate _notice = null;
+        public static NoticeTemplate Notice
+        {
+            get
+            {
+                if (_notice == null)
+                {
+                    _notice = GetTemplate<NoticeTemplate>(ETemplateType.Notice);
+                }
+                return _notice;
+            }
+        }
+
+        static QuestTemplate _quest = null;
+        public static QuestTemplate Quest
+        {
+            get
+            {
+                if (_quest == null)
+                {
+                    _quest = GetTemplate<QuestTemplate>(ETemplateType.Quest);
+                }
+                return _quest;
+            }
+        }
+
+        static RankTemplate _rank = null;
+        public static RankTemplate Rank
+        {
+            get
+            {
+                if (_rank == null)
+                {
+                    _rank = GetTemplate<RankTemplate>(ETemplateType.Rank);
+                }
+                return _rank;
+            }
+        }
+
+        static ReportTemplate _report = null;
+        public static ReportTemplate Report
+        {
+            get
+            {
+                if (_report == null)
+                {
+                    _report = GetTemplate<ReportTemplate>(ETemplateType.Report);
+                }
+                return _report;
+            }
+        }
+
+        static SeasonTemplate _season = null;
+        public static SeasonTemplate Season
+        {
+            get
+            {
+                if (_season == null)
+                {
+                    _season = GetTemplate<SeasonTemplate>(ETemplateType.Season);
+                }
+                return _season;
+            }
+        }
+
+        static ShopTemplate _shop = null;
+        public static ShopTemplate Shop
+        {
+            get
+            {
+                if (_shop == null)
+                {
+                    _shop = GetTemplate<ShopTemplate>(ETemplateType.Shop);
+                }
+                return _shop;
             }
         }
 

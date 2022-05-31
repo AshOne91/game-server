@@ -1,9 +1,10 @@
-﻿using Service.Net;
+﻿using GameBase.Common;
+using Service.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameBase.Common
+namespace GameBase
 {
     public partial class GameBaseTemplate
     {

@@ -75,7 +75,7 @@ namespace Service.Net.Login
 
             PerformanceCounter._WarningEvent += OnPerfWarning;
             //ConnectToMateAgent();
-            GameBaseTemplateContext.AddTemplate(ETemplateType.Internal, new GameBaseInternalTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Internal, new InternalTemplate());
             GameBaseTemplateContext.LoadDataTable(null);
             GameBaseTemplateContext.InitTemplate(null);
             return result;

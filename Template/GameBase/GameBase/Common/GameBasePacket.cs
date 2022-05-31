@@ -1,4 +1,5 @@
-﻿using Service.Net;
+﻿using GameBase.Base;
+using Service.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;

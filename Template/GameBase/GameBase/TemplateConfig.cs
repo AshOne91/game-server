@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameBase.Common
+namespace GameBase
 {
     public class TemplateConfig
     {

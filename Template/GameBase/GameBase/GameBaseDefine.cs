@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace GameBase.Template.GameBase
+namespace GameBase
 {
     public enum ObjectType
     {

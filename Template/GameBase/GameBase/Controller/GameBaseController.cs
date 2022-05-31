@@ -13,7 +13,7 @@ namespace GameBase.Controller
 
         public GameBaseController(UserObject obj)
         {
-            GameBaseInternalTemplate template = GameBaseTemplateContext.GetTemplate<GameBaseInternalTemplate>(ETemplateType.Internal);
+            InternalTemplate template = GameBaseTemplateContext.GetTemplate<InternalTemplate>(ETemplateType.Internal);
 
             _protocol = new GameBaseProtocol();
             _protocol.ON_LC_HELLO_NOTI_CALLBACK = template.ON_LC_HELLO_NOTI_CALLBACK;

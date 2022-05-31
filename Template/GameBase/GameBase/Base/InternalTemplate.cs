@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameBase.Base
 {
-    public class GameBaseInternalTemplate : GameBaseTemplate
+    public class InternalTemplate : GameBaseTemplate
     {
         public void ON_LC_HELLO_NOTI_CALLBACK(UserObject userObject, PACKET_LC_HELLO_NOTI packet)
         {
@@ -116,14 +116,14 @@ namespace GameBase.Base
         }
         public void ON_ML_CHECK_AUTH_RES_CALLBACK(UserObject userObject, PACKET_ML_CHECK_AUTH_RES packet)
         {
-            if (packet.ErrorCode == GServerCode.SUCCESS)
+            /*if (packet.ErrorCode == GServerCode.SUCCESS)
             {
                 MasterOb
             }
             else
             {
 
-            }
+            }*/
         }
     }
 }

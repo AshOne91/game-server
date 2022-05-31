@@ -43,6 +43,10 @@ namespace Service.DB
         {
             return _ChangeType<Int64>(d);
         }
+        public static implicit operator UInt64(RecordType d)
+        {
+            return _ChangeType<UInt64>(d);
+        }
         public static implicit operator DateTime(RecordType d)
         {
             return _ChangeType<DateTime>(d);
@@ -309,7 +313,12 @@ namespace Service.DB
             }
             return false;
         }
-
+        public RecordType RecordGetValue(string szParamName)
+        {
+            int index = _recSet.GetOrdinal(szParamName);
+            object value = _RecordGetValue(index);
+            return new RecordType(index, value);
+        }
         public RecordType RecordGetValue(int index)
         {
             object value = _RecordGetValue(index);

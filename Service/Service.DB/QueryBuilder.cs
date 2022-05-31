@@ -31,7 +31,10 @@ namespace Service.DB
             _cmd.Connection = null;
             _cmd = null;
         }
-
+        public void SetInputParam(string szParamName, UInt64 value)
+        {
+            _SetParam(szParamName, DbType.UInt64, ParameterDirection.Input, value, 8, value.ToString());
+        }
         public void SetInputParam(string szParamName, Int64 value)
         {
             _SetParam(szParamName, DbType.Int64, ParameterDirection.Input, value, 8, value.ToString());
@@ -68,8 +71,6 @@ namespace Service.DB
         {
             _SetParam(szParamName, DbType.DateTime, ParameterDirection.Input, value, 8, "");
         }
-
-
         public void SetOutputParam(string szParamName, Int32 value)
         {
             _SetParam(szParamName, DbType.Int32, ParameterDirection.Output, value, 4, value.ToString());
