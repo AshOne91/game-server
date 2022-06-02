@@ -335,7 +335,7 @@ namespace Service.DB
             _DBBase.Reset();
         }
 
-        void Copy(DBBaseContainer<T> srcContainer, bool isChanged)
+        public void Copy(DBBaseContainer<T> srcContainer, bool isChanged)
         {
             Reset();
 
@@ -348,12 +348,12 @@ namespace Service.DB
                 srcContainer._DBBase._isChanged = false;
             }
         }
-        T GetWriteData(bool isChanged = true)
+        public T GetWriteData(bool isChanged = true)
         {
             _DBBase._isChanged = isChanged;
             return _DBBase;
         }
-        T GetReadData()
+        public T GetReadData()
         {
             return _DBBase;
         }
