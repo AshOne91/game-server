@@ -51,7 +51,9 @@ namespace Service.Net
         bool _running = false;
         protected List<TcpListener> _listeners = new List<TcpListener>();
 
-
+        int _lastTick = 0;
+        int _frame = 0;
+        int _frameDelay = 0;
 
 
 
@@ -80,7 +82,7 @@ namespace Service.Net
             return true;
         }
 
-        public virtual bool Create(ServerConfig config)
+        public virtual bool Create(ServerConfig config, int frame = 30)
         {
             _config = config;
 
@@ -97,6 +99,11 @@ namespace Service.Net
 
             _frameSkip = new FrameSkip();
             _running = true;
+
+            _lastTick = Environment.TickCount;
+            _frame = frame;
+            _frameDelay = 1000 / frame;
+            _frameSkip.SetFramePerSec(_frame);
 
             if (_logger == null)
             {
@@ -175,13 +182,10 @@ namespace Service.Net
 
         public virtual void Join(int frame)
         {
-            int lastTick = Environment.TickCount;
-            int frameDelay = 1000 / frame;
-            _frameSkip.SetFramePerSec(frame);
             while (_running)
             {
                 int curTick = Environment.TickCount;
-                int deltaTick = curTick - lastTick;
+                int deltaTick = curTick - _lastTick;
 
                 if (deltaTick > 0)
                 {
@@ -195,9 +199,9 @@ namespace Service.Net
                     _timeProcessor.ProcessTimer();
                 }
 
-                if (deltaTick <= frameDelay)
+                if (deltaTick <= _frameDelay)
                 {
-                    int sleepTick = frameDelay - deltaTick;
+                    int sleepTick = _frameDelay - deltaTick;
                     if (_eventQueue.Count() > 0)
                     {
                         ProcessEvent();
@@ -209,8 +213,42 @@ namespace Service.Net
                     }
                 }
 
-                lastTick = curTick;
+                _lastTick = curTick;
             }
+        }
+
+        public virtual void ExternalUpdate()
+        {
+            int curTick = Environment.TickCount;
+            int deltaTick = curTick - _lastTick;
+
+            if (deltaTick > 0)
+            {
+                float dt = deltaTick * 0.001f;
+
+                if (_frameSkip.Update(dt))
+                {
+                    OnUpdate(dt);
+                }
+
+                _timeProcessor.ProcessTimer();
+            }
+
+            if (deltaTick <= _frameDelay)
+            {
+                int sleepTick = _frameDelay - deltaTick;
+                if (_eventQueue.Count() > 0)
+                {
+                    ProcessEvent();
+                }
+                else
+                {
+                    if (_eventWait.WaitOne(sleepTick, true))
+                        ProcessEvent();
+                }
+            }
+
+            _lastTick = curTick;
         }
 
         public void ProcessEvent()

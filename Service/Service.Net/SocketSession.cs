@@ -496,6 +496,7 @@ namespace Service.Net
             else
             {
                 _serverApp.OnPacket(this, packet);
+                packet.Dispose();
                 _serverApp.GetPacketPool().Return(packet);
             }
         }

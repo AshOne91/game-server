@@ -30,30 +30,28 @@ namespace Service.Core
             if (GetThreadCount() < 1)
             {
                 throw new Exception("No Task Thread!");
+            }
+            ulong idx = key % threadCount;
 
-                ulong idx = key % threadCount;
+            AsyncTaskThread taskThread = _threadArray[(int)idx];
+            bool result = taskThread.EnqueueAsyncTask(task);
 
-                AsyncTaskThread taskThread = _threadArray[(int)idx];
-                bool result = taskThread.EnqueueAsyncTask(task);
-
-                if (result)
+            if (result)
+            {
+                return true;
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)
                 {
-                    return true;
-                }
-                else
-                {
-                    for (int i = 0; i < 10; i++)
+                    result = taskThread.EnqueueAsyncTask(task);
+                    if (result)
+                        return true;
+                    else
                     {
-                        result = taskThread.EnqueueAsyncTask(task);
-                        if (result)
-                            return true;
-                        else
-                        {
-                            Thread.Sleep(waitSleepTime);
-                        }
+                        Thread.Sleep(waitSleepTime);
                     }
                 }
-
             }
             return false;
         }

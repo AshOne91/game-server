@@ -11,15 +11,17 @@ namespace Service.Net
     {
         static private long s_userObjectCnt;
         protected SocketSession _session = null;
+        protected MessageController _messageController = null;
         protected ulong _objectID;
         protected int _lastCheckTick = 0;
         protected int _timeOverCount = 0;
         protected int _maxTimerOverCount = 5;
         protected int _timeOverInterval = 60 * 1000;
-
+        
         public UserObject()
         {
             Interlocked.Increment(ref UserObject.s_userObjectCnt);
+            _messageController = new MessageController(this);
         }
         
         ~UserObject()
@@ -71,6 +73,7 @@ namespace Service.Net
         public virtual void OnPacket(Packet packet)
         {
             _lastCheckTick = Environment.TickCount;
+            _messageController.OnRecevice(packet.GetId(), packet);
         }
         public virtual void OnAsyncTask(AsyncTaskObject task) { }
         public virtual void OnAccept(IPEndPoint ep) { }
