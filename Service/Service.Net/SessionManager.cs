@@ -98,7 +98,7 @@ namespace Service.Net
                 {
                     _serverApp.OnError("NwTcpSocketSession InActiveSession Failed. :" + _uidCnt.ToString());
                 }
-
+                session.Dispose();
                 return result;
             }
         }

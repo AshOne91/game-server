@@ -69,6 +69,7 @@ namespace Service.Core
                     {
                         _procedure.Execute(task);
                         _lastExecuteTick = Environment.TickCount;
+                        task.Dispose();
                     }
                     queue.Clear();
                 }

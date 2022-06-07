@@ -18,6 +18,10 @@ namespace Service.Core
         {
             _beginTick = Environment.TickCount;
         }
+        ~AsyncTaskObject()
+        {
+            this.Dispose(false);
+        }
 
         #region IDisposable Members
         private bool disposed;

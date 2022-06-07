@@ -43,9 +43,8 @@ namespace Service.Net.Login
             }
             finally
             {
-                this.disposed = true;
+                base.Dispose(disposing);
             }
-            this.disposed = true;
         }
 
         public override void OnAccept(IPEndPoint ep)

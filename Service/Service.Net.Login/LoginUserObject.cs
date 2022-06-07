@@ -40,9 +40,21 @@ namespace Service.Net.Login
 
         public override void Dispose(bool disposing)//에러시 확인하기
         {
-            if (!disposing)
+            if (this.disposed)
+                return;
+            try
             {
-                base.Dispose(false);
+                if (disposing)
+                {
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                base.Dispose(disposing);
             }
         }
 

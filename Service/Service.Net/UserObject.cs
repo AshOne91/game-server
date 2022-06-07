@@ -27,7 +27,6 @@ namespace Service.Net
         ~UserObject()
         {
             Interlocked.Decrement(ref UserObject.s_userObjectCnt);
-            Dispose(false);//추가
         }
 
         #region IDisposable Members

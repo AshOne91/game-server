@@ -51,9 +51,8 @@ namespace Service.Net.Master
             }
             finally
             {
-                this.disposed = true;
+                base.Dispose(disposing);
             }
-            this.disposed = true;
         }
 
         public int GetServerId() { return _serverId; }
