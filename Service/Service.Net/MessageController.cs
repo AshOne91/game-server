@@ -5,7 +5,7 @@ using System.Text;
 namespace Service.Net
 {
     public delegate void ControllerDelegate(UserObject obj, Packet packet);
-    class MessageController
+    public class MessageController
     {
         Dictionary<UInt16, ControllerDelegate> _controllers;
         UserObject _userObject;
