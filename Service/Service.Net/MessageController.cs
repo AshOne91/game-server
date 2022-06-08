@@ -36,15 +36,16 @@ namespace Service.Net
             return true;
         }
 
-        public virtual void OnRecevice(UInt16 protocolId, Packet packet)
+        public virtual bool OnRecevice(UInt16 protocolId, Packet packet)
         {
             ControllerDelegate controllerCallback;
             if (_controllers.TryGetValue(protocolId, out controllerCallback) == false)
             {
-                return;
+                return false;
             }
 
             controllerCallback(_userObject, packet);
+            return true;
         }
     }
 }

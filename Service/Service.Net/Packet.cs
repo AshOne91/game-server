@@ -385,7 +385,7 @@ namespace Service.Net
             Read(ref nLength);
             ReadData(ref arg, nLength);
         }
-        public void Read(ref IPacketSerializable arg)
+        public void Read(IPacketSerializable arg)
         {
             arg.Deserialize(this);
         }

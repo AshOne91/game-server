@@ -1,1 +1,326 @@
-﻿
+﻿{
+    "templateType": "",
+    "templateName": "GameBase",
+    "templateVersion": "1.0.0",
+    "databases": [
+    ],
+    "protocols": [
+    ],
+    "models": [
+        {
+            "name": "ItemBaseInfo",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "ParentItemId",
+                    "comment": "부모 아이템 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "GroupIndex",
+                    "comment": "아이템 그룹 인덱스(아이템이 속한 그룹을 구분짓기 위한 인덱스값)"
+                },
+                {
+                    "type": "int",
+                    "name": "ItemType",
+                    "comment": "아이템 타입"
+                },
+                {
+                    "type": "int",
+                    "name": "ItemId",
+                    "comment": "아이템 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "ItemLevel",
+                    "comment": "아이템 레벨"
+                },
+                {
+                    "type": "long",
+                    "name": "Value",
+                    "comment": "아이템 업데이트 수량"
+                },
+                {
+                    "type": "long",
+                    "name": "TotalValue",
+                    "comment": "아이템 총수량"
+                },
+                {
+                    "type": "int",
+                    "name": "RemainTime",
+                    "comment": "남은 시간(초단위, -1: 무제한)"
+                }
+            ]
+        },
+        {
+            "name": "QuestData",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "QuestId",
+                    "comment": "퀘스트 데이터 아이디"
+                },
+                {
+                    "type": "long",
+                    "name": "Value",
+                    "comment": "퀘스트 수치"
+                },
+                {
+                    "type": "byte",
+                    "name": "Status",
+                    "comment": "퀘스트 상태"
+                }
+            ]
+        },
+        {
+            "name": "QuestCompleteParam",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "QuestType",
+                    "comment": "퀘스트 완료 타입"
+                },
+                {
+                    "type": "int",
+                    "name": "EndId",
+                    "comment": "퀘스트 완료 아이디"
+                },
+                {
+                    "type": "long",
+                    "name": "Value",
+                    "comment": "퀘스트 수치"
+                }
+            ]
+        },
+        {
+            "name": "QuestInfo",
+            "members": [
+                {
+                    "type": "List<QuestGroup>",
+                    "name": "listQuestGroup",
+                    "comment": "퀘스트 그룹 리스트"
+                },
+                {
+                    "type": "DailyRewardInfo",
+                    "name": "DailyRewardInfo",
+                    "comment": "일일 보상 정보"
+                }
+            ]
+        },
+        {
+            "name": "QuestGroup",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "PeriodType",
+                    "comment": "퀘스트 기간 타입"
+                },
+                {
+                    "type": "int",
+                    "name": "ExpireTime",
+                    "comment": "만료까지 남은 시간(초단위)"
+                },
+                {
+                    "type": "int",
+                    "name": "ResetCount",
+                    "comment": "초기화 횟수"
+                },
+                {
+                    "type": "List<QuestData>",
+                    "name": "listQuestData",
+                    "comment": "퀘스트 데이터 리스트"
+                }
+            ]
+        },
+        {
+            "name": "DailyRewardSlot",
+            "members": [
+                {
+                    "type": "byte",
+                    "name": "SlotIndex",
+                    "comment": "슬롯 인덱스"
+                },
+                {
+                    "type": "int",
+                    "name": "ItemId",
+                    "comment": "아이템 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "ItemCount",
+                    "comment": "아이템 수량"
+                },
+                {
+                    "type": "bool",
+                    "name": "IsAcquired",
+                    "comment": "아이템 지급 상태"
+                }
+            ]
+        },
+        {
+            "name": "DailyRewardInfo",
+            "members": [
+                {
+                    "type": "List<DailyRewardSlot>",
+                    "name": "listSlotInfo",
+                    "comment": "보상 슬롯 정보 "
+                },
+                {
+                    "type": "int",
+                    "name": "ExpireTime",
+                    "comment": "만료 시간 "
+                }
+            ]
+        },
+        {
+            "name": "UserBuilding",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "id",
+                    "comment": "건물 고유 ID"
+                },
+                {
+                    "type": "int",
+                    "name": "buildingDataId",
+                    "comment": "빌딩 데이터 테이블 ID"
+                },
+                {
+                    "type": "int",
+                    "name": "level",
+                    "comment": "건물 레벨"
+                },
+                {
+                    "type": "DateTime",
+                    "name": "lastReceiveDateTime",
+                    "comment": "최근 보상을 요청해서 받은 시간"
+                },
+                {
+                    "type": "DateTime",
+                    "name": "constructEndTime",
+                    "comment": "건설 완료시간"
+                },
+                {
+                    "type": "bool",
+                    "name": "isConstructComplete",
+                    "comment": "건물 건설 완료 상태 (false는 건설은 되었지만 완료 처리가 안된경우)"
+                }
+            ]
+        },
+        {
+            "name": "MailText",
+            "members": [
+                {
+                    "type": "Dictionary<string, string>",
+                    "name": "textSender",
+                    "comment": "보낸이(key:언어코드, value:내용)"
+                },
+                {
+                    "type": "Dictionary<string, string>",
+                    "name": "textTitle",
+                    "comment": "제목(key:언어코드, value:내용)"
+                },
+                {
+                    "type": "Dictionary<string, string>",
+                    "name": "textContent",
+                    "comment": "내용(key:언어코드, value:내용)"
+                }
+            ]
+        },
+        {
+            "name": "CharacterProfile",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "charId",
+                    "comment": "캐릭터 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "level",
+                    "comment": "레벨"
+                }
+            ]
+        },
+        {
+            "name": "RankerInfo",
+            "members": [
+                {
+                    "type": "long",
+                    "name": "rank",
+                    "comment": "유저 등수"
+                },
+                {
+                    "type": "string",
+                    "name": "userName",
+                    "comment": "유저 닉네임"
+                },
+                {
+                    "type": "int",
+                    "name": "classId",
+                    "comment": "유저 클래스"
+                },
+                {
+                    "type": "long",
+                    "name": "score",
+                    "comment": "유저 점수"
+                },
+                {
+                    "type": "Dictionary<int, string>",
+                    "name": "linkedPlatformInfo",
+                    "comment": "연동 플랫폼 정보(key: 플랫폼타입(EPlatformType참조), value: 플랫폼 아이디)"
+                },
+                {
+                    "type": "List<CharacterProfile>",
+                    "name": "listCharacterProfile",
+                    "comment": "캐릭터 프로필"
+                }
+            ]
+        },
+        {
+            "name": "SeasonInfo",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "SeasonId",
+                    "comment": "시즌 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "SeasonState",
+                    "comment": "시즌 상태"
+                },
+                {
+                    "type": "int",
+                    "name": "EndRemainTime",
+                    "comment": "종료까지 남은 시간(초단위)"
+                },
+                {
+                    "type": "int",
+                    "name": "PrepareRemainTime",
+                    "comment": "정산 남은 시간(초단위)"
+                },
+                {
+                    "type": "int",
+                    "name": "SeasonPoint",
+                    "comment": "시즌 포인트"
+                },
+                {
+                    "type": "bool",
+                    "name": "HasSeasonPass",
+                    "comment": "시즌 패스 보유 여부"
+                },
+                {
+                    "type": "List<int>",
+                    "name": "SeasonRewardIds",
+                    "comment": "시즌 보상 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "OpenRewardId",
+                    "comment": "오픈 보상 아이디"
+                }
+            ]
+        }
+    ]
+}
