@@ -10,8 +10,9 @@ namespace Service.Net
     public class UserObject : IDisposable
     {
         static private long s_userObjectCnt;
+        public MessageController _messageController = null;
+
         protected SocketSession _session = null;
-        protected MessageController _messageController = null;
         protected ulong _objectID;
         protected int _lastCheckTick = 0;
         protected int _timeOverCount = 0;

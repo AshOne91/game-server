@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Service\Service.Core\Service.Core.csproj" />
+    <ProjectReference Include="..\..\Service\Service.DB\Service.DB.csproj" />
+    <ProjectReference Include="..\..\Service\Service.Net\Service.Net.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System;
 
-namespace GameBaseAccount
+namespace GameBase.Template.Account.GameBaseAccount
 {
-    class GameBaseAccountDefine
-    {
-    }
+	// TODO : 템플릿에서 사용할 열거혐을 정의합니다.
 }

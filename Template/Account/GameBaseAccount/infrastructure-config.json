@@ -1,1 +1,103 @@
-﻿
+﻿{
+    "templateType": "Account",
+    "templateName": "GameBaseAccount",
+    "templateVersion": "1.0.0",
+    "databases": [
+
+    ],
+    "protocols": [
+        {
+            "id": 1,
+            "method": "noti",
+            "name": "LC_HELLO",
+            "protocolType": "",
+            "notiMembers": [
+            ]
+        },
+        {
+            "id": 3,
+            "method": "react",
+            "name": "CL_CHECK_VERSION",
+            "protocolType": "",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "ProtocolGUID",
+                    "comment": "프로토콜 버전"
+                },
+                {
+                    "type": "string",
+                    "name": "Ver",
+                    "comment": "게임버전"
+                }
+            ],
+            "resMembers": [
+            ]
+        },
+        {
+            "id": 5,
+            "method": "react",
+            "name": "CL_CHECK_AUTH",
+            "protocolType": "",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": "유저 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "WantedServerId",
+                    "comment": "-1이 아닌 경우 원하는 서버로 이동할 수 있음(다이렉트로 이동 가능 한 지 서버에서 체크(재접, 게임매칭 등등)"
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "string",
+                    "name": "Passport",
+                    "comment": "발급된 통행권"
+                },
+                {
+                    "type": "string",
+                    "name": "IP",
+                    "comment": "게임서버 아이피"
+                },
+                {
+                    "type": "ushort",
+                    "name": "Port",
+                    "comment": "게임서버 포트"
+                },
+                {
+                    "type": "int",
+                    "name": "ServerId",
+                    "comment": "게임서버 아이디"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "method": "react",
+            "name": "CL_GEN_GUEST_ID",
+            "protocolType": "",
+            "reqMembers": [
+            ],
+            "resMembers": [
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": "고유아이디"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "method": "noti",
+            "name": "LC_DUPLICATE_LOGIN",
+            "comment": "중복 로그인 알림",
+            "notiMembers": [
+            ]
+        }
+    ],
+    "models": [
+    ]
+}

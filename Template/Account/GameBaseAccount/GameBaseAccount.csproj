@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Controller\" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="../../../Service/Service.Core/Service.Core.csproj" />
+		<ProjectReference Include="../../../Service/Service.DB/Service.DB.csproj" />
+		<ProjectReference Include="../../../Service/Service.Net/Service.Net.csproj" />
+		<ProjectReference Include="../../../Template/GameBase/GameBase.csproj" />
+	</ItemGroup>
 
 </Project>

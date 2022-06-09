@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Service.Core\Service.Core.csproj" />
-    <ProjectReference Include="..\Service.Net\Service.Net.csproj" />
+    <ProjectReference Include="..\..\Template\Account\GameBaseAccount\GameBaseAccount.csproj" />
   </ItemGroup>
 
 </Project>
