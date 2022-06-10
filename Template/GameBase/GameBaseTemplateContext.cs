@@ -1,4 +1,4 @@
-﻿using GameBase.Base;
+﻿using GameBase.Template.GameBase;
 using GameBase.Template.GameBase.Common;
 using Service.Net;
 using System;
@@ -18,7 +18,6 @@ namespace GameBase.Template.GameBase
         Battle,
         Building,
         Character,
-        Internal,
         Item,
         MailBox,
         Matching,
@@ -137,19 +136,6 @@ namespace GameBase.Template.GameBase
                     _character = GetTemplate<CharacterTemplate>(ETemplateType.Character);
                 }
                 return _character;
-            }
-        }
-
-        static InternalTemplate _internal = null;
-        public static InternalTemplate Internal
-        {
-            get
-            {
-                if (_internal == null)
-                {
-                    _internal = GetTemplate<InternalTemplate>(ETemplateType.Internal);
-                }
-                return _internal;
             }
         }
 

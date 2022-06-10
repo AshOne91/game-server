@@ -8,11 +8,10 @@ namespace GameBase.Template.GameBase.Common
 {
 	public partial class GameBaseProtocol
 	{
-		public MessageController _messageController = null;
+		public static Dictionary<ushort, ControllerDelegate> MessageControllers = new Dictionary<ushort, ControllerDelegate>();
 
-		public GameBaseProtocol(UserObject obj)
+		public GameBaseProtocol()
 		{
-			_messageController = new MessageController(obj);
 			Init();
 		}
 
@@ -20,8 +19,16 @@ namespace GameBase.Template.GameBase.Common
 		{
 		}
 
-		public virtual bool OnPacket(ushort protocolId, Packet packet)
+		public virtual bool OnPacket(UserObject userObject, ushort protocolId, Packet packet)
 		{
-			return _messageController.OnRecevice(protocolId, packet);
+			ControllerDelegate controllerCallback;
+			if(MessageControllers.TryGetValue(protocolId, out controllerCallback) == false)
+			{
+				return false;
+			}
+			controllerCallback(userObject, packet);
+			return true;
 		}
 
+	}
+}

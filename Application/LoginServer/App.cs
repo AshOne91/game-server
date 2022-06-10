@@ -40,7 +40,7 @@ namespace LoginServer
 
         public bool ConnectToMaster()
         {
-            return false;
+            return true;
         }
 
         public void OnPerfWarning(int tick)
@@ -108,9 +108,25 @@ namespace LoginServer
             }
         }
 
+        public override void OnSocketError(SocketSession session, string e)
+        {
+            Logger.Default.Log(ELogLevel.Err, "OnSocketError = {0}", e);
+            session.Disconnect();
+        }
+
         public override void OnPacket(SocketSession session, Packet packet)
         {
             AccountController.OnPacket(session.GetUserObject(), packet.GetId(), packet);
+        }
+
+        public override void OnTimer(TimerHandle timer)
+        {
+
+        }
+
+        public override void OnUpdate(float dt)
+        {
+            
         }
     }
 }

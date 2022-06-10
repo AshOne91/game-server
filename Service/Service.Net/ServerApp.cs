@@ -180,7 +180,7 @@ namespace Service.Net
             return null;
         }
 
-        public virtual void Join(int frame)
+        public virtual void Join()
         {
             while (_running)
             {
