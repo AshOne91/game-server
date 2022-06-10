@@ -65,6 +65,14 @@ namespace GameBase.Template.GameBase
     {
         //공통으로 추가될 사항 추가 REQ
         public PacketBaseRequest(UInt16 protocol) : base(protocol) { }
+        public override void Serialize(Packet packet)
+        {
+
+        }
+        public override void Deserialize(Packet packet)
+        {
+
+        }
     }
     public class PacketBaseResponse : GPacket
     {
@@ -82,5 +90,13 @@ namespace GameBase.Template.GameBase
     public class PacketBaseNotification : GPacket
     {
         public PacketBaseNotification(UInt16 protocol) : base(protocol) { }
+        public override void Serialize(Packet packet)
+        {
+
+        }
+        public override void Deserialize(Packet packet)
+        {
+
+        }
     }
 }

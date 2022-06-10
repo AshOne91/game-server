@@ -10,6 +10,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate : AccountTemplate
 	{
+		UserObject _obj = null;
 		public override void Init(TemplateConfig config)
 		{
 			base.Init(config);
@@ -25,6 +26,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 		public override void OnClientCreate(UserObject userObject)
 		{
 			// TODO : 유저의 최초 생성시 필요한 DB관련 로직을 작성
+			_obj = userObject;
 		}
 
 		public override void OnClientUpdate(UserObject userObject)
@@ -65,6 +67,12 @@ namespace GameBase.Template.Account.GameBaseAccount
 		public override bool OnHasItemSubType(UserObject userObject, int subType)
 		{
 			return false;
+		}
+
+		public void HelloNoti()
+        {
+			PACKET_LC_HELLO_NOTI packet = new PACKET_LC_HELLO_NOTI();
+			_obj.GetSession().SendPacket(packet.Serialize());
 		}
 	}
 }

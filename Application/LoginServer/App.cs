@@ -40,6 +40,8 @@ namespace LoginServer
 
         public bool ConnectToMaster()
         {
+            //임시
+            ListenUsers(true);
             return true;
         }
 
@@ -68,6 +70,8 @@ namespace LoginServer
                 AccountController.AddAccountController(session.GetUid());
 
                 obj.OnAccept(localEP);
+                GameBaseTemplateContext.CreateClient(session.GetUid());
+                GameBaseTemplateContext.GetTemplate<GameBaseAccountTemplate>(obj.GetSession().GetUid(), ETemplateType.Account).HelloNoti();
             }
         }
 

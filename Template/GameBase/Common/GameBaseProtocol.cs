@@ -8,7 +8,7 @@ namespace GameBase.Template.GameBase.Common
 {
 	public partial class GameBaseProtocol
 	{
-		public static Dictionary<ushort, ControllerDelegate> MessageControllers = new Dictionary<ushort, ControllerDelegate>();
+		Dictionary<ushort, ControllerDelegate> MessageControllers = new Dictionary<ushort, ControllerDelegate>();
 
 		public GameBaseProtocol()
 		{
