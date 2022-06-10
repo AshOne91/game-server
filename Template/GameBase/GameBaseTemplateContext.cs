@@ -389,12 +389,14 @@ namespace GameBase.Template.GameBase
         }
 
 
-        public static void UpdateClient(ulong uid)
+        public static void UpdateClient(float dt)
         {
-            UserObject obj = FindUserObj<UserObject>(uid);
-            foreach (var t in _templateByUid[uid].Values)
+            foreach (var t in _templateByUid.Values)
             {
-                t.OnClientUpdate(obj);
+                foreach (var v in t.Values)
+                {
+                    v.OnClientUpdate(dt);
+                }
             }
         }
 

@@ -130,7 +130,7 @@ namespace LoginServer
 
         public override void OnUpdate(float dt)
         {
-            
+            GameBaseTemplateContext.UpdateClient(dt);
         }
     }
 }

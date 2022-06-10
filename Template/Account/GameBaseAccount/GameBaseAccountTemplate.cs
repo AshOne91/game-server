@@ -29,7 +29,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			_obj = userObject;
 		}
 
-		public override void OnClientUpdate(UserObject userObject)
+		public override void OnClientUpdate(float dt)
 		{
 			// TODO : 유저의 로그인시 필요한 DB관련 로직을 작성
 		}

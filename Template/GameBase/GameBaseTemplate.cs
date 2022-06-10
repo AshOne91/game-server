@@ -22,7 +22,7 @@ namespace GameBase.Template.GameBase
         }
 
 
-        public virtual void OnClientUpdate(UserObject userObject)
+        public virtual void OnClientUpdate(float dt)
         {
         }
 
