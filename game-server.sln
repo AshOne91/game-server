@@ -104,6 +104,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameBase", "Template\GameBa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginServer", "Application\LoginServer\LoginServer.csproj", "{CBC0D5A1-8B2E-45D5-8FA1-F3A2451D8BD3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterServer", "Application\MasterServer\MasterServer.csproj", "{06BB451E-CE02-4C98-A7E4-5CA2C222FC9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -218,6 +220,10 @@ Global
 		{CBC0D5A1-8B2E-45D5-8FA1-F3A2451D8BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC0D5A1-8B2E-45D5-8FA1-F3A2451D8BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBC0D5A1-8B2E-45D5-8FA1-F3A2451D8BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06BB451E-CE02-4C98-A7E4-5CA2C222FC9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06BB451E-CE02-4C98-A7E4-5CA2C222FC9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06BB451E-CE02-4C98-A7E4-5CA2C222FC9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06BB451E-CE02-4C98-A7E4-5CA2C222FC9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,6 +274,7 @@ Global
 		{CCC06A5D-D7CC-43CF-BE51-6950007D9F07} = {EE098F5B-C597-43DB-93A5-1A9A153158AF}
 		{DB2A9233-D647-4C19-85E0-16BC0BD5DEF2} = {988F560E-2992-4C63-848F-1BEA14EB3B63}
 		{CBC0D5A1-8B2E-45D5-8FA1-F3A2451D8BD3} = {A0CBF435-DB47-4743-B84F-5BF18CFDBE71}
+		{06BB451E-CE02-4C98-A7E4-5CA2C222FC9D} = {A0CBF435-DB47-4743-B84F-5BF18CFDBE71}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AE4B29B-1FE0-4B46-86DD-31660C1C8520}

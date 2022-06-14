@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
+using System.Net.Sockets;
 using Service.Core;
 using Service.Net;
 using GameBase;
-using System.Net.Sockets;
 using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
 using LoginServer.Controllers;
@@ -28,7 +27,7 @@ namespace LoginServer
         {
             bool result = base.Create(config, frame);
 
-            GameBaseTemplateContext.AddTemplate(ETemplateType.Admin, new GameBaseAccountTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
 
             TemplateConfig templateConfig = new TemplateConfig();
             GameBaseTemplateContext.InitTemplate(templateConfig);
