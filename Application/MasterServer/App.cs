@@ -54,11 +54,15 @@ namespace MasterServer
             {
 				int idx = AllocServerIdx(ObjectType.Game);
 				obj = new GameServerObject(idx);
+				_GameServerObjMap.Add(idx, (GameServerObject)obj);
 			}
 			else if (localEP.Port == 40000)
             {
 				int idx = AllocServerIdx(ObjectType.Login);
 				obj = new LoginServerObject(idx);
+				_LoginServerObjMap.Add(idx, (LoginServerObject)obj);
+
+				
 			}
 			session.SetUserObject(obj);
 			obj.SetSocketSession(session);
@@ -124,6 +128,38 @@ namespace MasterServer
 		{
 			GameBaseTemplateContext.UpdateClient(dt);
 		}
+
+		public int AllocServerIdx(ObjectType type)
+        {
+			switch(type)
+            {
+				case ObjectType.Login:
+                    {
+						for (int i = (int)ObjectType.Login * 10; i < ((int)ObjectType.Login + 100) * 10; ++i)
+                        {
+							bool result = _GameServerObjMap.ContainsKey(i);
+							if (result == false)
+                            {
+								return i;
+                            }
+                        }
+                    }
+					break;
+				case ObjectType.Game:
+                    {
+						for (int i = (int)ObjectType.Game * 10; i < ((int)ObjectType.Game + 100) * 10; ++i)
+                        {
+							bool result = _LoginServerObjMap.ContainsKey(i);
+							if (result == false)
+                            {
+								return i;
+                            }
+                        }
+                    }
+					break;
+            }
+			throw new Exception("Can't not Alloc Index");
+        }
 
 		Dictionary<int, GameServerObject> _GameServerObjMap = new Dictionary<int, GameServerObject>();
 		Dictionary<int, LoginServerObject> _LoginServerObjMap = new Dictionary<int, LoginServerObject>();

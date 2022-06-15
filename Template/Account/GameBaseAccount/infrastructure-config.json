@@ -309,6 +309,117 @@
                     "comment": "세션 데이터"
                 }
             ]
+        },
+        {
+            "id": 31,
+            "method": "noti",
+            "name": "ML_HELLO",
+            "comment": "",
+            "protocolType": "admin",
+            "notiMembers": [
+
+            ]
+        },
+        {
+            "id": 33,
+            "method": "react",
+            "name": "LM_HELLO_HEART_BEAT",
+            "comment": "",
+            "protocolType": "admin",
+            "reqMembers": [],
+            "resMembers": []
+        },
+        {
+            "id": 35,
+            "method": "react",
+            "name": "LM_CHECK_AUTH",
+            "comment": "",
+            "protocolType": "admin",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "ServerGUID",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "Ver",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "HostIP",
+                    "comment": ""
+                },
+                {
+                    "type": "ushort",
+                    "name": "HostPort",
+                    "comment": ""
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "int",
+                    "name": "ServerId",
+                    "comment": ""
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "method": "react",
+            "name": "LM_STATE_INFO",
+            "comment": "",
+            "protocolType": "admin",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": ""
+                },
+                {
+                    "type": "ulong",
+                    "name": "Uid",
+                    "comment": ""
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "bool",
+                    "name": "Found",
+                    "comment": ""
+                },
+                {
+                    "type": "ulong",
+                    "name": "Uid",
+                    "comment": ""
+                },
+                {
+                    "type": "int",
+                    "name": "State",
+                    "comment": ""
+                },
+                {
+                    "type": "int",
+                    "name": "ServerId",
+                    "comment": ""
+                }
+            ]
+
+        },
+        {
+            "id": 39,
+            "method": "noti",
+            "name": "LM_DUPLICATE_LOGIN",
+            "comment": "",
+            "protocolType": "admin",
+            "notiMembers": [
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": ""
+                }
+            ]
         }
     ],
     "models": [

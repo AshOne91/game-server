@@ -69,10 +69,15 @@ namespace GameBase.Template.Account.GameBaseAccount
 			return false;
 		}
 
-		public void HelloNoti()
+		public void LC_HELLO_NOTI()
         {
 			PACKET_LC_HELLO_NOTI packet = new PACKET_LC_HELLO_NOTI();
 			_obj.GetSession().SendPacket(packet.Serialize());
 		}
+
+		public void ML_HELLO_NOTI()
+        {
+
+        }
 	}
 }
