@@ -31,6 +31,14 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			MessageControllers.Add(PACKET_LM_SESSION_INFO_RES.ProtocolId, LM_SESSION_INFO_RES_CONTROLLER);
 			MessageControllers.Add(PACKET_LM_DUPLICATE_LOGIN_NOTI.ProtocolId, LM_DUPLICATE_LOGIN_NOTI_CONTROLLER);
 			MessageControllers.Add(PACKET_ML_GAMESERVER_INFO_NOTI.ProtocolId, ML_GAMESERVER_INFO_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_MG_HELLO_NOTI.ProtocolId, MG_HELLO_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_GM_HEART_BEAT_REQ.ProtocolId, GM_HEART_BEAT_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_GM_HEART_BEAT_RES.ProtocolId, GM_HEART_BEAT_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_GM_CHECK_AUTH_REQ.ProtocolId, GM_CHECK_AUTH_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_GM_CHECK_AUTH_RES.ProtocolId, GM_CHECK_AUTH_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_GM_STATE_INFO_NOTI.ProtocolId, GM_STATE_INFO_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_GM_SESSION_INFO_NOTI.ProtocolId, GM_SESSION_INFO_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_MG_FORCE_LOGOUT_NOTI.ProtocolId, MG_FORCE_LOGOUT_NOTI_CONTROLLER);
 		}
 
 		public virtual bool OnPacket(UserObject userObject, ushort protocolId, Packet packet)
@@ -165,6 +173,88 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			PACKET_ML_GAMESERVER_INFO_NOTI recvPacket = new PACKET_ML_GAMESERVER_INFO_NOTI();
 			recvPacket.Deserialize(packet);
 			ON_ML_GAMESERVER_INFO_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void MG_HELLO_NOTI_CALLBACK(UserObject userObject, PACKET_MG_HELLO_NOTI packet);
+		public MG_HELLO_NOTI_CALLBACK ON_MG_HELLO_NOTI_CALLBACK;
+		public void MG_HELLO_NOTI_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_MG_HELLO_NOTI recvPacket = new PACKET_MG_HELLO_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_MG_HELLO_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void GM_HEART_BEAT_REQ_CALLBACK(UserObject userObject, PACKET_GM_HEART_BEAT_REQ packet);
+		public GM_HEART_BEAT_REQ_CALLBACK ON_GM_HEART_BEAT_REQ_CALLBACK;
+		public void GM_HEART_BEAT_REQ_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_GM_HEART_BEAT_REQ recvPacket = new PACKET_GM_HEART_BEAT_REQ();
+			recvPacket.Deserialize(packet);
+			ON_GM_HEART_BEAT_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void GM_HEART_BEAT_RES_CALLBACK(UserObject userObject, PACKET_GM_HEART_BEAT_RES packet);
+		public GM_HEART_BEAT_RES_CALLBACK ON_GM_HEART_BEAT_RES_CALLBACK;
+		public void GM_HEART_BEAT_RES_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_GM_HEART_BEAT_RES recvPacket = new PACKET_GM_HEART_BEAT_RES();
+			recvPacket.Deserialize(packet);
+			ON_GM_HEART_BEAT_RES_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void GM_CHECK_AUTH_REQ_CALLBACK(UserObject userObject, PACKET_GM_CHECK_AUTH_REQ packet);
+		public GM_CHECK_AUTH_REQ_CALLBACK ON_GM_CHECK_AUTH_REQ_CALLBACK;
+		public void GM_CHECK_AUTH_REQ_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_GM_CHECK_AUTH_REQ recvPacket = new PACKET_GM_CHECK_AUTH_REQ();
+			recvPacket.Deserialize(packet);
+			ON_GM_CHECK_AUTH_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void GM_CHECK_AUTH_RES_CALLBACK(UserObject userObject, PACKET_GM_CHECK_AUTH_RES packet);
+		public GM_CHECK_AUTH_RES_CALLBACK ON_GM_CHECK_AUTH_RES_CALLBACK;
+		public void GM_CHECK_AUTH_RES_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_GM_CHECK_AUTH_RES recvPacket = new PACKET_GM_CHECK_AUTH_RES();
+			recvPacket.Deserialize(packet);
+			ON_GM_CHECK_AUTH_RES_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void GM_STATE_INFO_NOTI_CALLBACK(UserObject userObject, PACKET_GM_STATE_INFO_NOTI packet);
+		public GM_STATE_INFO_NOTI_CALLBACK ON_GM_STATE_INFO_NOTI_CALLBACK;
+		public void GM_STATE_INFO_NOTI_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_GM_STATE_INFO_NOTI recvPacket = new PACKET_GM_STATE_INFO_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_GM_STATE_INFO_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void GM_SESSION_INFO_NOTI_CALLBACK(UserObject userObject, PACKET_GM_SESSION_INFO_NOTI packet);
+		public GM_SESSION_INFO_NOTI_CALLBACK ON_GM_SESSION_INFO_NOTI_CALLBACK;
+		public void GM_SESSION_INFO_NOTI_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_GM_SESSION_INFO_NOTI recvPacket = new PACKET_GM_SESSION_INFO_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_GM_SESSION_INFO_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void MG_FORCE_LOGOUT_NOTI_CALLBACK(UserObject userObject, PACKET_MG_FORCE_LOGOUT_NOTI packet);
+		public MG_FORCE_LOGOUT_NOTI_CALLBACK ON_MG_FORCE_LOGOUT_NOTI_CALLBACK;
+		public void MG_FORCE_LOGOUT_NOTI_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_MG_FORCE_LOGOUT_NOTI recvPacket = new PACKET_MG_FORCE_LOGOUT_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_MG_FORCE_LOGOUT_NOTI_CALLBACK(obj, recvPacket);
 		}
 #endif
 

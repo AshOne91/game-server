@@ -350,4 +350,184 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 	}
 #endif
 
+#if SERVER
+	public sealed class PACKET_MG_HELLO_NOTI : PacketBaseNotification
+	{
+		public static readonly ushort ProtocolId = 19;
+		
+		public PACKET_MG_HELLO_NOTI():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+#endif
+
+#if SERVER
+	public sealed class PACKET_GM_HEART_BEAT_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 21;
+		public PACKET_GM_HEART_BEAT_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+	public sealed class PACKET_GM_HEART_BEAT_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 22;
+		public PACKET_GM_HEART_BEAT_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	};
+#endif
+
+#if SERVER
+	public sealed class PACKET_GM_CHECK_AUTH_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 23;
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ServerGUID = string.Empty;
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Ver = string.Empty;
+		/// <summary>
+		/// 
+		/// </summary>
+		public string IP = string.Empty;
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Port = string.Empty;
+		public PACKET_GM_CHECK_AUTH_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(ServerGUID);
+			packet.Write(Ver);
+			packet.Write(IP);
+			packet.Write(Port);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref ServerGUID);
+			packet.Read(ref Ver);
+			packet.Read(ref IP);
+			packet.Read(ref Port);
+		}
+	}
+	public sealed class PACKET_GM_CHECK_AUTH_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 24;
+		/// <summary>
+		/// 
+		/// </summary>
+		public int ServerId = new int();
+		public PACKET_GM_CHECK_AUTH_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(ServerId);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref ServerId);
+		}
+	};
+#endif
+
+#if SERVER
+	public sealed class PACKET_GM_STATE_INFO_NOTI : PacketBaseNotification
+	{
+		public static readonly ushort ProtocolId = 25;
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		public int CurrentUserCount = new int();
+		public PACKET_GM_STATE_INFO_NOTI():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(CurrentUserCount);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref CurrentUserCount);
+		}
+	}
+#endif
+
+#if SERVER
+	public sealed class PACKET_GM_SESSION_INFO_NOTI : PacketBaseNotification
+	{
+		public static readonly ushort ProtocolId = 27;
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		public int LogoutType = new int();
+		/// <summary>
+		/// 
+		/// </summary>
+		public Int64 PlayerIdx = new Int64();
+		public PACKET_GM_SESSION_INFO_NOTI():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(LogoutType);
+			packet.Write(PlayerIdx);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref LogoutType);
+			packet.Read(ref PlayerIdx);
+		}
+	}
+#endif
+
+#if SERVER
+	public sealed class PACKET_MG_FORCE_LOGOUT_NOTI : PacketBaseNotification
+	{
+		public static readonly ushort ProtocolId = 29;
+		
+		/// <summary>
+		/// 세션 데이터
+		/// </summary>
+		public UserSessionData Data = new UserSessionData();
+		public PACKET_MG_FORCE_LOGOUT_NOTI():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(Data);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(Data);
+		}
+	}
+#endif
+
 }
