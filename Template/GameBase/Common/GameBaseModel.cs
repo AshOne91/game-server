@@ -537,4 +537,43 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref OpenRewardId);
 		}
 	}
+	public class GameServerInfo : IPacketSerializable
+	{
+		/// <sumary>
+		/// 서버 고유아이디
+		/// </sumary>
+		public int ServerId = new int();
+		/// <sumary>
+		/// 가동여부
+		/// </sumary>
+		public bool Alive = new bool();
+		/// <sumary>
+		/// 접속 유저 수
+		/// </sumary>
+		public int UserCount = new int();
+		/// <sumary>
+		/// 서버 아이피
+		/// </sumary>
+		public string Ip = string.Empty;
+		/// <sumary>
+		/// 게임서버 포트
+		/// </sumary>
+		public ushort Port = new ushort();
+		public void Serialize(Packet packet)
+		{
+			packet.Write(ServerId);
+			packet.Write(Alive);
+			packet.Write(UserCount);
+			packet.Write(Ip);
+			packet.Write(Port);
+		}
+		public void Deserialize(Packet packet)
+		{
+			packet.Read(ref ServerId);
+			packet.Read(ref Alive);
+			packet.Read(ref UserCount);
+			packet.Read(ref Ip);
+			packet.Read(ref Port);
+		}
+	}
 }

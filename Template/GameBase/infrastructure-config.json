@@ -321,6 +321,36 @@
                     "comment": "오픈 보상 아이디"
                 }
             ]
+        },
+        {
+            "name": "GameServerInfo",
+            "members": [
+                {
+                    "type": "int",
+                    "name": "ServerId",
+                    "comment": "서버 고유아이디"
+                },
+                {
+                    "type": "bool",
+                    "name": "Alive",
+                    "comment": "가동여부"
+                },
+                {
+                    "type": "int",
+                    "name": "UserCount",
+                    "comment": "접속 유저 수"
+                },
+                {
+                    "type": "string",
+                    "name": "Ip",
+                    "comment": "서버 아이피"
+                },
+                {
+                    "type": "ushort",
+                    "name": "Port",
+                    "comment": "게임서버 포트"
+                }
+            ]
         }
     ]
 }
