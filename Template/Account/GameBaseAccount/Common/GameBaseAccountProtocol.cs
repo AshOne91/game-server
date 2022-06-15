@@ -39,6 +39,11 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			MessageControllers.Add(PACKET_GM_STATE_INFO_NOTI.ProtocolId, GM_STATE_INFO_NOTI_CONTROLLER);
 			MessageControllers.Add(PACKET_GM_SESSION_INFO_NOTI.ProtocolId, GM_SESSION_INFO_NOTI_CONTROLLER);
 			MessageControllers.Add(PACKET_MG_FORCE_LOGOUT_NOTI.ProtocolId, MG_FORCE_LOGOUT_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_ML_HELLO_NOTI.ProtocolId, ML_HELLO_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_HELLO_HEART_BEAT_REQ.ProtocolId, LM_HELLO_HEART_BEAT_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_HELLO_HEART_BEAT_RES.ProtocolId, LM_HELLO_HEART_BEAT_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_STATE_INFO_REQ.ProtocolId, LM_STATE_INFO_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_STATE_INFO_RES.ProtocolId, LM_STATE_INFO_RES_CONTROLLER);
 		}
 
 		public virtual bool OnPacket(UserObject userObject, ushort protocolId, Packet packet)
@@ -255,6 +260,55 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			PACKET_MG_FORCE_LOGOUT_NOTI recvPacket = new PACKET_MG_FORCE_LOGOUT_NOTI();
 			recvPacket.Deserialize(packet);
 			ON_MG_FORCE_LOGOUT_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void ML_HELLO_NOTI_CALLBACK(UserObject userObject, PACKET_ML_HELLO_NOTI packet);
+		public ML_HELLO_NOTI_CALLBACK ON_ML_HELLO_NOTI_CALLBACK;
+		public void ML_HELLO_NOTI_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_ML_HELLO_NOTI recvPacket = new PACKET_ML_HELLO_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_ML_HELLO_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void LM_HELLO_HEART_BEAT_REQ_CALLBACK(UserObject userObject, PACKET_LM_HELLO_HEART_BEAT_REQ packet);
+		public LM_HELLO_HEART_BEAT_REQ_CALLBACK ON_LM_HELLO_HEART_BEAT_REQ_CALLBACK;
+		public void LM_HELLO_HEART_BEAT_REQ_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_HELLO_HEART_BEAT_REQ recvPacket = new PACKET_LM_HELLO_HEART_BEAT_REQ();
+			recvPacket.Deserialize(packet);
+			ON_LM_HELLO_HEART_BEAT_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void LM_HELLO_HEART_BEAT_RES_CALLBACK(UserObject userObject, PACKET_LM_HELLO_HEART_BEAT_RES packet);
+		public LM_HELLO_HEART_BEAT_RES_CALLBACK ON_LM_HELLO_HEART_BEAT_RES_CALLBACK;
+		public void LM_HELLO_HEART_BEAT_RES_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_HELLO_HEART_BEAT_RES recvPacket = new PACKET_LM_HELLO_HEART_BEAT_RES();
+			recvPacket.Deserialize(packet);
+			ON_LM_HELLO_HEART_BEAT_RES_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void LM_STATE_INFO_REQ_CALLBACK(UserObject userObject, PACKET_LM_STATE_INFO_REQ packet);
+		public LM_STATE_INFO_REQ_CALLBACK ON_LM_STATE_INFO_REQ_CALLBACK;
+		public void LM_STATE_INFO_REQ_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_STATE_INFO_REQ recvPacket = new PACKET_LM_STATE_INFO_REQ();
+			recvPacket.Deserialize(packet);
+			ON_LM_STATE_INFO_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void LM_STATE_INFO_RES_CALLBACK(UserObject userObject, PACKET_LM_STATE_INFO_RES packet);
+		public LM_STATE_INFO_RES_CALLBACK ON_LM_STATE_INFO_RES_CALLBACK;
+		public void LM_STATE_INFO_RES_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_STATE_INFO_RES recvPacket = new PACKET_LM_STATE_INFO_RES();
+			recvPacket.Deserialize(packet);
+			ON_LM_STATE_INFO_RES_CALLBACK(obj, recvPacket);
 		}
 #endif
 

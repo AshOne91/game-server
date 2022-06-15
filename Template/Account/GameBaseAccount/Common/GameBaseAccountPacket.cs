@@ -530,4 +530,115 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 	}
 #endif
 
+#if SERVER
+	public sealed class PACKET_ML_HELLO_NOTI : PacketBaseNotification
+	{
+		public static readonly ushort ProtocolId = 31;
+		
+		public PACKET_ML_HELLO_NOTI():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+#endif
+
+#if SERVER
+	public sealed class PACKET_LM_HELLO_HEART_BEAT_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 33;
+		public PACKET_LM_HELLO_HEART_BEAT_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+	public sealed class PACKET_LM_HELLO_HEART_BEAT_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 34;
+		public PACKET_LM_HELLO_HEART_BEAT_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	};
+#endif
+
+#if SERVER
+	public sealed class PACKET_LM_STATE_INFO_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 37;
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SiteUserId = string.Empty;
+		/// <summary>
+		/// 
+		/// </summary>
+		public ulong Uid = new ulong();
+		public PACKET_LM_STATE_INFO_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(SiteUserId);
+			packet.Write(Uid);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref SiteUserId);
+			packet.Read(ref Uid);
+		}
+	}
+	public sealed class PACKET_LM_STATE_INFO_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 38;
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool Found = new bool();
+		/// <summary>
+		/// 
+		/// </summary>
+		public ulong Uid = new ulong();
+		/// <summary>
+		/// 
+		/// </summary>
+		public int State = new int();
+		/// <summary>
+		/// 
+		/// </summary>
+		public int ServerId = new int();
+		public PACKET_LM_STATE_INFO_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(Found);
+			packet.Write(Uid);
+			packet.Write(State);
+			packet.Write(ServerId);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref Found);
+			packet.Read(ref Uid);
+			packet.Read(ref State);
+			packet.Read(ref ServerId);
+		}
+	};
+#endif
+
 }

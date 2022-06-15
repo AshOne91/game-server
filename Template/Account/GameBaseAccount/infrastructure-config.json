@@ -330,42 +330,6 @@
             "resMembers": []
         },
         {
-            "id": 35,
-            "method": "react",
-            "name": "LM_CHECK_AUTH",
-            "comment": "",
-            "protocolType": "admin",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "ServerGUID",
-                    "comment": ""
-                },
-                {
-                    "type": "string",
-                    "name": "Ver",
-                    "comment": ""
-                },
-                {
-                    "type": "string",
-                    "name": "HostIP",
-                    "comment": ""
-                },
-                {
-                    "type": "ushort",
-                    "name": "HostPort",
-                    "comment": ""
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "int",
-                    "name": "ServerId",
-                    "comment": ""
-                }
-            ]
-        },
-        {
             "id": 37,
             "method": "react",
             "name": "LM_STATE_INFO",
@@ -406,20 +370,6 @@
                 }
             ]
 
-        },
-        {
-            "id": 39,
-            "method": "noti",
-            "name": "LM_DUPLICATE_LOGIN",
-            "comment": "",
-            "protocolType": "admin",
-            "notiMembers": [
-                {
-                    "type": "string",
-                    "name": "SiteUserId",
-                    "comment": ""
-                }
-            ]
         }
     ],
     "models": [
