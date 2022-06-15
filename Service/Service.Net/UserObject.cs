@@ -68,6 +68,7 @@ namespace Service.Net
         public void SetSocketSession(SocketSession session) { _session = session;}
         public SocketSession GetSession() { return _session; }
 
+        public void SetObjectID(ulong objectId) { _objectID = objectId; }
         public ulong GetObjectID() { return _objectID; }
         public static long GetUserObjCount() { return s_userObjectCnt; }
         public virtual void OnPacket(Packet packet)

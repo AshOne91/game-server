@@ -33,7 +33,16 @@ namespace GameBase.Template.GameBase
         static Dictionary<ulong/*uid*/, UserObject> _objByUid = new Dictionary<ulong, UserObject>();
         static Dictionary<ETemplateType, GameBaseTemplate> _templates = new Dictionary<ETemplateType, GameBaseTemplate>();
         static Dictionary<ulong, Dictionary<ETemplateType, GameBaseTemplate>> _templateByUid = new Dictionary<ulong, Dictionary<ETemplateType, GameBaseTemplate>>();
+        static Dictionary<ulong/*uid*/, ulong/*objectType*/> _objectTypeByUid;
+        static Dictionary<ulong/*objectType*/, int/*count*/> _countByObjectType;
 
+        static GameBaseTemplateContext()
+        {
+            foreach (var type in Enum.GetValues(typeof(ObjectType)))
+            {
+                _countByObjectType.Add((ulong)type, 0);
+            }
+        }
 
         static AccountTemplate _account = null;
         public static AccountTemplate Account
@@ -290,10 +299,13 @@ namespace GameBase.Template.GameBase
         public static bool AddTemplate<T>(T userObject, ETemplateType key, GameBaseTemplate value) where T : UserObject
         {
             ulong uid = userObject.GetSession().GetUid();
+            ulong objectType = userObject.GetObjectID();
             if (_objByUid.ContainsKey(uid) == false)
             {
                 _objByUid.Add(uid, userObject);
+                _objectTypeByUid.Add(uid, objectType);
                 _templateByUid.Add(uid, new Dictionary<ETemplateType, GameBaseTemplate>());
+                _countByObjectType[objectType] += 1;
             }
             
             if (_templateByUid[uid].ContainsKey(key) == true)
@@ -345,7 +357,9 @@ namespace GameBase.Template.GameBase
         {
             if (_objByUid.ContainsKey(uid) == true)
             {
+                _countByObjectType[_objectTypeByUid[uid]] -= 1;
                 _objByUid.Remove(uid);
+                _objectTypeByUid.Remove(uid);
                 _templateByUid[uid].Remove(key);
             }
         }
@@ -377,6 +391,11 @@ namespace GameBase.Template.GameBase
                 return null;
             }
             return obj as T;
+        }
+
+        public static int GetObjectCount(ulong type)
+        {
+            return _countByObjectType[(ulong)type];
         }
 
         public static void CreateClient(ulong uid)

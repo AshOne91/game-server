@@ -5,11 +5,6 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public enum ObjectType
-    {
-        Master = 100,
-        User = 200
-    }
     public class GameServerInfo
     {
         public int ServerId = 0;
