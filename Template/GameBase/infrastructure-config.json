@@ -351,6 +351,51 @@
                     "comment": "게임서버 포트"
                 }
             ]
+        },
+        {
+            "name": "UserSessionData",
+            "members": [
+                {
+                    "type": "ulong",
+                    "name": "PlayerIdx",
+                    "comment": "Player 고유값"
+                },
+                {
+                    "type": "string",
+                    "name": "PlayerName",
+                    "comment": "닉네임"
+                },
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": "유저 고유 아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "ServerIdx",
+                    "comment": "서버 인덱스"
+                },
+                {
+                    "type": "int",
+                    "name": "SessionState",
+                    "comment": "세션상태"
+                },
+                {
+                    "type": "string",
+                    "name": "RemoteIP",
+                    "comment": ""
+                },
+                {
+                    "type": "ushort",
+                    "name": "RemotePort",
+                    "comment": ""
+                },
+                {
+                    "type": "DateTime",
+                    "name": "LastUpdateTime",
+                    "comment": ""
+                }
+            ]
         }
     ]
 }

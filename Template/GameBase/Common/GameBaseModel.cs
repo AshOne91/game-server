@@ -576,4 +576,61 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref Port);
 		}
 	}
+	public class UserSessionData : IPacketSerializable
+	{
+		/// <sumary>
+		/// Player 고유값
+		/// </sumary>
+		public ulong PlayerIdx = new ulong();
+		/// <sumary>
+		/// 닉네임
+		/// </sumary>
+		public string PlayerName = string.Empty;
+		/// <sumary>
+		/// 유저 고유 아이디
+		/// </sumary>
+		public string SiteUserId = string.Empty;
+		/// <sumary>
+		/// 서버 인덱스
+		/// </sumary>
+		public int ServerIdx = new int();
+		/// <sumary>
+		/// 세션상태
+		/// </sumary>
+		public int SessionState = new int();
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public string RemoteIP = string.Empty;
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public ushort RemotePort = new ushort();
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public DateTime LastUpdateTime = new DateTime();
+		public void Serialize(Packet packet)
+		{
+			packet.Write(PlayerIdx);
+			packet.Write(PlayerName);
+			packet.Write(SiteUserId);
+			packet.Write(ServerIdx);
+			packet.Write(SessionState);
+			packet.Write(RemoteIP);
+			packet.Write(RemotePort);
+			packet.Write(LastUpdateTime);
+		}
+		public void Deserialize(Packet packet)
+		{
+			packet.Read(ref PlayerIdx);
+			packet.Read(ref PlayerName);
+			packet.Read(ref SiteUserId);
+			packet.Read(ref ServerIdx);
+			packet.Read(ref SessionState);
+			packet.Read(ref RemoteIP);
+			packet.Read(ref RemotePort);
+			packet.Read(ref LastUpdateTime);
+		}
+	}
 }

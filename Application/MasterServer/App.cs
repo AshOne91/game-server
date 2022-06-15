@@ -49,10 +49,19 @@ namespace MasterServer
 
 		public override void OnAccept(SocketSession session, IPEndPoint localEP, IPEndPoint remoteEP)
 		{
-			UserObject obj = new UserObject();
+			UserObject obj = null;
+			if (localEP.Port == 30000)
+            {
+				int idx = AllocServerIdx(ObjectType.Game);
+				obj = new GameServerObject(idx);
+			}
+			else if (localEP.Port == 40000)
+            {
+				int idx = AllocServerIdx(ObjectType.Login);
+				obj = new LoginServerObject(idx);
+			}
 			session.SetUserObject(obj);
 			obj.SetSocketSession(session);
-
 			GameBaseTemplateContext.AddTemplate<UserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
 			AccountController.AddAccountController(session.GetUid());
 			GameBaseTemplateContext.CreateClient(session.GetUid());
@@ -115,5 +124,8 @@ namespace MasterServer
 		{
 			GameBaseTemplateContext.UpdateClient(dt);
 		}
+
+		Dictionary<int, GameServerObject> _GameServerObjMap = new Dictionary<int, GameServerObject>();
+		Dictionary<int, LoginServerObject> _LoginServerObjMap = new Dictionary<int, LoginServerObject>();
 	}
 }

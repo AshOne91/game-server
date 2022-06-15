@@ -194,12 +194,119 @@
             "method": "noti",
             "name": "ML_GAMESERVER_INFO",
             "comment": "게임서버 정보",
-            "protocolTYpe": "admin",
+            "protocolType": "admin",
             "notiMembers": [
                 {
                     "type": "List<GameServerInfo>",
                     "name": "GameServerInfoList",
                     "comment": "서버 정보"
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "method": "noti",
+            "name": "MG_HELLO",
+            "comment": "접속 확인",
+            "protocolType": "admin",
+            "notiMembers": [
+
+            ]
+
+        },
+        {
+            "id": 21,
+            "method": "react",
+            "name": "GM_HEART_BEAT",
+            "comment": "하트비트",
+            "protocolType": "admin",
+            "reqMembers": [
+
+            ],
+            "resMembers": [
+
+            ]
+        },
+        {
+            "id": 23,
+            "method": "react",
+            "name": "GM_CHECK_AUTH",
+            "comment": "인증 요청",
+            "protocolType": "admin",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "ServerGUID",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "Ver",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "IP",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "Port",
+                    "comment": ""
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "int",
+                    "name": "ServerId",
+                    "comment": ""
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "method": "noti",
+            "name": "GM_STATE_INFO",
+            "comment": "서버 상태",
+            "protocolType": "admin",
+            "notiMembers": [
+                {
+                    "type": "int",
+                    "name": "CurrentUserCount",
+                    "comment": ""
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "method": "noti",
+            "name": "GM_SESSION_INFO",
+            "comment": "세션 상태",
+            "protocolType": "admin",
+            "notiMembers": [
+                {
+                    "type": "int",
+                    "name": "LogoutType",
+                    "comment": ""
+                },
+                {
+                    "type": "Int64",
+                    "name": "PlayerIdx",
+                    "comment": ""
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "method": "noti",
+            "name": "MG_FORCE_LOGOUT",
+            "comment": "강제 로그아웃",
+            "protocolType": "admin",
+            "notiMembers": [
+                {
+                    "type": "UserSessionData",
+                    "name": "Data",
+                    "comment": "세션 데이터"
                 }
             ]
         }
