@@ -94,7 +94,113 @@
             "method": "noti",
             "name": "LC_DUPLICATE_LOGIN",
             "comment": "중복 로그인 알림",
+            "protocolType": "",
             "notiMembers": [
+            ]
+        },
+        {
+            "id": 11,
+            "method": "react",
+            "name": "LM_CHECK_AUTH",
+            "comment": "마스터서버 로그인",
+            "protocolType": "admin",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "ServerGUID",
+                    "comment": "서버GUID"
+                },
+                {
+                    "type": "string",
+                    "name": "Ver",
+                    "comment": "버전"
+                },
+                {
+                    "type": "string",
+                    "name": "HostIP",
+                    "comment": "아이피"
+                },
+                {
+                    "type": "ushort",
+                    "name": "HostPort",
+                    "comment": "포트"
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "int",
+                    "name": "ServerId",
+                    "comment": "서버아이디"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "method": "react",
+            "name": "LM_SESSION_INFO",
+            "comment": "세션정보 요청",
+            "protocolType": "admin",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": "유저 고유아이디"
+                },
+                {
+                    "type": "Int64",
+                    "name": "Uid",
+                    "comment": "세션아이디"
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "bool",
+                    "name": "Found",
+                    "comment": "존재여부"
+                },
+                {
+                    "type": "Int64",
+                    "name": "Uid",
+                    "comment": "세션아이디"
+                },
+                {
+                    "type": "int",
+                    "name": "State",
+                    "comment": "세션상태"
+                },
+                {
+                    "type": "int",
+                    "name": "ServerId",
+                    "comment": "서버아이디"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "method": "noti",
+            "name": "LM_DUPLICATE_LOGIN",
+            "comment": "중복로그인 알림",
+            "protocolType": "admin",
+            "notiMembers": [
+                {
+                    "type": "string",
+                    "name": "StieUserId",
+                    "comment": "유저 아이디"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "method": "noti",
+            "name": "ML_GAMESERVER_INFO",
+            "comment": "게임서버 정보",
+            "protocolTYpe": "admin",
+            "notiMembers": [
+                {
+                    "type": "List<GameServerInfo>",
+                    "name": "GameServerInfoList",
+                    "comment": "서버 정보"
+                }
             ]
         }
     ],

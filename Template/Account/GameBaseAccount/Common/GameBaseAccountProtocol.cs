@@ -25,6 +25,12 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			MessageControllers.Add(PACKET_CL_GEN_GUEST_ID_REQ.ProtocolId, CL_GEN_GUEST_ID_REQ_CONTROLLER);
 			MessageControllers.Add(PACKET_CL_GEN_GUEST_ID_RES.ProtocolId, CL_GEN_GUEST_ID_RES_CONTROLLER);
 			MessageControllers.Add(PACKET_LC_DUPLICATE_LOGIN_NOTI.ProtocolId, LC_DUPLICATE_LOGIN_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_CHECK_AUTH_REQ.ProtocolId, LM_CHECK_AUTH_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_CHECK_AUTH_RES.ProtocolId, LM_CHECK_AUTH_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_SESSION_INFO_REQ.ProtocolId, LM_SESSION_INFO_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_SESSION_INFO_RES.ProtocolId, LM_SESSION_INFO_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_LM_DUPLICATE_LOGIN_NOTI.ProtocolId, LM_DUPLICATE_LOGIN_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_ML_GAMESERVER_INFO_NOTI.ProtocolId, ML_GAMESERVER_INFO_NOTI_CONTROLLER);
 		}
 
 		public virtual bool OnPacket(UserObject userObject, ushort protocolId, Packet packet)
@@ -102,5 +108,65 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			recvPacket.Deserialize(packet);
 			ON_LC_DUPLICATE_LOGIN_NOTI_CALLBACK(obj, recvPacket);
 		}
+#if SERVER
+		public delegate void LM_CHECK_AUTH_REQ_CALLBACK(UserObject userObject, PACKET_LM_CHECK_AUTH_REQ packet);
+		public LM_CHECK_AUTH_REQ_CALLBACK ON_LM_CHECK_AUTH_REQ_CALLBACK;
+		public void LM_CHECK_AUTH_REQ_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_CHECK_AUTH_REQ recvPacket = new PACKET_LM_CHECK_AUTH_REQ();
+			recvPacket.Deserialize(packet);
+			ON_LM_CHECK_AUTH_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void LM_CHECK_AUTH_RES_CALLBACK(UserObject userObject, PACKET_LM_CHECK_AUTH_RES packet);
+		public LM_CHECK_AUTH_RES_CALLBACK ON_LM_CHECK_AUTH_RES_CALLBACK;
+		public void LM_CHECK_AUTH_RES_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_CHECK_AUTH_RES recvPacket = new PACKET_LM_CHECK_AUTH_RES();
+			recvPacket.Deserialize(packet);
+			ON_LM_CHECK_AUTH_RES_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void LM_SESSION_INFO_REQ_CALLBACK(UserObject userObject, PACKET_LM_SESSION_INFO_REQ packet);
+		public LM_SESSION_INFO_REQ_CALLBACK ON_LM_SESSION_INFO_REQ_CALLBACK;
+		public void LM_SESSION_INFO_REQ_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_SESSION_INFO_REQ recvPacket = new PACKET_LM_SESSION_INFO_REQ();
+			recvPacket.Deserialize(packet);
+			ON_LM_SESSION_INFO_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void LM_SESSION_INFO_RES_CALLBACK(UserObject userObject, PACKET_LM_SESSION_INFO_RES packet);
+		public LM_SESSION_INFO_RES_CALLBACK ON_LM_SESSION_INFO_RES_CALLBACK;
+		public void LM_SESSION_INFO_RES_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_SESSION_INFO_RES recvPacket = new PACKET_LM_SESSION_INFO_RES();
+			recvPacket.Deserialize(packet);
+			ON_LM_SESSION_INFO_RES_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void LM_DUPLICATE_LOGIN_NOTI_CALLBACK(UserObject userObject, PACKET_LM_DUPLICATE_LOGIN_NOTI packet);
+		public LM_DUPLICATE_LOGIN_NOTI_CALLBACK ON_LM_DUPLICATE_LOGIN_NOTI_CALLBACK;
+		public void LM_DUPLICATE_LOGIN_NOTI_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_LM_DUPLICATE_LOGIN_NOTI recvPacket = new PACKET_LM_DUPLICATE_LOGIN_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_LM_DUPLICATE_LOGIN_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
+#if SERVER
+		public delegate void ML_GAMESERVER_INFO_NOTI_CALLBACK(UserObject userObject, PACKET_ML_GAMESERVER_INFO_NOTI packet);
+		public ML_GAMESERVER_INFO_NOTI_CALLBACK ON_ML_GAMESERVER_INFO_NOTI_CALLBACK;
+		public void ML_GAMESERVER_INFO_NOTI_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_ML_GAMESERVER_INFO_NOTI recvPacket = new PACKET_ML_GAMESERVER_INFO_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_ML_GAMESERVER_INFO_NOTI_CALLBACK(obj, recvPacket);
+		}
+#endif
+
 	}
 }

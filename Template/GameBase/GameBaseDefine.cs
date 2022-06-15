@@ -5,16 +5,6 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class GameServerInfo
-    {
-        public int ServerId = 0;
-        public bool Alive = false;
-        public int CurrentUserCount = 0;
-        public int CurrentDediCount = 0;
-        public string Ip = "";
-        public ushort Port = 0;
-    }
-
     public enum ConnectType : Byte
     {
         Normal = 1,
