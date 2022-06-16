@@ -23,4 +23,9 @@ namespace GameBase.Template.GameBase
         PendingDisconnect,
         Disconnect,
     }
+
+    public enum GServerCode : int
+    {
+        SUCCESS = 0,
+    }
 }

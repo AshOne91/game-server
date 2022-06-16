@@ -7,7 +7,6 @@ using Service.Net;
 using GameBase;
 using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
-using LoginServer.Controllers;
 
 namespace LoginServer
 {

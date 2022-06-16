@@ -77,7 +77,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 		public void ML_HELLO_NOTI()
         {
-
+			PACKET_ML_HELLO_NOTI packet = new PACKET_ML_HELLO_NOTI();
+			_obj.GetSession().SendPacket(packet.Serialize());
         }
 	}
 }

@@ -50,26 +50,36 @@ namespace MasterServer
 		public override void OnAccept(SocketSession session, IPEndPoint localEP, IPEndPoint remoteEP)
 		{
 			UserObject obj = null;
+			int idx = 0;
 			if (localEP.Port == 30000)
             {
-				int idx = AllocServerIdx(ObjectType.Game);
+				idx = AllocServerIdx(ObjectType.Game);
 				obj = new GameServerObject(idx);
 				_GameServerObjMap.Add(idx, (GameServerObject)obj);
 			}
 			else if (localEP.Port == 40000)
             {
-				int idx = AllocServerIdx(ObjectType.Login);
+				idx = AllocServerIdx(ObjectType.Login);
 				obj = new LoginServerObject(idx);
 				_LoginServerObjMap.Add(idx, (LoginServerObject)obj);
-
-				
 			}
+
 			session.SetUserObject(obj);
 			obj.SetSocketSession(session);
 			GameBaseTemplateContext.AddTemplate<UserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
 			AccountController.AddAccountController(session.GetUid());
 			GameBaseTemplateContext.CreateClient(session.GetUid());
 			obj.OnAccept(localEP);
+
+			if (localEP.Port == 3000)
+            {
+				GetAccountTemplate(obj)._ServerId = idx;
+			}
+			else if (localEP.Port == 4000)
+            {
+				GetAccountTemplate(obj)._ServerId = idx;
+				GetAccountTemplate(obj).ML_HELLO_NOTI();
+			}
 		}
 
 		private bool _bListenState = false;
@@ -160,6 +170,11 @@ namespace MasterServer
             }
 			throw new Exception("Can't not Alloc Index");
         }
+
+		public GameBaseAccountTemplate GetAccountTemplate(UserObject obj)
+        {
+			return GameBaseTemplateContext.GetTemplate<GameBaseAccountTemplate>(obj.GetSession().GetUid(), ETemplateType.Account);
+		}
 
 		Dictionary<int, GameServerObject> _GameServerObjMap = new Dictionary<int, GameServerObject>();
 		Dictionary<int, LoginServerObject> _LoginServerObjMap = new Dictionary<int, LoginServerObject>();
