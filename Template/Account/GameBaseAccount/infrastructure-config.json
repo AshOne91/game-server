@@ -369,7 +369,17 @@
                     "comment": ""
                 }
             ]
-
+        },
+        {
+            "id": 39,
+            "method": "react",
+            "name": "CL_HEART_BEAT",
+            "comment": "",
+            "protocolType": "",
+            "reqMembers": [
+            ],
+            "resMembers": [
+            ]
         }
     ],
     "models": [

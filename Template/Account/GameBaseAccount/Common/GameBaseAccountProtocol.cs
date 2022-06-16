@@ -44,6 +44,8 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			MessageControllers.Add(PACKET_LM_HELLO_HEART_BEAT_RES.ProtocolId, LM_HELLO_HEART_BEAT_RES_CONTROLLER);
 			MessageControllers.Add(PACKET_LM_STATE_INFO_REQ.ProtocolId, LM_STATE_INFO_REQ_CONTROLLER);
 			MessageControllers.Add(PACKET_LM_STATE_INFO_RES.ProtocolId, LM_STATE_INFO_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_CL_HEART_BEAT_REQ.ProtocolId, CL_HEART_BEAT_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_CL_HEART_BEAT_RES.ProtocolId, CL_HEART_BEAT_RES_CONTROLLER);
 		}
 
 		public virtual bool OnPacket(UserObject userObject, ushort protocolId, Packet packet)
@@ -312,5 +314,21 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		}
 #endif
 
+		public delegate void CL_HEART_BEAT_REQ_CALLBACK(UserObject userObject, PACKET_CL_HEART_BEAT_REQ packet);
+		public CL_HEART_BEAT_REQ_CALLBACK ON_CL_HEART_BEAT_REQ_CALLBACK;
+		public void CL_HEART_BEAT_REQ_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_CL_HEART_BEAT_REQ recvPacket = new PACKET_CL_HEART_BEAT_REQ();
+			recvPacket.Deserialize(packet);
+			ON_CL_HEART_BEAT_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CL_HEART_BEAT_RES_CALLBACK(UserObject userObject, PACKET_CL_HEART_BEAT_RES packet);
+		public CL_HEART_BEAT_RES_CALLBACK ON_CL_HEART_BEAT_RES_CALLBACK;
+		public void CL_HEART_BEAT_RES_CONTROLLER(UserObject obj, Packet packet)
+		{
+			PACKET_CL_HEART_BEAT_RES recvPacket = new PACKET_CL_HEART_BEAT_RES();
+			recvPacket.Deserialize(packet);
+			ON_CL_HEART_BEAT_RES_CALLBACK(obj, recvPacket);
+		}
 	}
 }

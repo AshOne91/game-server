@@ -47,6 +47,8 @@ namespace MasterServer
 			protocol.ON_LM_HELLO_HEART_BEAT_RES_CALLBACK = template.ON_LM_HELLO_HEART_BEAT_RES_CALLBACK;
 			protocol.ON_LM_STATE_INFO_REQ_CALLBACK = template.ON_LM_STATE_INFO_REQ_CALLBACK;
 			protocol.ON_LM_STATE_INFO_RES_CALLBACK = template.ON_LM_STATE_INFO_RES_CALLBACK;
+			protocol.ON_CL_HEART_BEAT_REQ_CALLBACK = template.ON_CL_HEART_BEAT_REQ_CALLBACK;
+			protocol.ON_CL_HEART_BEAT_RES_CALLBACK = template.ON_CL_HEART_BEAT_RES_CALLBACK;
 			_protocolByUid.Add(uid, protocol);
 		}
 

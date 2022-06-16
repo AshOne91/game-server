@@ -641,4 +641,30 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 	};
 #endif
 
+	public sealed class PACKET_CL_HEART_BEAT_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 39;
+		public PACKET_CL_HEART_BEAT_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+	public sealed class PACKET_CL_HEART_BEAT_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 40;
+		public PACKET_CL_HEART_BEAT_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	};
 }
