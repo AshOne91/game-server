@@ -17,7 +17,7 @@ namespace GameBase.Template.GameBase
         }
 
 
-        public virtual void OnClientCreate(UserObject userObject)
+        public virtual void OnClientCreate(ImplObject userObject)
         {
         }
 
@@ -26,39 +26,39 @@ namespace GameBase.Template.GameBase
         {
         }
 
-        public virtual void OnClientDelete(UserObject userObject)
+        public virtual void OnClientDelete(ImplObject userObject)
         {
         }
 
-        public virtual (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) OnAddItem(UserObject userObject, int itemId, long value, int parentItemId, int groupIndex)
-        {
-            return (null, null);
-        }
-
-
-        public virtual (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) OnDeleteItem(UserObject userObject, int itemId, long value, int parentItemId, int groupIndex)
+        public virtual (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) OnAddItem(ImplObject userObject, int itemId, long value, int parentItemId, int groupIndex)
         {
             return (null, null);
         }
 
 
-        public virtual (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) AddRandomReward(UserObject userObject, int classId, int grade, int kind, long value, int parentItemId, int groupIndex)
+        public virtual (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) OnDeleteItem(ImplObject userObject, int itemId, long value, int parentItemId, int groupIndex)
         {
             return (null, null);
         }
 
 
-        public virtual bool OnHasItemId(UserObject userObject, int itemId)
+        public virtual (List<ItemBaseInfo> listItemInfo, List<QuestCompleteParam> listQuestCompleteParam) AddRandomReward(ImplObject userObject, int classId, int grade, int kind, long value, int parentItemId, int groupIndex)
+        {
+            return (null, null);
+        }
+
+
+        public virtual bool OnHasItemId(ImplObject userObject, int itemId)
         {
             return false;
         }
 
-        public virtual bool OnHasItemType(UserObject userObject, int itemType)
+        public virtual bool OnHasItemType(ImplObject userObject, int itemType)
         {
             return false;
         }
 
-        public virtual bool OnHasItemSubType(UserObject userObject, int subType)
+        public virtual bool OnHasItemSubType(ImplObject userObject, int subType)
         {
             return false;
         }

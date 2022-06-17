@@ -11,7 +11,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate
 	{
-		public void ON_ML_HELLO_NOTI_CALLBACK(UserObject userObject, PACKET_ML_HELLO_NOTI packet)
+		public void ON_ML_HELLO_NOTI_CALLBACK(ImplObject userObject, PACKET_ML_HELLO_NOTI packet)
 		{
 			PACKET_LM_CHECK_AUTH_REQ sendData = new PACKET_LM_CHECK_AUTH_REQ();
 			sendData.ServerGUID = PacketDefine.SERVER_GUID;

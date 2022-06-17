@@ -238,7 +238,7 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		/// <summary>
 		/// 세션아이디
 		/// </summary>
-		public Int64 Uid = new Int64();
+		public ulong Uid = new ulong();
 		public PACKET_LM_SESSION_INFO_REQ():base(ProtocolId){}
 		public override void Serialize(Packet packet)
 		{
@@ -263,7 +263,7 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		/// <summary>
 		/// 세션아이디
 		/// </summary>
-		public Int64 Uid = new Int64();
+		public ulong Uid = new ulong();
 		/// <summary>
 		/// 세션상태
 		/// </summary>

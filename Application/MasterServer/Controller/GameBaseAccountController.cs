@@ -52,7 +52,7 @@ namespace MasterServer
 			_protocolByUid.Add(uid, protocol);
 		}
 
-		public static bool OnPacket(UserObject obj, ushort protocolId, Packet packet)
+		public static bool OnPacket(ImplObject obj, ushort protocolId, Packet packet)
 		{
 			ulong uid = obj.GetSession().GetUid();
 			if (_protocolByUid.ContainsKey(uid) == false)

@@ -11,7 +11,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate
 	{
-		public void ON_LM_CHECK_AUTH_REQ_CALLBACK(UserObject userObject, PACKET_LM_CHECK_AUTH_REQ packet)
+		public void ON_LM_CHECK_AUTH_REQ_CALLBACK(ImplObject userObject, PACKET_LM_CHECK_AUTH_REQ packet)
 		{
 			//MasterServer
 			if (packet.ServerGUID != PacketDefine.SERVER_GUID)
@@ -30,7 +30,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			sendData.ServerId = _ServerId;
 			userObject.GetSession().SendPacket(sendData.Serialize());
 		}
-		public void ON_LM_CHECK_AUTH_RES_CALLBACK(UserObject userObject, PACKET_LM_CHECK_AUTH_RES packet)
+		public void ON_LM_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_LM_CHECK_AUTH_RES packet)
 		{
 			//LoginServer
 			if (packet.ErrorCode == (int)GServerCode.SUCCESS)

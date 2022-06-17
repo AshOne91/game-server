@@ -1,6 +1,7 @@
 #define SERVER
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Numerics;
 using Service.Net;
 using Service.Core;
@@ -63,6 +64,16 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref TotalValue);
 			packet.Read(ref RemainTime);
 		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
 	}
 	public class QuestData : IPacketSerializable
 	{
@@ -90,6 +101,16 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref Value);
 			packet.Read(ref Status);
 		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
 	}
 	public class QuestCompleteParam : IPacketSerializable
 	{
@@ -116,6 +137,16 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref QuestType);
 			packet.Read(ref EndId);
 			packet.Read(ref Value);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
 		}
 	}
 	public class QuestInfo : IPacketSerializable
@@ -149,6 +180,16 @@ namespace GameBase.Template.GameBase.Common
 				listQuestGroup.Add(element);
 			}
 			packet.Read(DailyRewardInfo);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
 		}
 	}
 	public class QuestGroup : IPacketSerializable
@@ -195,6 +236,16 @@ namespace GameBase.Template.GameBase.Common
 				listQuestData.Add(element);
 			}
 		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
 	}
 	public class DailyRewardSlot : IPacketSerializable
 	{
@@ -228,6 +279,16 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref ItemCount);
 			packet.Read(ref IsAcquired);
 		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
 	}
 	public class DailyRewardInfo : IPacketSerializable
 	{
@@ -260,6 +321,16 @@ namespace GameBase.Template.GameBase.Common
 				listSlotInfo.Add(element);
 			}
 			packet.Read(ref ExpireTime);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
 		}
 	}
 	public class UserBuilding : IPacketSerializable
@@ -305,6 +376,16 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref lastReceiveDateTime);
 			packet.Read(ref constructEndTime);
 			packet.Read(ref isConstructComplete);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
 		}
 	}
 	public class MailText : IPacketSerializable
@@ -375,6 +456,16 @@ namespace GameBase.Template.GameBase.Common
 				textContent.Add(tempKey, tempValue);
 			}
 		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
 	}
 	public class CharacterProfile : IPacketSerializable
 	{
@@ -395,6 +486,16 @@ namespace GameBase.Template.GameBase.Common
 		{
 			packet.Read(ref charId);
 			packet.Read(ref level);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
 		}
 	}
 	public class RankerInfo : IPacketSerializable
@@ -467,6 +568,16 @@ namespace GameBase.Template.GameBase.Common
 				listCharacterProfile.Add(element);
 			}
 		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
 	}
 	public class SeasonInfo : IPacketSerializable
 	{
@@ -536,6 +647,16 @@ namespace GameBase.Template.GameBase.Common
 			}
 			packet.Read(ref OpenRewardId);
 		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
 	}
 	public class GameServerInfo : IPacketSerializable
 	{
@@ -574,6 +695,16 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref UserCount);
 			packet.Read(ref Ip);
 			packet.Read(ref Port);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
 		}
 	}
 	public class UserSessionData : IPacketSerializable
@@ -631,6 +762,16 @@ namespace GameBase.Template.GameBase.Common
 			packet.Read(ref RemoteIP);
 			packet.Read(ref RemotePort);
 			packet.Read(ref LastUpdateTime);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
 		}
 	}
 }

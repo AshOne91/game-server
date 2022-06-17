@@ -11,19 +11,36 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate
 	{
-		public void ON_CL_CHECK_AUTH_REQ_CALLBACK(UserObject userObject, PACKET_CL_CHECK_AUTH_REQ packet)
+		public void ON_CL_CHECK_AUTH_REQ_CALLBACK(ImplObject userObject, PACKET_CL_CHECK_AUTH_REQ packet)
 		{
-			Logger.Default.Log(ELogLevel.Always, packet.SiteUserId);
-			Logger.Default.Log(ELogLevel.Always, packet.WantedServerId.ToString());
-			PACKET_CL_CHECK_AUTH_RES resultPacket = new PACKET_CL_CHECK_AUTH_RES();
-			resultPacket.IP = "127.0.0.1";
-			resultPacket.Passport = "test";
-			resultPacket.Port = 20000;
-			resultPacket.ServerId = 1;
-			userObject.GetSession().SendPacket(resultPacket.Serialize());
+			if (_CheckVersion == false)
+            {
+				Logger.Default.Log(ELogLevel.Trace, "_CheckVersion is false");
+				userObject.GetSession().Disconnect();
+				return;
+            }
+
+			_SiteUserId = packet.SiteUserId;
+			_WantedServerId = packet.WantedServerId;
+
+			PACKET_LM_SESSION_INFO_REQ sendData = new PACKET_LM_SESSION_INFO_REQ();
+			sendData.SiteUserId = _SiteUserId;
+			sendData.Uid = userObject.GetSession().GetUid();
+			ImplObject masterObj = GameBaseTemplateContext.FindUserObjFromType<MasterClientObject>((ulong)ObjectType.Master);
+			if (masterObj == null)
+            {
+				Logger.Default.Log(ELogLevel.Always, "_MasterServer Down!");
+				userObject.GetSession().Disconnect();
+				return;
+            }
+			masterObj.GetSession().SendPacket(sendData.Serialize());
 		}
-		public void ON_CL_CHECK_AUTH_RES_CALLBACK(UserObject userObject, PACKET_CL_CHECK_AUTH_RES packet)
+		public void ON_CL_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CL_CHECK_AUTH_RES packet)
 		{
 		}
+
+		//LoginUser
+		string _SiteUserId;
+		int _WantedServerId;
 	}
 }

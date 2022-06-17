@@ -27,5 +27,18 @@ namespace GameBase.Template.GameBase
     public enum GServerCode : int
     {
         SUCCESS = 0,
+        INVALID_GUID,
+        PENDING_ERROR,
+        DUPLICATED_LOGIN,
+        ERROR_NO_GAME_SERVER
+    }
+
+    public class ConnectInfo
+    {
+        public int ConnType = (int)ConnectType.Normal;
+        public int ServerId = -1;
+        public string Ip = "";
+        public ushort Port = 0;
+        public UInt64 Location = 0;
     }
 }

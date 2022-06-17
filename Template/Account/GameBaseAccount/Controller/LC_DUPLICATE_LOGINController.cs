@@ -11,7 +11,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate
 	{
-		public void ON_LC_DUPLICATE_LOGIN_NOTI_CALLBACK(UserObject userObject, PACKET_LC_DUPLICATE_LOGIN_NOTI packet)
+		public void ON_LC_DUPLICATE_LOGIN_NOTI_CALLBACK(ImplObject userObject, PACKET_LC_DUPLICATE_LOGIN_NOTI packet)
 		{
 			
 		}

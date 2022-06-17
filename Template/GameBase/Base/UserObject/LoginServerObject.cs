@@ -2,30 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using Service.Net;
-using GameBase.Template.GameBase.Common;
 
 namespace GameBase.Template.GameBase
 {
-    public partial class GameServerObject : UserObject
+    public partial class LoginServerObject : ImplObject
     {
-        private GameServerInfo _info = new GameServerInfo();
-        private bool _auth = false;
-
-        public GameServerObject(int serverId)
+        public LoginServerObject(int serverId)
         {
-            _objectID = (int)ObjectType.Game;
-            _info.ServerId = serverId;
-
+            _objectID = (int)ObjectType.Login;
+            _ServerId = serverId;
             _timeOverInterval = 5000;
             _maxTimerOverCount = 3;
         }
-
         public override void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
         public override void Dispose(bool disposing)
         {
             if (this.disposed)
@@ -45,5 +38,6 @@ namespace GameBase.Template.GameBase
                 base.Dispose(disposing);
             }
         }
+        private int _ServerId;
     }
 }

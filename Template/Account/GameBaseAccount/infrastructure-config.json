@@ -147,7 +147,7 @@
                     "comment": "유저 고유아이디"
                 },
                 {
-                    "type": "Int64",
+                    "type": "ulong",
                     "name": "Uid",
                     "comment": "세션아이디"
                 }
@@ -159,7 +159,7 @@
                     "comment": "존재여부"
                 },
                 {
-                    "type": "Int64",
+                    "type": "ulong",
                     "name": "Uid",
                     "comment": "세션아이디"
                 },

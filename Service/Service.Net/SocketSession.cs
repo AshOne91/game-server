@@ -31,6 +31,7 @@ namespace Service.Net
         private const int _none = 0;
         private const int _connecting = 1;
         private const int _connected = 2;
+        private const int _shutdown = 3;
         private const int _disconnected = 4;
         private int _state = _none;
 
@@ -140,6 +141,31 @@ namespace Service.Net
             catch (SocketException se)
             {
                 FireConnectFailedEvent(se);
+            }
+        }
+
+        public void ShutDown()
+        {
+            if (_state >= _shutdown)
+            {
+                return;
+            }
+            if (Interlocked.Exchange(ref _state, _shutdown) == _shutdown)
+            {
+                return;
+            }
+
+            if (_socket != null && _socket.Connected)
+            {
+                try
+                {
+                    //패킷을 모두 보내기 위해(클라이언트에서 Disconnect 유도
+                    _socket.Shutdown(SocketShutdown.Send);
+                }
+                catch (SocketException ex)
+                {
+                    FireSocketErrorEvent(ex);
+                }
             }
         }
 

@@ -11,10 +11,10 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate
 	{
-		public void ON_LM_STATE_INFO_REQ_CALLBACK(UserObject userObject, PACKET_LM_STATE_INFO_REQ packet)
+		public void ON_LM_STATE_INFO_REQ_CALLBACK(ImplObject userObject, PACKET_LM_STATE_INFO_REQ packet)
 		{
 		}
-		public void ON_LM_STATE_INFO_RES_CALLBACK(UserObject userObject, PACKET_LM_STATE_INFO_RES packet)
+		public void ON_LM_STATE_INFO_RES_CALLBACK(ImplObject userObject, PACKET_LM_STATE_INFO_RES packet)
 		{
 		}
 	}

@@ -11,7 +11,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate
 	{
-		public void ON_MG_HELLO_NOTI_CALLBACK(UserObject userObject, PACKET_MG_HELLO_NOTI packet)
+		public void ON_MG_HELLO_NOTI_CALLBACK(ImplObject userObject, PACKET_MG_HELLO_NOTI packet)
 		{
 			
 		}

@@ -11,7 +11,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 {
 	public partial class GameBaseAccountTemplate
 	{
-		public void ON_GM_STATE_INFO_NOTI_CALLBACK(UserObject userObject, PACKET_GM_STATE_INFO_NOTI packet)
+		public void ON_GM_STATE_INFO_NOTI_CALLBACK(ImplObject userObject, PACKET_GM_STATE_INFO_NOTI packet)
 		{
 			
 		}

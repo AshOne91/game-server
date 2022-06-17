@@ -68,12 +68,11 @@ namespace LoginServer
         {
             if (localEP.Port == 10000)
             {
-                UserObject obj = new UserObject();
-                obj.SetObjectId((ulong)(ObjectType.User));
+                LoginUserObject obj = new LoginUserObject();
                 session.SetUserObject(obj);
                 obj.SetSocketSession(session);
 
-                GameBaseTemplateContext.AddTemplate<UserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
+                GameBaseTemplateContext.AddTemplate<LoginUserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
                 AccountController.AddAccountController(session.GetUid());
 
                 obj.OnAccept(localEP);

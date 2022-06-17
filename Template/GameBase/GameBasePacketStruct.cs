@@ -6,6 +6,7 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
+    public delegate void ControllerDelegate(ImplObject obj, Packet packet);
     public partial class PacketDefine
     {
         //public static string GUID = "{09DCE851-CC6D-4816-89B3-4B484AE62AFD}";

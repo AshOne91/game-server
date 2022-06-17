@@ -30,17 +30,19 @@ namespace GameBase.Template.GameBase
     }
     public static class GameBaseTemplateContext
     {
-        static Dictionary<ulong/*uid*/, UserObject> _objByUid = new Dictionary<ulong, UserObject>();
+        public static GameBaseSessionManager _SessionManager = new GameBaseSessionManager();
+        static ServerApp _app = null;
+        static Dictionary<ulong/*uid*/, ImplObject> _objByUid = new Dictionary<ulong, ImplObject>();
         static Dictionary<ETemplateType, GameBaseTemplate> _templates = new Dictionary<ETemplateType, GameBaseTemplate>();
         static Dictionary<ulong, Dictionary<ETemplateType, GameBaseTemplate>> _templateByUid = new Dictionary<ulong, Dictionary<ETemplateType, GameBaseTemplate>>();
-        static Dictionary<ulong/*uid*/, ulong/*objectType*/> _objectTypeByUid;
-        static Dictionary<ulong/*objectType*/, int/*count*/> _countByObjectType;
+        static Dictionary<ulong/*uid*/, ulong/*objectType*/> _objectTypeByUid = new Dictionary<ulong, ulong>();
+        static Dictionary<ulong/*objectType*/, HashSet<ulong/*uid*/>> _uidByObjectType = new Dictionary<ulong, HashSet<ulong>>();
 
         static GameBaseTemplateContext()
         {
             foreach (var type in Enum.GetValues(typeof(ObjectType)))
             {
-                _countByObjectType.Add((ulong)type, 0);
+                _uidByObjectType.Add((ulong)type, new HashSet<ulong>());
             }
         }
 
@@ -285,6 +287,16 @@ namespace GameBase.Template.GameBase
             _templateByUid.Clear();
         }
 
+        public static void SetApp(ServerApp app)
+        {
+            _app = app;
+        }
+
+        public static ServerApp GetApp()
+        {
+            return _app;
+        }
+
         public static bool AddTemplate(ETemplateType key, GameBaseTemplate value)
         {
             if (_templates.ContainsKey(key) == true)
@@ -296,7 +308,7 @@ namespace GameBase.Template.GameBase
             return true;
         }
 
-        public static bool AddTemplate<T>(T userObject, ETemplateType key, GameBaseTemplate value) where T : UserObject
+        public static bool AddTemplate<T>(T userObject, ETemplateType key, GameBaseTemplate value) where T : ImplObject
         {
             ulong uid = userObject.GetSession().GetUid();
             ulong objectType = userObject.GetObjectID();
@@ -305,7 +317,7 @@ namespace GameBase.Template.GameBase
                 _objByUid.Add(uid, userObject);
                 _objectTypeByUid.Add(uid, objectType);
                 _templateByUid.Add(uid, new Dictionary<ETemplateType, GameBaseTemplate>());
-                _countByObjectType[objectType] += 1;
+                _uidByObjectType[objectType].Add(uid);
             }
             
             if (_templateByUid[uid].ContainsKey(key) == true)
@@ -357,7 +369,7 @@ namespace GameBase.Template.GameBase
         {
             if (_objByUid.ContainsKey(uid) == true)
             {
-                _countByObjectType[_objectTypeByUid[uid]] -= 1;
+                _uidByObjectType[_objectTypeByUid[uid]].Remove(uid);
                 _objByUid.Remove(uid);
                 _objectTypeByUid.Remove(uid);
                 _templateByUid[uid].Remove(key);
@@ -383,9 +395,9 @@ namespace GameBase.Template.GameBase
             }
         }
 
-        public static T FindUserObj<T>(ulong uid) where T : UserObject
+        public static T FindUserObj<T>(ulong uid) where T : ImplObject
         {
-            UserObject obj;
+            ImplObject obj;
             if (_objByUid.TryGetValue(uid, out obj) == false)
             {
                 return null;
@@ -393,14 +405,30 @@ namespace GameBase.Template.GameBase
             return obj as T;
         }
 
+        public static T FindUserObjFromType<T>(ulong type) where T : ImplObject
+        {
+            var hashSet = _uidByObjectType[(ulong)type];
+            if (hashSet.Count <= 0)
+            {
+                return null;
+            }
+
+            foreach (var uid in hashSet)
+            {
+                return FindUserObj<T>(uid);
+            }
+
+            return null;
+        }
+
         public static int GetObjectCount(ulong type)
         {
-            return _countByObjectType[(ulong)type];
+            return _uidByObjectType[(ulong)type].Count;
         }
 
         public static void CreateClient(ulong uid)
         {
-            UserObject obj = FindUserObj<UserObject>(uid);
+            ImplObject obj = FindUserObj<ImplObject>(uid);
             foreach (var t in _templateByUid[uid].Values)
             {
                 t.OnClientCreate(obj);
@@ -421,7 +449,7 @@ namespace GameBase.Template.GameBase
 
         public static void DeleteClient(ulong uid)
         {
-            UserObject obj = FindUserObj<UserObject>(uid);
+            ImplObject obj = FindUserObj<ImplObject>(uid);
             foreach (var t in _templateByUid[uid].Values)
             {
                 t.OnClientDelete(obj);
@@ -433,7 +461,7 @@ namespace GameBase.Template.GameBase
         {
             List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
             List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
-            UserObject obj = FindUserObj<UserObject>(uid);
+            ImplObject obj = FindUserObj<ImplObject>(uid);
 
             //Dictionary<string, string> hashValues = null;
             foreach (var t in _templateByUid[uid].Values)
@@ -484,7 +512,7 @@ namespace GameBase.Template.GameBase
         {
             List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
             List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
-            UserObject obj = FindUserObj<UserObject>(uid);
+            ImplObject obj = FindUserObj<ImplObject>(uid);
 
             //Dictionary<string, string> hashValues = null;
             foreach (var t in _templateByUid[uid].Values)
@@ -534,7 +562,7 @@ namespace GameBase.Template.GameBase
 
         public static bool HasItemId(ulong uid, int itemId)
         {
-            UserObject obj = FindUserObj<UserObject>(uid);
+            ImplObject obj = FindUserObj<ImplObject>(uid);
             foreach (var template in _templateByUid[uid].Values)
             {
                 if (template.OnHasItemId(obj, itemId) == true)
@@ -548,7 +576,7 @@ namespace GameBase.Template.GameBase
 
         public static bool HasItemType(ulong uid, int itemType)
         {
-            UserObject obj = FindUserObj<UserObject>(uid);
+            ImplObject obj = FindUserObj<ImplObject>(uid);
             foreach (var template in _templateByUid[uid].Values)
             {
                 if (template.OnHasItemType(obj, itemType) == true)
@@ -562,7 +590,7 @@ namespace GameBase.Template.GameBase
 
         public static bool HasItemSubType(ulong uid, int itemSubType)
         {
-            UserObject obj = FindUserObj<UserObject>(uid);
+            ImplObject obj = FindUserObj<ImplObject>(uid);
             foreach (var template in _templateByUid[uid].Values)
             {
                 if (template.OnHasItemSubType(obj, itemSubType) == true)

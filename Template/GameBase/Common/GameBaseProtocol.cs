@@ -19,7 +19,7 @@ namespace GameBase.Template.GameBase.Common
 		{
 		}
 
-		public virtual bool OnPacket(UserObject userObject, ushort protocolId, Packet packet)
+		public virtual bool OnPacket(ImplObject userObject, ushort protocolId, Packet packet)
 		{
 			ControllerDelegate controllerCallback;
 			if(MessageControllers.TryGetValue(protocolId, out controllerCallback) == false)
