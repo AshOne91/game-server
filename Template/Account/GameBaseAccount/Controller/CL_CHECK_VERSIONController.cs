@@ -27,13 +27,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 			PACKET_CL_CHECK_VERSION_RES sendData = new PACKET_CL_CHECK_VERSION_RES();
 			sendData.ErrorCode = (int)GServerCode.SUCCESS;
 			userObject.GetSession().SendPacket(sendData.Serialize());
-			_CheckVersion = true;
+			userObject.GetAccountImpl<GameBaseAccountUserImpl>()._CheckVersion = true;
 		}
 		public void ON_CL_CHECK_VERSION_RES_CALLBACK(ImplObject userObject, PACKET_CL_CHECK_VERSION_RES packet)
 		{
 
 		}
-
-		//public bool _CheckVersion = false;
 	}
 }

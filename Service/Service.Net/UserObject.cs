@@ -10,7 +10,6 @@ namespace Service.Net
     public class UserObject : IDisposable
     {
         static private long s_userObjectCnt;
-        public MessageController _messageController = null;
 
         protected SocketSession _session = null;
         protected ulong _objectID;
@@ -22,7 +21,6 @@ namespace Service.Net
         public UserObject()
         {
             Interlocked.Increment(ref UserObject.s_userObjectCnt);
-            _messageController = new MessageController(this);
         }
         
         ~UserObject()
@@ -74,7 +72,6 @@ namespace Service.Net
         public virtual void OnPacket(Packet packet)
         {
             _lastCheckTick = Environment.TickCount;
-            _messageController.OnRecevice(packet.GetId(), packet);
         }
         public virtual void OnAsyncTask(AsyncTaskObject task) { }
         public virtual void OnAccept(IPEndPoint ep) { }

@@ -66,6 +66,7 @@ namespace Service.Net
 
         public DBSlotContainer()
         {
+            _DBSlotByIndex = new Dictionary<short, T>();
             _isChanged = false;
         }
         ~DBSlotContainer()

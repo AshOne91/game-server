@@ -38,15 +38,16 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 		public void OnSessionInfo(LoginUserObject loginUserObject, MasterClientObject masterClientObject, bool Found, UInt64 RoomIdx/*FixMe*/, int ServerId, int state)
         {
+			GameBaseAccountUserImpl loginUserImpl = loginUserObject.GetAccountImpl<GameBaseAccountUserImpl>();
 			if (Found)
             {
-				loginUserObject._connInfo.Location = RoomIdx;
-				loginUserObject._connInfo.ConnType = (int)ConnectType.Reconnect;
+				loginUserImpl._connInfo.Location = RoomIdx;
+				loginUserImpl._connInfo.ConnType = (int)ConnectType.Reconnect;
 
 				if (state == (int)SessionState.PendingDisconnect || 
 					state == (int)SessionState.PendingLogout)
                 {
-					Logger.Default.Log(ELogLevel.Trace, "Id {0} PendingState {1}", _SiteUserId, state);
+					Logger.Default.Log(ELogLevel.Trace, "Id {0} PendingState {1}", loginUserImpl._SiteUserId, state);
 					PACKET_CL_CHECK_AUTH_RES sendPacket = new PACKET_CL_CHECK_AUTH_RES();
 					sendPacket.ErrorCode = (int)GServerCode.PENDING_ERROR;
 					loginUserObject.GetSession().SendPacket(sendPacket.Serialize());
@@ -59,7 +60,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 					//재접속 확인하기 /FIXME
 					Logger.Default.Log(ELogLevel.Err, "Duplicate Login State:{0}", state.ToString());
 					PACKET_LM_DUPLICATE_LOGIN_NOTI sendData = new PACKET_LM_DUPLICATE_LOGIN_NOTI();
-					sendData.StieUserId = _SiteUserId;
+					sendData.StieUserId = loginUserImpl._SiteUserId;
 					masterClientObject.GetSession().SendPacket(sendData.Serialize());
 
 					PACKET_CL_CHECK_AUTH_RES sendPacket = new PACKET_CL_CHECK_AUTH_RES();
@@ -72,7 +73,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 				}
             }
 
-			GameServerInfo info = GameBaseTemplateContext.GetTemplate<GameBaseAccountTemplate>(ETemplateType.Account).GetGameServerInfo(new List<int> { loginUserObject._WantedServerId, ServerId });
+			GameServerInfo info = GetGameBaseAccountImpl().GetGameServerInfo(new List<int> { loginUserImpl._WantedServerId, ServerId });
 
 			if (info == null)
             {
@@ -82,11 +83,12 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}
 			else
             {
-				loginUserObject._connInfo.ConnType = (int)ConnectType.Normal;
-				loginUserObject._connInfo.Location = 0;
-				loginUserObject._connInfo.Ip = info.Ip;
-				loginUserObject._connInfo.Port = info.Port;
-				loginUserObject._connInfo.ServerId = info.ServerId;
+				loginUserImpl._connInfo.ConnType = (int)ConnectType.Normal;
+				loginUserImpl._connInfo.Location = 0;
+				loginUserImpl._connInfo.Ip = info.Ip;
+				loginUserImpl._connInfo.Port = info.Port;
+				loginUserImpl._connInfo.ServerId = info.ServerId;
+				SendAuthResult(loginUserObject);
 			}
         }
 
@@ -95,7 +97,25 @@ namespace GameBase.Template.Account.GameBaseAccount
 			string id;
 			string extra;
 
-			id = loginUserObject._Si
-        }
+			GameBaseAccountUserImpl loginUserImpl = loginUserObject.GetAccountImpl<GameBaseAccountUserImpl>();
+			id = loginUserImpl._SiteUserId;
+			DateTime now = DateTime.UtcNow;
+			extra = String.Format("{0}{1}{2}{3}{4}{5};{6};{7};{8}", now.Year - 2000, now.Month, now.Hour, now.Minute, now.Second, now.Millisecond,
+															(int)loginUserImpl._connInfo.ConnType, loginUserImpl._connInfo.Location, loginUserImpl._connInfo.ServerId);
+
+			string passport = Passport.Encrypt(id, extra);
+
+			PACKET_CL_CHECK_AUTH_RES sendData = new PACKET_CL_CHECK_AUTH_RES();
+			sendData.ErrorCode = (int)GServerCode.SUCCESS;
+			sendData.Passport = passport;
+			sendData.IP = loginUserImpl._connInfo.Ip;
+			sendData.Port = loginUserImpl._connInfo.Port;
+			sendData.ServerId = loginUserImpl._connInfo.ServerId;
+			loginUserObject.GetSession().SendPacket(sendData.Serialize());
+
+			Logger.Default.Log(ELogLevel.Trace, "PACKET_AC_CHECK_AUTH_RES Success id:{0} extra:{1} passport:{2}", id, extra, passport);
+			//문제있을시 확인필요
+			loginUserObject.GetSession().ShutDown();
+		}
 	}
 }

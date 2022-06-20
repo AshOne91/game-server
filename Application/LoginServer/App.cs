@@ -77,7 +77,7 @@ namespace LoginServer
 
                 obj.OnAccept(localEP);
                 GameBaseTemplateContext.CreateClient(session.GetUid());
-                GameBaseTemplateContext.GetTemplate<GameBaseAccountTemplate>(obj.GetSession().GetUid(), ETemplateType.Account).HelloNoti();
+                GameBaseTemplateContext.GetTemplate<GameBaseAccountTemplate>(obj.GetSession().GetUid(), ETemplateType.Account).LC_HELLO_NOTI();
             }
         }
 
@@ -112,11 +112,10 @@ namespace LoginServer
 
             if (ep.Port == 20000)
             {
-                UserObject obj = new UserObject();
-                obj.SetObjectID((ulong)ObjectType.Master);
+                ImplObject obj = new MasterClientObject();
                 obj.SetSocketSession(session);
 
-                GameBaseTemplateContext.AddTemplate<UserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
+                GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
                 AccountController.AddAccountController(session.GetUid());
                 obj.OnConnect(ep);
                 GameBaseTemplateContext.CreateClient(session.GetUid());
@@ -157,10 +156,10 @@ namespace LoginServer
 
         public override void OnPacket(SocketSession session, Packet packet)
         {
-            UserObject userObject = session.GetUserObject();
+            ImplObject userObject = (ImplObject)session.GetUserObject();
             if (userObject != null)
             {
-                AccountController.OnPacket(session.GetUserObject(), packet.GetId(), packet);
+                AccountController.OnPacket(userObject, packet.GetId(), packet);
             }
             else
             {

@@ -11,9 +11,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 	public partial class GameBaseAccountTemplate : AccountTemplate
 	{
 		ImplObject _obj = null;
+		static GameBaseAccountImpl _accountImpl = null; 
 		public override void Init(TemplateConfig config)
 		{
 			base.Init(config);
+			_accountImpl = new GameBaseAccountImpl(null);
 			//OnLoadData(config)
 			// TODO : 서버 기동시 실행할 템플릿 관련 로직을 아래에 작성
 		}
@@ -27,7 +29,39 @@ namespace GameBase.Template.Account.GameBaseAccount
 		{
 			// TODO : 유저의 최초 생성시 필요한 DB관련 로직을 작성
 			_obj = userObject;
-			_obj.AccountImpl = new AccountImpl(_obj);
+			switch ((ObjectType)userObject.GetObjectID())
+			{
+				case ObjectType.Master:
+					{
+						_obj.AccountImpl = new GameBaseAccountMasterImpl(_obj);
+					}
+					break;
+				case ObjectType.User:
+					{
+						_obj.AccountImpl = new GameBaseAccountUserImpl(_obj);
+					}
+					break;
+				case ObjectType.Login:
+					{
+						_obj.AccountImpl = new GameBaseAccountLoginImpl(_obj);
+					}
+					break;
+				case ObjectType.Game:
+					{
+						_obj.AccountImpl = new GameBaseAccountGameImpl(_obj);
+					}
+					break;
+			}
+		}
+
+		public T GetGameBaseAccountImpl<T>() where T : AccountImpl
+		{
+			return _obj.AccountImpl as T;
+		}
+
+		public static GameBaseAccountImpl GetGameBaseAccountImpl()
+        {
+			return _accountImpl;
 		}
 
 		public override void OnClientUpdate(float dt)
@@ -82,56 +116,10 @@ namespace GameBase.Template.Account.GameBaseAccount
 			_obj.GetSession().SendPacket(packet.Serialize());
         }
 
-		public void SetGameServerInfo(List<GameServerInfo> gameServerInfoList)
+		public void MG_HELLO_NOTI()
         {
-			_GameServerInfoList = gameServerInfoList;
-		}
-
-		public GameServerInfo GetGameServerInfo(List<int> wantedServerIds)
-        {
-			if (_ForceGuidIdx > -1)
-            {
-				wantedServerIds.Insert(0, _ForceGuidIdx);
-            }
-
-			foreach (var serverId in wantedServerIds)
-            {
-				if (serverId == -1) continue;
-
-				foreach (var info in _GameServerInfoList)
-                {
-					if (info.Alive == true && info.ServerId == serverId)
-                    {
-						return info;
-                    }
-                }
-            }
-
-			// 최소 인원이 안 채워진 채널 부터 채움
-			foreach (var info in _GameServerInfoList)
-            {
-				if (info.Alive == true && info.UserCount < _MinGameServerUserCount)
-                {
-					return info;
-                }
-            }
-
-			// 최소인원이 전부 다 채워져있다면 최대인원이 안채워진 채널로 채움
-			foreach (var info in _GameServerInfoList)
-            {
-				if (info.Alive == true && info.UserCount < _MaxGameServerUserCount)
-                {
-					return info;
-                }
-            }
-
-			return null;
+			PACKET_MG_HELLO_NOTI packet = new PACKET_MG_HELLO_NOTI();
+			_obj.GetSession().SendPacket(packet.Serialize());
         }
-
-		//AuthServer
-		private static List<GameServerInfo> _GameServerInfoList = new List<GameServerInfo>();
-		private static int _ForceGuidIdx = -1;
-		private static int _MinGameServerUserCount = 100;
-		private static int _MaxGameServerUserCount = 500;
 	}
 }

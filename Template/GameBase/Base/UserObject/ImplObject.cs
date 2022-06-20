@@ -24,6 +24,74 @@ namespace GameBase.Template.GameBase
         public ReportImpl ReportImpl = null;
         public SeasonImpl SeasonImpl = null;
         public UserImpl UserImpl = null;
+        public T GetAccountImpl<T>() where T : AccountImpl
+        {
+            return this.AccountImpl as T;
+        }
+        public T GetAdminImpl<T>() where T : AdminImpl
+        {
+            return this.AdminImpl as T;
+        }
+        public T GetAdvertImpl<T>() where T : AdvertImpl
+        {
+            return this.AdvertImpl as T;
+        }
+        public T GetAttendanceImpl<T>() where T : AttendanceImpl
+        {
+            return this.AttendanceImpl as T;
+        }
+        public T GetAuctionImpl<T>() where T : AuctionImpl
+        {
+            return this.AuctionImpl as T;
+        }
+        public T GetBattleImpl<T>() where T : BattleImpl
+        {
+            return this.BattleImpl as T;
+        }
+        public T GetBuildingImpl<T>() where T : BuildingImpl
+        {
+            return this.BuildingImpl as T;
+        }
+        public T GetCharacterImpl<T>() where T : CharacterImpl
+        {
+            return this.CharacterImpl as T;
+        }
+        public T GetItemImpl<T>() where T : ItemImpl
+        {
+            return this.ItemImpl as T;
+        }
+        public T GetMailBoxImpl<T>() where T : MailBoxImpl
+        {
+            return this.MailBoxImpl as T;
+        }
+        public T GetMatchingImpl<T>() where T : MatchingImpl
+        {
+            return this.MatchingImpl as T;
+        }
+        public T GetNoticeImpl<T>() where T : NoticeImpl
+        {
+            return this.NoticeImpl as T;
+        }
+        public T GetQuestImpl<T>() where T : QuestImpl
+        {
+            return this.QuestImpl as T;
+        }
+        public T GetRankImpl<T>() where T : RankImpl
+        {
+            return this.RankImpl as T;
+        }
+        public T GetReportImpl<T>() where T : ReportImpl
+        {
+            return this.ReportImpl as T;
+        }
+        public T GetSeasonImpl<T>() where T : SeasonImpl
+        {
+            return this.SeasonImpl as T;
+        }
+        public T GetUserImpl<T>() where T : UserImpl
+        {
+            return this.UserImpl as T;
+        }
         public override void Dispose()
         {
             Dispose(true);

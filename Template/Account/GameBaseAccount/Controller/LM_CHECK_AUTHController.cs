@@ -21,13 +21,14 @@ namespace GameBase.Template.Account.GameBaseAccount
 				return;
             }
 
-			_LoginHostIP = packet.HostIP;
-			_LoginHostPort = packet.HostPort;
+			var LoginImpl = userObject.GetAccountImpl<GameBaseAccountLoginImpl>();
+			LoginImpl._HostIP = packet.HostIP;
+			LoginImpl._HostPort = packet.HostPort;
 
-			Logger.Default.Log(ELogLevel.Always, "Success LM_CHECK_AUTH_REQ ServerID:{0} IP:{1} Port:{2}", _ServerId, _LoginHostIP, _LoginHostPort);
+			Logger.Default.Log(ELogLevel.Always, "Success LM_CHECK_AUTH_REQ ServerID:{0} IP:{1} Port:{2}", LoginImpl._ServerId, LoginImpl._HostIP, LoginImpl._HostPort);
 
 			PACKET_LM_CHECK_AUTH_RES sendData = new PACKET_LM_CHECK_AUTH_RES();
-			sendData.ServerId = _ServerId;
+			sendData.ServerId = LoginImpl._ServerId;
 			userObject.GetSession().SendPacket(sendData.Serialize());
 		}
 		public void ON_LM_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_LM_CHECK_AUTH_RES packet)
@@ -35,7 +36,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 			//LoginServer
 			if (packet.ErrorCode == (int)GServerCode.SUCCESS)
             {
-				_ServerId = packet.ServerId;
+				var MasterImpl = userObject.GetAccountImpl<GameBaseAccountMasterImpl>();
+				MasterImpl._ServerId = packet.ServerId;
 				Logger.Default.Log(ELogLevel.Always, "SUCCESS LM_CHECK_AUTH_RES Result {0}", packet.ErrorCode);
             }
 			else
@@ -43,13 +45,5 @@ namespace GameBase.Template.Account.GameBaseAccount
 				Logger.Default.Log(ELogLevel.Fatal, "ERROR LM_CHECK_AUTH_RES Result {0}", packet.ErrorCode);
             }
 		}
-
-		//MasterServerParam
-		//public string _LoginHostIP;
-		//public ushort _LoginHostPort;
-		//public bool _Auth = false;
-
-		//common
-		//public int _ServerId = -1;
 	}
 }

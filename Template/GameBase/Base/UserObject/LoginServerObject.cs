@@ -7,10 +7,9 @@ namespace GameBase.Template.GameBase
 {
     public partial class LoginServerObject : ImplObject
     {
-        public LoginServerObject(int serverId)
+        public LoginServerObject()
         {
             _objectID = (int)ObjectType.Login;
-            _ServerId = serverId;
             _timeOverInterval = 5000;
             _maxTimerOverCount = 3;
         }
@@ -38,6 +37,5 @@ namespace GameBase.Template.GameBase
                 base.Dispose(disposing);
             }
         }
-        private int _ServerId;
     }
 }

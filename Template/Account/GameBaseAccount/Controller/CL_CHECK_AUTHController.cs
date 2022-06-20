@@ -13,18 +13,18 @@ namespace GameBase.Template.Account.GameBaseAccount
 	{
 		public void ON_CL_CHECK_AUTH_REQ_CALLBACK(ImplObject userObject, PACKET_CL_CHECK_AUTH_REQ packet)
 		{
-			if (_CheckVersion == false)
+			if (userObject.GetAccountImpl<GameBaseAccountUserImpl>()._CheckVersion == false)
             {
 				Logger.Default.Log(ELogLevel.Trace, "_CheckVersion is false");
 				userObject.GetSession().Disconnect();
 				return;
             }
 
-			_SiteUserId = packet.SiteUserId;
-			_WantedServerId = packet.WantedServerId;
+			userObject.GetAccountImpl<GameBaseAccountUserImpl>()._SiteUserId = packet.SiteUserId;
+			userObject.GetAccountImpl<GameBaseAccountUserImpl>()._WantedServerId = packet.WantedServerId;
 
 			PACKET_LM_SESSION_INFO_REQ sendData = new PACKET_LM_SESSION_INFO_REQ();
-			sendData.SiteUserId = _SiteUserId;
+			sendData.SiteUserId = userObject.GetAccountImpl<GameBaseAccountUserImpl>()._SiteUserId;
 			sendData.Uid = userObject.GetSession().GetUid();
 			ImplObject masterObj = GameBaseTemplateContext.FindUserObjFromType<MasterClientObject>((ulong)ObjectType.Master);
 			if (masterObj == null)
@@ -38,9 +38,5 @@ namespace GameBase.Template.Account.GameBaseAccount
 		public void ON_CL_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CL_CHECK_AUTH_RES packet)
 		{
 		}
-
-		//LoginUser
-		//string _SiteUserId;
-		//int _WantedServerId;
 	}
 }

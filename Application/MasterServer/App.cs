@@ -49,35 +49,36 @@ namespace MasterServer
 
 		public override void OnAccept(SocketSession session, IPEndPoint localEP, IPEndPoint remoteEP)
 		{
-			UserObject obj = null;
+			ImplObject obj = null;
 			int idx = 0;
 			if (localEP.Port == 30000)
             {
 				idx = AllocServerIdx(ObjectType.Game);
-				obj = new GameServerObject(idx);
+				obj = new GameServerObject();
 				_GameServerObjMap.Add(idx, (GameServerObject)obj);
 			}
 			else if (localEP.Port == 40000)
             {
 				idx = AllocServerIdx(ObjectType.Login);
-				obj = new LoginServerObject(idx);
+				obj = new LoginServerObject();
 				_LoginServerObjMap.Add(idx, (LoginServerObject)obj);
 			}
 
 			session.SetUserObject(obj);
 			obj.SetSocketSession(session);
-			GameBaseTemplateContext.AddTemplate<UserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
+			GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
 			AccountController.AddAccountController(session.GetUid());
 			GameBaseTemplateContext.CreateClient(session.GetUid());
 			obj.OnAccept(localEP);
 
-			if (localEP.Port == 3000)
+			if (localEP.Port == 30000)
             {
-				GetAccountTemplate(obj)._ServerId = idx;
+				obj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId = idx;
+				GetAccountTemplate(obj).ML_HELLO_NOTI();
 			}
-			else if (localEP.Port == 4000)
+			else if (localEP.Port == 40000)
             {
-				GetAccountTemplate(obj)._ServerId = idx;
+				obj.GetAccountImpl<GameBaseAccountGameImpl>()._ServerId = idx;
 				GetAccountTemplate(obj).ML_HELLO_NOTI();
 			}
 		}
@@ -127,7 +128,15 @@ namespace MasterServer
 
 		public override void OnPacket(SocketSession session, Packet packet)
 		{
-			AccountController.OnPacket(session.GetUserObject(), packet.GetId(), packet);
+			ImplObject userObject = (ImplObject)session.GetUserObject();
+			if (userObject != null)
+			{
+				AccountController.OnPacket(userObject, packet.GetId(), packet);
+			}
+			else
+			{
+				Logger.Default.Log(ELogLevel.Always, "session Disconnect but OnPacket");
+			}
 		}
 
 		public override void OnTimer(TimerHandle timer)
