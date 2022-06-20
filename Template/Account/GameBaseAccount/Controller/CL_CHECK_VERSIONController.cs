@@ -34,6 +34,6 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 		}
 
-		public bool _CheckVersion = false;
+		//public bool _CheckVersion = false;
 	}
 }

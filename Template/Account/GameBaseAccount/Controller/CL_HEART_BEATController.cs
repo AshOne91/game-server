@@ -23,6 +23,6 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 
 		//LoginServer
-		int _LastHeartBeatTick = Environment.TickCount;
+		//int _LastHeartBeatTick = Environment.TickCount;
 	}
 }

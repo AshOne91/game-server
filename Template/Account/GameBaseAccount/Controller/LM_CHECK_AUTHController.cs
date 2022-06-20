@@ -45,11 +45,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 
 		//MasterServerParam
-		public string _LoginHostIP;
-		public ushort _LoginHostPort;
-		public bool _Auth = false;
+		//public string _LoginHostIP;
+		//public ushort _LoginHostPort;
+		//public bool _Auth = false;
 
 		//common
-		public int _ServerId = -1;
+		//public int _ServerId = -1;
 	}
 }

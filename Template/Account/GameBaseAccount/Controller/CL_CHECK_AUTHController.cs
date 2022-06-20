@@ -40,7 +40,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 
 		//LoginUser
-		string _SiteUserId;
-		int _WantedServerId;
+		//string _SiteUserId;
+		//int _WantedServerId;
 	}
 }
