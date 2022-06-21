@@ -7,6 +7,7 @@
 	<ItemGroup>
 <ProjectReference Include="../../Service/Service.Core\Service.Core.csproj" />
 <ProjectReference Include="../../Service/Service.Net\Service.Net.csproj" />
+<ProjectReference Include="../../Service/Service.DB\Service.DB.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="../../Template/GameBase/GameBase.csproj" />
