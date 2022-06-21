@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using Service.Core;
 using Service.Net;
 
@@ -23,12 +24,20 @@ namespace MasterServer
 				Logger.Default.Create(true, "MasterServer");
 				Logger.Default.Log(ELogLevel.Always, "Start MasterServer...");
 
-				bool result = serverApp.Create(config);
+				bool result = serverApp.Create(config, 1);
 				if (result == false)
 				{
 					Logger.Default.Log(ELogLevel.Fatal, "Failed Create MasterServer.");
 					return;
 				}
+
+				//FIXME
+				IPEndPoint epGame = new IPEndPoint(IPAddress.Any, 3000);
+				serverApp.BeginAcceptor(epGame);
+
+				//FIXME
+				IPEndPoint epLogin = new IPEndPoint(IPAddress.Any, 4000);
+				serverApp.BeginAcceptor(epLogin);
 
 				Logger.Default.Log(ELogLevel.Always, "Start WaitForSessionEvent...");
 				serverApp.Join();

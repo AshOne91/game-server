@@ -21,6 +21,11 @@ namespace GameBase.Template.Account.GameBaseAccount
         private static int _MinGameServerUserCount = 100;
         private static int _MaxGameServerUserCount = 500;
 
+        //MasterServer
+        public Dictionary<int, GameServerObject> _GameServerObjMap = new Dictionary<int, GameServerObject>();
+        public Dictionary<int, LoginServerObject> _LoginServerObjMap = new Dictionary<int, LoginServerObject>();
+        public GameBaseSessionManager _UserSessionManager = new GameBaseSessionManager();
+
         public void SetGameServerInfo(List<GameServerInfo> gameServerInfoList)
         {
             _GameServerInfoList = gameServerInfoList;
@@ -110,7 +115,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 
     public class GameBaseAccountGameImpl : AccountImpl
     {
-        public int _ServerId = -1;
+        public GameServerInfo _Info = new GameServerInfo();
+        public bool _Auth = false;
         public GameBaseAccountGameImpl(ImplObject obj) : base(obj)
         {
 

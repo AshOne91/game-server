@@ -51,17 +51,18 @@ namespace MasterServer
 		{
 			ImplObject obj = null;
 			int idx = 0;
+			//FIXME
 			if (localEP.Port == 30000)
             {
 				idx = AllocServerIdx(ObjectType.Game);
 				obj = new GameServerObject();
-				_GameServerObjMap.Add(idx, (GameServerObject)obj);
+				GameBaseAccountTemplate.GetGameBaseAccountImpl()._GameServerObjMap.Add(idx, (GameServerObject)obj);
 			}
 			else if (localEP.Port == 40000)
             {
 				idx = AllocServerIdx(ObjectType.Login);
 				obj = new LoginServerObject();
-				_LoginServerObjMap.Add(idx, (LoginServerObject)obj);
+				GameBaseAccountTemplate.GetGameBaseAccountImpl()._LoginServerObjMap.Add(idx, (LoginServerObject)obj);
 			}
 
 			session.SetUserObject(obj);
@@ -78,7 +79,7 @@ namespace MasterServer
 			}
 			else if (localEP.Port == 40000)
             {
-				obj.GetAccountImpl<GameBaseAccountGameImpl>()._ServerId = idx;
+				obj.GetAccountImpl<GameBaseAccountGameImpl>()._Info.ServerId = idx;
 				GetAccountTemplate(obj).ML_HELLO_NOTI();
 			}
 		}
@@ -113,6 +114,19 @@ namespace MasterServer
 			UserObject userObj = session.GetUserObject();
 			if (userObj != null)
 			{
+				if (ObjectType.Game == (ObjectType)userObj.GetObjectID())
+                {
+					GameServerObject gameObj = session.GetUserObject() as GameServerObject;
+					GameBaseAccountTemplate.GetGameBaseAccountImpl()._GameServerObjMap.Remove(gameObj.GetAccountImpl<GameBaseAccountGameImpl>()._Info.ServerId, out gameObj);
+
+					//FIXME UpdateSessionInfo 완성후 넣기
+					//MasterServerEntry.GetUserSessionManager().RemoveSessionByServerID(_Info.ServerId);
+				}
+				else if (ObjectType.Login == (ObjectType)userObj.GetObjectID())
+                {
+					LoginServerObject loginObj = session.GetUserObject() as LoginServerObject;
+					GameBaseAccountTemplate.GetGameBaseAccountImpl()._LoginServerObjMap.Remove(loginObj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId, out loginObj);
+				}
 				GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
 				userObj.OnClose();
 				userObj.Dispose();
@@ -156,7 +170,7 @@ namespace MasterServer
                     {
 						for (int i = (int)ObjectType.Login * 10; i < ((int)ObjectType.Login + 100) * 10; ++i)
                         {
-							bool result = _GameServerObjMap.ContainsKey(i);
+							bool result = GameBaseAccountTemplate.GetGameBaseAccountImpl()._GameServerObjMap.ContainsKey(i);
 							if (result == false)
                             {
 								return i;
@@ -168,7 +182,7 @@ namespace MasterServer
                     {
 						for (int i = (int)ObjectType.Game * 10; i < ((int)ObjectType.Game + 100) * 10; ++i)
                         {
-							bool result = _LoginServerObjMap.ContainsKey(i);
+							bool result = GameBaseAccountTemplate.GetGameBaseAccountImpl()._LoginServerObjMap.ContainsKey(i);
 							if (result == false)
                             {
 								return i;
@@ -184,8 +198,5 @@ namespace MasterServer
         {
 			return GameBaseTemplateContext.GetTemplate<GameBaseAccountTemplate>(obj.GetSession().GetUid(), ETemplateType.Account);
 		}
-
-		Dictionary<int, GameServerObject> _GameServerObjMap = new Dictionary<int, GameServerObject>();
-		Dictionary<int, LoginServerObject> _LoginServerObjMap = new Dictionary<int, LoginServerObject>();
 	}
 }
