@@ -380,6 +380,105 @@
             ],
             "resMembers": [
             ]
+        },
+        {
+            "id": 41,
+            "method": "noti",
+            "name": "GC_HELLO",
+            "protocolType": "",
+            "notiMembers": [
+
+            ]
+        },
+        {
+            "id": 43,
+            "method": "react",
+            "name": "CG_HEARTBEAT",
+            "protocolType": "",
+            "reqMembers": [
+
+            ],
+            "resMembers": [
+                {
+                    "type": "DateTime",
+                    "name": "Time",
+                    "comment": "시간 동기화 용"
+                }
+            ]
+        },
+        {
+            "id": 45,
+            "method": "noti",
+            "name": "GC_HEARTBEAT",
+            "protocolType": "",
+            "notiMembers": [
+
+            ]
+        },
+        {
+            "id": 47,
+            "method": "react",
+            "name": "CG_CHECK_AUTH",
+            "protocolType": "",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "ProtocolGUID",
+                    "comment": "프로토콜 GUID"
+                },
+                {
+                    "type": "string",
+                    "name": "Ver",
+                    "comment": "앱버전"
+                },
+                {
+                    "type": "string",
+                    "name": "Passport",
+                    "comment": "패스포트"
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "string",
+                    "name": "PlayerName",
+                    "comment": "플레이어 네임"
+                },
+                {
+                    "type": "ulong",
+                    "name": "PlayerIdx",
+                    "comment": "유저 DB고유 인덱스"
+                },
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": "사이트 유저 아이디"
+                }
+            ]
+        },
+        {
+            "id": 49,
+            "method": "react",
+            "name": "CG_CREATE_PLAYER",
+            "protocolType": "",
+            "reqMembers": [
+                {
+                    "type": "string",
+                    "name": "PlayerName",
+                    "comment": "유저 닉네임"
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "ulong",
+                    "name": "PlayerIdx",
+                    "comment": "플레이어 인덱스"
+                },
+                {
+                    "type": "string",
+                    "name": "PlayerName",
+                    "comment": "유저 닉네임"
+                }
+            ]
         }
     ],
     "models": [

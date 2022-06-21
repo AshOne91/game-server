@@ -667,4 +667,170 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			base.Deserialize(packet);
 		}
 	};
+	public sealed class PACKET_GC_HELLO_NOTI : PacketBaseNotification
+	{
+		public static readonly ushort ProtocolId = 41;
+		
+		public PACKET_GC_HELLO_NOTI():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+	public sealed class PACKET_CG_HEARTBEAT_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 43;
+		public PACKET_CG_HEARTBEAT_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+	public sealed class PACKET_CG_HEARTBEAT_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 44;
+		/// <summary>
+		/// 시간 동기화 용
+		/// </summary>
+		public DateTime Time = new DateTime();
+		public PACKET_CG_HEARTBEAT_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(Time);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref Time);
+		}
+	};
+	public sealed class PACKET_GC_HEARTBEAT_NOTI : PacketBaseNotification
+	{
+		public static readonly ushort ProtocolId = 45;
+		
+		public PACKET_GC_HEARTBEAT_NOTI():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+	public sealed class PACKET_CG_CHECK_AUTH_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 47;
+		/// <summary>
+		/// 프로토콜 GUID
+		/// </summary>
+		public string ProtocolGUID = string.Empty;
+		/// <summary>
+		/// 앱버전
+		/// </summary>
+		public string Ver = string.Empty;
+		/// <summary>
+		/// 패스포트
+		/// </summary>
+		public string Passport = string.Empty;
+		public PACKET_CG_CHECK_AUTH_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(ProtocolGUID);
+			packet.Write(Ver);
+			packet.Write(Passport);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref ProtocolGUID);
+			packet.Read(ref Ver);
+			packet.Read(ref Passport);
+		}
+	}
+	public sealed class PACKET_CG_CHECK_AUTH_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 48;
+		/// <summary>
+		/// 플레이어 네임
+		/// </summary>
+		public string PlayerName = string.Empty;
+		/// <summary>
+		/// 유저 DB고유 인덱스
+		/// </summary>
+		public ulong PlayerIdx = new ulong();
+		/// <summary>
+		/// 사이트 유저 아이디
+		/// </summary>
+		public string SiteUserId = string.Empty;
+		public PACKET_CG_CHECK_AUTH_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(PlayerName);
+			packet.Write(PlayerIdx);
+			packet.Write(SiteUserId);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref PlayerName);
+			packet.Read(ref PlayerIdx);
+			packet.Read(ref SiteUserId);
+		}
+	};
+	public sealed class PACKET_CG_CREATE_PLAYER_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 49;
+		/// <summary>
+		/// 유저 닉네임
+		/// </summary>
+		public string PlayerName = string.Empty;
+		public PACKET_CG_CREATE_PLAYER_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(PlayerName);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref PlayerName);
+		}
+	}
+	public sealed class PACKET_CG_CREATE_PLAYER_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 50;
+		/// <summary>
+		/// 플레이어 인덱스
+		/// </summary>
+		public ulong PlayerIdx = new ulong();
+		/// <summary>
+		/// 유저 닉네임
+		/// </summary>
+		public string PlayerName = string.Empty;
+		public PACKET_CG_CREATE_PLAYER_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(PlayerIdx);
+			packet.Write(PlayerName);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref PlayerIdx);
+			packet.Read(ref PlayerName);
+		}
+	};
 }

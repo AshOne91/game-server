@@ -47,6 +47,14 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			MessageControllers.Add(PACKET_LM_STATE_INFO_RES.ProtocolId, LM_STATE_INFO_RES_CONTROLLER);
 			MessageControllers.Add(PACKET_CL_HEART_BEAT_REQ.ProtocolId, CL_HEART_BEAT_REQ_CONTROLLER);
 			MessageControllers.Add(PACKET_CL_HEART_BEAT_RES.ProtocolId, CL_HEART_BEAT_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_GC_HELLO_NOTI.ProtocolId, GC_HELLO_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_HEARTBEAT_REQ.ProtocolId, CG_HEARTBEAT_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_HEARTBEAT_RES.ProtocolId, CG_HEARTBEAT_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_GC_HEARTBEAT_NOTI.ProtocolId, GC_HEARTBEAT_NOTI_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_CHECK_AUTH_REQ.ProtocolId, CG_CHECK_AUTH_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_CHECK_AUTH_RES.ProtocolId, CG_CHECK_AUTH_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_CREATE_PLAYER_REQ.ProtocolId, CG_CREATE_PLAYER_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_CREATE_PLAYER_RES.ProtocolId, CG_CREATE_PLAYER_RES_CONTROLLER);
 		}
 
 		public virtual bool OnPacket(ImplObject userObject, ushort protocolId, Packet packet)
@@ -330,6 +338,70 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			PACKET_CL_HEART_BEAT_RES recvPacket = new PACKET_CL_HEART_BEAT_RES();
 			recvPacket.Deserialize(packet);
 			ON_CL_HEART_BEAT_RES_CALLBACK(obj, recvPacket);
+		}
+		public delegate void GC_HELLO_NOTI_CALLBACK(ImplObject userObject, PACKET_GC_HELLO_NOTI packet);
+		public GC_HELLO_NOTI_CALLBACK ON_GC_HELLO_NOTI_CALLBACK;
+		public void GC_HELLO_NOTI_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_GC_HELLO_NOTI recvPacket = new PACKET_GC_HELLO_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_GC_HELLO_NOTI_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_HEARTBEAT_REQ_CALLBACK(ImplObject userObject, PACKET_CG_HEARTBEAT_REQ packet);
+		public CG_HEARTBEAT_REQ_CALLBACK ON_CG_HEARTBEAT_REQ_CALLBACK;
+		public void CG_HEARTBEAT_REQ_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_HEARTBEAT_REQ recvPacket = new PACKET_CG_HEARTBEAT_REQ();
+			recvPacket.Deserialize(packet);
+			ON_CG_HEARTBEAT_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_HEARTBEAT_RES_CALLBACK(ImplObject userObject, PACKET_CG_HEARTBEAT_RES packet);
+		public CG_HEARTBEAT_RES_CALLBACK ON_CG_HEARTBEAT_RES_CALLBACK;
+		public void CG_HEARTBEAT_RES_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_HEARTBEAT_RES recvPacket = new PACKET_CG_HEARTBEAT_RES();
+			recvPacket.Deserialize(packet);
+			ON_CG_HEARTBEAT_RES_CALLBACK(obj, recvPacket);
+		}
+		public delegate void GC_HEARTBEAT_NOTI_CALLBACK(ImplObject userObject, PACKET_GC_HEARTBEAT_NOTI packet);
+		public GC_HEARTBEAT_NOTI_CALLBACK ON_GC_HEARTBEAT_NOTI_CALLBACK;
+		public void GC_HEARTBEAT_NOTI_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_GC_HEARTBEAT_NOTI recvPacket = new PACKET_GC_HEARTBEAT_NOTI();
+			recvPacket.Deserialize(packet);
+			ON_GC_HEARTBEAT_NOTI_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_CHECK_AUTH_REQ_CALLBACK(ImplObject userObject, PACKET_CG_CHECK_AUTH_REQ packet);
+		public CG_CHECK_AUTH_REQ_CALLBACK ON_CG_CHECK_AUTH_REQ_CALLBACK;
+		public void CG_CHECK_AUTH_REQ_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_CHECK_AUTH_REQ recvPacket = new PACKET_CG_CHECK_AUTH_REQ();
+			recvPacket.Deserialize(packet);
+			ON_CG_CHECK_AUTH_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CG_CHECK_AUTH_RES packet);
+		public CG_CHECK_AUTH_RES_CALLBACK ON_CG_CHECK_AUTH_RES_CALLBACK;
+		public void CG_CHECK_AUTH_RES_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_CHECK_AUTH_RES recvPacket = new PACKET_CG_CHECK_AUTH_RES();
+			recvPacket.Deserialize(packet);
+			ON_CG_CHECK_AUTH_RES_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_CREATE_PLAYER_REQ_CALLBACK(ImplObject userObject, PACKET_CG_CREATE_PLAYER_REQ packet);
+		public CG_CREATE_PLAYER_REQ_CALLBACK ON_CG_CREATE_PLAYER_REQ_CALLBACK;
+		public void CG_CREATE_PLAYER_REQ_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_CREATE_PLAYER_REQ recvPacket = new PACKET_CG_CREATE_PLAYER_REQ();
+			recvPacket.Deserialize(packet);
+			ON_CG_CREATE_PLAYER_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_CREATE_PLAYER_RES_CALLBACK(ImplObject userObject, PACKET_CG_CREATE_PLAYER_RES packet);
+		public CG_CREATE_PLAYER_RES_CALLBACK ON_CG_CREATE_PLAYER_RES_CALLBACK;
+		public void CG_CREATE_PLAYER_RES_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_CREATE_PLAYER_RES recvPacket = new PACKET_CG_CREATE_PLAYER_RES();
+			recvPacket.Deserialize(packet);
+			ON_CG_CREATE_PLAYER_RES_CALLBACK(obj, recvPacket);
 		}
 	}
 }
