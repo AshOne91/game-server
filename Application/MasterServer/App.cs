@@ -74,7 +74,7 @@ namespace MasterServer
 			if (localEP.Port == 30000)
             {
 				obj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId = idx;
-				GetAccountTemplate(obj).ML_HELLO_NOTI();
+				GetAccountTemplate(obj).MG_HELLO_NOTI();
 			}
 			else if (localEP.Port == 40000)
             {
