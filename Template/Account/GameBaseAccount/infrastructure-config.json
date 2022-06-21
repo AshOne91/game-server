@@ -250,7 +250,7 @@
                     "comment": ""
                 },
                 {
-                    "type": "string",
+                    "type": "ushort",
                     "name": "Port",
                     "comment": ""
                 }

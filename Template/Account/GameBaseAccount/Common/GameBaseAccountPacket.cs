@@ -415,7 +415,7 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Port = string.Empty;
+		public ushort Port = new ushort();
 		public PACKET_GM_CHECK_AUTH_REQ():base(ProtocolId){}
 		public override void Serialize(Packet packet)
 		{
