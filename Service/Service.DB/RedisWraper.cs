@@ -214,9 +214,9 @@ namespace Service.DB
             }
             catch (Exception e)
             {
-                /*StackFrame stackFrame = new StackFrame(true);
+                StackFrame stackFrame = new StackFrame(true);
                 _isConnected = false;
-                throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);*/
+                throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
             return "";
         }
