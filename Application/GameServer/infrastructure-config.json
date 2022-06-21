@@ -3,7 +3,8 @@
 	"applicationVersion" : "",
 	"services" : [
 		"../../Service/Service.Core",
-		"../../Service/Service.Net"
+		"../../Service/Service.Net",
+		"../../Service/Service.DB"
 	],
 	"templates": [
 		"../../Template/Account/GameBaseAccount"
