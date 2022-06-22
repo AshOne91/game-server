@@ -7,6 +7,7 @@ namespace GameBase.Template.GameBase
 {
     public class ImplObject : UserObject
     {
+        public GameBaseImpl GameBaseImpl = null;
         public AccountImpl AccountImpl = null;
         public AdminImpl AdminImpl = null;
         public AdvertImpl AdvertImpl = null;
@@ -24,6 +25,10 @@ namespace GameBase.Template.GameBase
         public ReportImpl ReportImpl = null;
         public SeasonImpl SeasonImpl = null;
         public UserImpl UserImpl = null;
+        public T GetGameBaseImpl<T>() where T : GameBaseImpl
+        {
+            return this.GameBaseImpl as T;
+        }
         public T GetAccountImpl<T>() where T : AccountImpl
         {
             return this.AccountImpl as T;

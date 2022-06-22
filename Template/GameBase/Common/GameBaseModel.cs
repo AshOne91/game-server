@@ -774,4 +774,53 @@ namespace GameBase.Template.GameBase.Common
 			return log;
 		}
 	}
+	public class PlayerInfo : IPacketSerializable
+	{
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public ulong PlayerIdx = new ulong();
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public string SiteUserId = string.Empty;
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public string PlayerName = string.Empty;
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public string Version = string.Empty;
+		/// <sumary>
+		/// 
+		/// </sumary>
+		public string MatchToken = string.Empty;
+		public void Serialize(Packet packet)
+		{
+			packet.Write(PlayerIdx);
+			packet.Write(SiteUserId);
+			packet.Write(PlayerName);
+			packet.Write(Version);
+			packet.Write(MatchToken);
+		}
+		public void Deserialize(Packet packet)
+		{
+			packet.Read(ref PlayerIdx);
+			packet.Read(ref SiteUserId);
+			packet.Read(ref PlayerName);
+			packet.Read(ref Version);
+			packet.Read(ref MatchToken);
+		}
+		public string GetLog()
+		{
+			string log = "";
+			FieldInfo[] fields = this.GetType().GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+			}
+			return log;
+		}
+	}
 }

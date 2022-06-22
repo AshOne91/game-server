@@ -8,8 +8,14 @@ namespace GameBase.Template.GameBase
 {
     public partial class GameBaseTemplate
     {
+        static BaseImpl _baseImpl = null;
+        static GameBaseTemplate()
+        {
+            _baseImpl = new BaseImpl(ServerType.None);
+        }
         public virtual void Init(TemplateConfig config, ServerType type)
         {
+
         }
 
         public virtual void OnLoadData(TemplateConfig config)
