@@ -69,7 +69,15 @@ namespace GameBase.Template.GameBase
             }
             return false;
         }
-
+        public void DebugPrintSessions()
+        {
+            Logger.Default.Log(ELogLevel.Trace, "-- DebugPrintSessions ({0})------------", _SessionMap.Count);
+            foreach (KeyValuePair<string, UserSessionData> kv in _SessionMap)
+            {
+                Logger.Default.Log(ELogLevel.Trace, "Idx:{0} SvrId:{1} Name:{2} State:{3} RIP:{4} Date:{5} ",
+                    kv.Value.PlayerIdx, kv.Value.ServerIdx, kv.Value.PlayerName, kv.Value.SessionState, kv.Value.RemoteIP, kv.Value.LastUpdateTime);
+            }
+        }
         public bool RemoveSessionByServerID(int serverId)
         {
             DateTime now = DateTime.UtcNow;

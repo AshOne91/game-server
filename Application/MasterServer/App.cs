@@ -160,6 +160,7 @@ namespace MasterServer
 		public override void OnUpdate(float dt)
 		{
 			GameBaseTemplateContext.UpdateClient(dt);
+			GameBaseTemplateContext.UpdateTemplate(dt);
 		}
 
 		public int AllocServerIdx(ObjectType type)

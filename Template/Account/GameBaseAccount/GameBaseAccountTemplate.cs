@@ -12,10 +12,10 @@ namespace GameBase.Template.Account.GameBaseAccount
 	{
 		ImplObject _obj = null;
 		static GameBaseAccountImpl _accountImpl = null; 
-		public override void Init(TemplateConfig config)
+		public override void Init(TemplateConfig config, ServerType type)
 		{
-			base.Init(config);
-			_accountImpl = new GameBaseAccountImpl(null);
+			base.Init(config, type);
+			_accountImpl = new GameBaseAccountImpl(type);
 			//OnLoadData(config)
 			// TODO : 서버 기동시 실행할 템플릿 관련 로직을 아래에 작성
 		}
@@ -64,7 +64,12 @@ namespace GameBase.Template.Account.GameBaseAccount
 			return _accountImpl;
 		}
 
-		public override void OnClientUpdate(float dt)
+        public override void OnTemplateUpdate(float dt)
+        {
+			_accountImpl.Update(dt);
+        }
+
+        public override void OnClientUpdate(float dt)
 		{
 			// TODO : 유저의 로그인시 필요한 DB관련 로직을 작성
 		}

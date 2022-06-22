@@ -8,7 +8,7 @@ namespace GameBase.Template.GameBase
 {
     public partial class GameBaseTemplate
     {
-        public virtual void Init(TemplateConfig config)
+        public virtual void Init(TemplateConfig config, ServerType type)
         {
         }
 
@@ -21,6 +21,9 @@ namespace GameBase.Template.GameBase
         {
         }
 
+        public virtual void OnTemplateUpdate(float dt)
+        {
+        }
 
         public virtual void OnClientUpdate(float dt)
         {

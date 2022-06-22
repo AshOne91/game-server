@@ -30,7 +30,6 @@ namespace GameBase.Template.GameBase
     }
     public static class GameBaseTemplateContext
     {
-        public static GameBaseSessionManager _SessionManager = new GameBaseSessionManager();
         static ServerApp _app = null;
         static Dictionary<ulong/*uid*/, ImplObject> _objByUid = new Dictionary<ulong, ImplObject>();
         static Dictionary<ETemplateType, GameBaseTemplate> _templates = new Dictionary<ETemplateType, GameBaseTemplate>();
@@ -435,6 +434,13 @@ namespace GameBase.Template.GameBase
             }
         }
 
+        public static void UpdateTemplate(float dt)
+        {
+            foreach (var t in _templates)
+            {
+                t.Value.OnTemplateUpdate(dt);
+            }
+        }
 
         public static void UpdateClient(float dt)
         {

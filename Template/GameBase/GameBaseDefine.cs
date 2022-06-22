@@ -5,6 +5,13 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
+    public enum ServerType : Byte
+    {
+        None,
+        Login,
+        Master,
+        Game
+    }
     public enum ConnectType : Byte
     {
         Normal = 1,

@@ -13,7 +13,9 @@ namespace GameBase.Template.Account.GameBaseAccount
 	{
 		public void ON_ML_GAMESERVER_INFO_NOTI_CALLBACK(ImplObject userObject, PACKET_ML_GAMESERVER_INFO_NOTI packet)
 		{
-			
+			//LoginServer
+			//MasterClientObject
+			GameBaseAccountTemplate.GetGameBaseAccountImpl().SetGameServerInfo(packet.GameServerInfoList);
 		}
 	}
 }
