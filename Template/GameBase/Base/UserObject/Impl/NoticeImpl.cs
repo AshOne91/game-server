@@ -7,9 +7,14 @@ namespace GameBase.Template.GameBase
     public class NoticeImpl
     {
         public ImplObject _obj;
+        public ServerType _serverType;
         public NoticeImpl(ImplObject obj)
         {
             _obj = obj;
+        }
+        public NoticeImpl(ServerType type)
+        {
+            _serverType = type;
         }
     }
 }

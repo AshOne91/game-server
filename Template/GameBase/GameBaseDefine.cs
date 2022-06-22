@@ -37,7 +37,8 @@ namespace GameBase.Template.GameBase
         INVALID_GUID,
         PENDING_ERROR,
         DUPLICATED_LOGIN,
-        ERROR_NO_GAME_SERVER
+        ERROR_NO_GAME_SERVER,
+        INVALID_SITE_USER_ID
     }
 
     public class ConnectInfo

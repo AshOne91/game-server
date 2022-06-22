@@ -47,6 +47,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 				//GameServer의 재접속시 현재 새션정보 업데이트 하는 패킷 필요
 				masterClientImpl._ServerId = packet.ServerId;
 
+				GameBaseAccountTemplate.GetGameBaseAccountImpl()._ServerId = masterClientImpl._ServerId;
+
 				Logger.Default.Log(ELogLevel.Always, "SUCCESS PACKET_GM_CHECK_AUTH_RES Result {0}", packet.ErrorCode);
 			}
 			else

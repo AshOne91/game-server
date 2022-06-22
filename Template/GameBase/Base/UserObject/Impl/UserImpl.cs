@@ -12,5 +12,9 @@ namespace GameBase.Template.GameBase
         {
             _obj = obj;
         }
+        public UserImpl(ServerType type)
+        {
+            _serverType = type;
+        }
     }
 }

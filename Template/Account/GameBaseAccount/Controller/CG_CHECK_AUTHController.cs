@@ -34,6 +34,32 @@ namespace GameBase.Template.Account.GameBaseAccount
 				userObject.GetSession().Disconnect();
 				return;
             }
+
+			if (id == string.Empty)
+            {
+				PACKET_CG_CHECK_AUTH_RES sendData = new PACKET_CG_CHECK_AUTH_RES();
+				sendData.ErrorCode = (int)GServerCode.INVALID_SITE_USER_ID;
+				userObject.GetSession().SendPacket(sendData.Serialize());
+				return;
+			}
+
+			GameBaseAccountUserImpl userImpl = userObject.GetAccountImpl<GameBaseAccountUserImpl>();
+			userImpl._PassportExtra = extra.Split(";");
+
+			if (userImpl._PassportExtra.Length != 4)
+            {
+				Logger.Default.Log(ELogLevel.Err, "Passport ExtraValue Verify Failed : {0}", userImpl._PassportExtra);
+				userObject.GetSession().Disconnect();
+				return;
+			}
+
+			int passportServerId = int.Parse(userImpl._PassportExtra[3]);
+			if (passportServerId == -1 || passportServerId != GetGameBaseAccountImpl()._ServerId)
+            {
+				Logger.Default.Log(ELogLevel.Err, "Passport Not Allowed for This Server : {0} != {1}", passportServerId, GetGameBaseAccountImpl()._ServerId);
+				userObject.GetSession().Disconnect();
+				return;
+			}
 		}
 		public void ON_CG_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CG_CHECK_AUTH_RES packet)
 		{

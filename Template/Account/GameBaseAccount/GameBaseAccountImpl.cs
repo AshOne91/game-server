@@ -23,6 +23,10 @@ namespace GameBase.Template.Account.GameBaseAccount
         public Dictionary<int, LoginServerObject> _LoginServerObjMap = new Dictionary<int, LoginServerObject>();
         public GameBaseSessionManager _UserSessionManager = new GameBaseSessionManager();
         public TimeCounter _DebugTimer = new TimeCounter();
+
+        //GameServer
+        public int _ServerId = -1;
+
         public void SetGameServerInfo(List<GameServerInfo> gameServerInfoList)
         {
             _GameServerInfoList = gameServerInfoList;
@@ -170,6 +174,10 @@ namespace GameBase.Template.Account.GameBaseAccount
         public int _WantedServerId = -1;
         public bool _CheckVersion = false;
         public string _SiteUserId = string.Empty;
+
+        //GameUserObj
+        public PlayerInfo _PlayerInfo = new PlayerInfo();
+        public string[] _PassportExtra = { };
 
         public GameBaseAccountUserImpl(ImplObject obj) : base(obj)
         {
