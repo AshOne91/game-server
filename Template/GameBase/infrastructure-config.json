@@ -396,6 +396,36 @@
                     "comment": ""
                 }
             ]
+        },
+        {
+            "name": "PlayerInfo",
+            "members": [
+                {
+                    "type": "ulong",
+                    "name": "PlayerIdx",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "SiteUserId",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "PlayerName",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "Version",
+                    "comment": ""
+                },
+                {
+                    "type": "string",
+                    "name": "MatchToken",
+                    "comment": ""
+                }
+            ]
         }
     ]
 }

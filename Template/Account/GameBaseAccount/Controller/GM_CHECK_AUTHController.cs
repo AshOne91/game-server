@@ -51,7 +51,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}
 			else
             {
-
+				Logger.Default.Log(ELogLevel.Fatal, "ERROR PACKET_GM_CHECK_AUTH_RES Result {0}", packet.ErrorCode);
             }
 		}
 	}
