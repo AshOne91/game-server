@@ -10,7 +10,7 @@ namespace Service.DB
         public double _dbReconnectTime;
         public double _dbTroubleWaitTime;
 
-        public Dictionary<EDBType, Dictionary<int/*dbIndex*/,DBSimpleInfo>> _dbSimpleInfoByDBType;
+        public Dictionary<EDBType, Dictionary<int/*dbIndex*/, DBSimpleInfo>> _dbSimpleInfoByDBType = new Dictionary<EDBType, Dictionary<int, DBSimpleInfo>>();
 
         public DBConfig()
         {
@@ -212,7 +212,7 @@ namespace Service.DB
 
                 for (int threadIndex = 0; threadIndex < rDBSimpleInfo._threadCount; ++threadIndex)
                 {
-                    int DBKey = _MakeDBKey(rDBSimpleInfo._dbType, rDBSimpleInfo._threadCount, (Byte)threadIndex);
+                    int DBKey = _MakeDBKey(rDBSimpleInfo._dbType, rDBSimpleInfo._dbIndex, (Byte)threadIndex);
 
                     if (!_dbThreadByIndex.ContainsKey(DBKey))
                     {
@@ -448,6 +448,7 @@ namespace Service.DB
             DBThread dbThread = _dbThreadByIndex[DBKey];
             dbThread.PushQuery(query);
         }
-        protected DBConfig _GetDBConfig() { return _dbConfig; }
+        //FIXME 원래는 Protected(test로 임시로 품)
+        public DBConfig _GetDBConfig() { return _dbConfig; }
     }
 }

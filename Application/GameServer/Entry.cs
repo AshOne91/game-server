@@ -51,7 +51,7 @@ namespace GameServer
 				GameBaseTemplateContext.SetDBManager(new GameBaseDBManager(Logger.Default));
 				//FIXME
 				DBSimpleInfo test = new DBSimpleInfo();
-				test._dbIndex = 1;
+				test._dbIndex = 0;
 				test._dbIP = "127.0.0.1";
 				test._dbPort = 3306;
 				test._dbID = "ubf";
@@ -63,6 +63,8 @@ namespace GameServer
 				test._dbType = EDBType.Global;
 				List<DBSimpleInfo> testSImpleInfo = new List<DBSimpleInfo>();
 				testSImpleInfo.Add(test);
+				//FIXME 원래는 SetUp에서 불러와야함
+				GameBaseTemplateContext.GetDBManager()._GetDBConfig().SetDBSimpleInfo(test);
 				GameBaseTemplateContext.GetDBManager().SetDB(testSImpleInfo);
 				GameBaseTemplateContext.GetDBManager().DBLoad_Request(1, () => { 
 					bool result = serverApp.Create(config);
@@ -94,7 +96,7 @@ namespace GameServer
 			}
 			finally
 			{
-				serverApp.Destroy();
+				//serverApp.Destroy();
 			}
 
 			return;

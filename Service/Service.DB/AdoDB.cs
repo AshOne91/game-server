@@ -112,6 +112,7 @@ namespace Service.DB
                 //OdbcCommand.CommandTimeout = 0;
                 _conn.ConnectionTimeout = 5;
                 _conn.Open();
+                base.Open(rDBInfo, reconnectTime);
             }
             catch (OdbcException e)
             {
