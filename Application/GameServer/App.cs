@@ -29,7 +29,7 @@ namespace GameServer
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
 
 			TemplateConfig templateConfig = new TemplateConfig();
-			GameBaseTemplateContext.InitTemplate(templateConfig);
+			GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Game);
 			GameBaseTemplateContext.LoadDataTable(templateConfig);
 
             Service.Core.PerformanceCounter._WarningEvent += OnPerfWarning;

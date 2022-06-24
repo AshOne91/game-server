@@ -5,7 +5,6 @@ using Service.Core;
 using Service.Net;
 using GameBase.Template.GameBase;
 using GameBase.Template.GameBase.Common;
-using GameBase.Template.GameBase.Common;
 
 namespace GameBase.Template.GameBase
 {

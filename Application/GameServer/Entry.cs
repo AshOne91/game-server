@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using GameBase.Template.GameBase;
 using Service.Core;
+using Service.DB;
 using Service.Net;
 
 namespace GameServer
@@ -46,25 +48,43 @@ namespace GameServer
 				Logger.Default.Create(true, "GameServer", "/log/GS" + System.Diagnostics.Process.GetCurrentProcess().Id);
 				Logger.Default.Log(ELogLevel.Always, "Start GameServer...");
 
-				bool result = serverApp.Create(config);
-				if (result == false)
-				{
-					Logger.Default.Log(ELogLevel.Fatal, "Failed Create GameServer.");
-					return;
-				}
+				GameBaseTemplateContext.SetDBManager(new GameBaseDBManager(Logger.Default));
+				//FIXME
+				DBSimpleInfo test = new DBSimpleInfo();
+				test._dbIndex = 1;
+				test._dbIP = "127.0.0.1";
+				test._dbPort = 3306;
+				test._dbID = "ubf";
+				test._dbName = "globaldb";
+				test._threadCount = 2;
+				test._slaveDBIP = "";
+				test._serverID = 1;
+				test._dbPW = "qjxjvmffkdl!@#";
+				test._dbType = EDBType.Global;
+				List<DBSimpleInfo> testSImpleInfo = new List<DBSimpleInfo>();
+				testSImpleInfo.Add(test);
+				GameBaseTemplateContext.GetDBManager().SetDB(testSImpleInfo);
+				GameBaseTemplateContext.GetDBManager().DBLoad_Request(1, () => { 
+					bool result = serverApp.Create(config);
+					if (result == false)
+					{
+						Logger.Default.Log(ELogLevel.Fatal, "Failed Create GameServer.");
+						return;
+					}
 
-				result = serverApp.ConnectToMaster();
+					result = serverApp.ConnectToMaster();
 				
-				if (result == false)
-                {
-					Logger.Default.Log(ELogLevel.Fatal, "Failed connect to master server.");
-					return;
-                }
+					if (result == false)
+					{
+						Logger.Default.Log(ELogLevel.Fatal, "Failed connect to master server.");
+						return;
+					}
 
-				ticker = new Timer(TimerMethod, null, 10000, 10000);
+					ticker = new Timer(TimerMethod, null, 10000, 10000);
 
-				Logger.Default.Log(ELogLevel.Always, "Start WaitForSessionEvent...");
-				serverApp.Join();
+					Logger.Default.Log(ELogLevel.Always, "Start WaitForSessionEvent...");
+					serverApp.Join();
+				});
 			}
 			catch (Exception e)
 			{

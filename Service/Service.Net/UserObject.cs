@@ -95,5 +95,10 @@ namespace Service.Net
                 _timeOverCount = 0;
             }
         }
+
+        public virtual void OnUpdate(float dt)
+        {
+
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Service.DB
         public double _dbReconnectTime;
         public double _dbTroubleWaitTime;
 
-        public Dictionary<EDBType, DBSimpleInfo> _dbSimpleInfoByDBType;
+        public Dictionary<EDBType, Dictionary<int/*dbIndex*/,DBSimpleInfo>> _dbSimpleInfoByDBType;
 
         public DBConfig()
         {
@@ -26,13 +26,27 @@ namespace Service.DB
         {
             //FIXMEFIXMEFIXME
         }
-        DBSimpleInfo GetDBSimpleInfo(EDBType type)
+        public DBSimpleInfo GetDBSimpleInfo(EDBType type, int dbIndex)
         {
             if (_dbSimpleInfoByDBType.ContainsKey(type) == false)
             {
                 return null;
             }
-            return _dbSimpleInfoByDBType[type];
+
+            if (_dbSimpleInfoByDBType[type].ContainsKey(dbIndex) == false)
+            {
+                return null;
+            }
+            return _dbSimpleInfoByDBType[type][dbIndex];
+        }
+        public void SetDBSimpleInfo(DBSimpleInfo simpleInfo)
+        {
+            if (_dbSimpleInfoByDBType.ContainsKey(simpleInfo._dbType) == false)
+            {
+                _dbSimpleInfoByDBType.Add(simpleInfo._dbType, new Dictionary<int, DBSimpleInfo>());
+            }
+
+            _dbSimpleInfoByDBType[simpleInfo._dbType][simpleInfo._dbIndex] = simpleInfo;
         }
     }
     public class DBSimpleInfo
@@ -47,7 +61,7 @@ namespace Service.DB
         public string _slaveDBIP;
         public int _dbPort;
         public Byte _threadCount;
-        public Dictionary<string, short> _redisDBIndex;
+        public Dictionary<string, short> _redisDBIndex = new Dictionary<string, short>();
 
         public DBSimpleInfo()
         {
@@ -107,6 +121,7 @@ namespace Service.DB
             _multiQueryBySerial = new Dictionary<ulong, QueryBase>();
 
             _logFunc = writeErrorLog;
+            _listEndDBThread = new List<DBThread>();
 
             _serviceStopTimer = new TimeCounter();
             _troubleDisplayTimer = new TimeCounter();
@@ -153,8 +168,11 @@ namespace Service.DB
                 List<DBSimpleInfo> listDBSimpleInfo = new List<DBSimpleInfo>();
                 foreach (var pair in _dbConfig._dbSimpleInfoByDBType)
                 {
-                    DBSimpleInfo DBSimpleInfo = pair.Value;
-                    listDBSimpleInfo.Add(DBSimpleInfo);
+                    foreach (var info in pair.Value)
+                    {
+                        DBSimpleInfo DBSimpleInfo = info.Value;
+                        listDBSimpleInfo.Add(DBSimpleInfo);
+                    }
                 }
                 SetDB(listDBSimpleInfo);
             }

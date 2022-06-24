@@ -112,7 +112,7 @@ namespace Service.DB
         }
         public double GetRunCompletedTime() { return _msRunCompletedTime; }
 
-        public virtual void vRun(AdoDB adbDB) { }
+        public virtual void vRun(AdoDB adoDB) { }
         public virtual void vRunRedis(RedisDB redisDB) { }
         public virtual void vComplete() { }
     }

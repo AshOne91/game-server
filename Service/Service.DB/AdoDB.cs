@@ -324,10 +324,20 @@ namespace Service.DB
             object value = _RecordGetValue(index);
             return new RecordType(index, value);
         }
+        public DateTime RecordGetTimeValue(string szParamName)
+        {
+            int index = _recSet.GetOrdinal(szParamName);
+            return RecordGetTimeValue(index);
+        }
         public DateTime RecordGetTimeValue(int index)
         {
             object value = _RecordGetValue(index);
             return new RecordType(index, value);
+        }
+        public string RecordGetStrValue(string szParamName)
+        {
+            int index = _recSet.GetOrdinal(szParamName);
+            return RecordGetStrValue(index);
         }
         public string RecordGetStrValue(int index)
         {

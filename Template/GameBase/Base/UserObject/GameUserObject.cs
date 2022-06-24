@@ -11,5 +11,10 @@ namespace GameBase.Template.GameBase
         {
             _objectID = (int)ObjectType.User;
         }
+
+        public override void OnUpdate(float dt)
+        {
+            
+        }
     }
 }

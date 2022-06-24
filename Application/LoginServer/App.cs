@@ -29,7 +29,7 @@ namespace LoginServer
             GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
 
             TemplateConfig templateConfig = new TemplateConfig();
-            GameBaseTemplateContext.InitTemplate(templateConfig);
+            GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Login);
             GameBaseTemplateContext.LoadDataTable(templateConfig);
 
             PerformanceCounter._WarningEvent += OnPerfWarning;

@@ -14,7 +14,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 		public void ON_LM_SESSION_INFO_REQ_CALLBACK(ImplObject userObject, PACKET_LM_SESSION_INFO_REQ packet)
 		{
 			UserSessionData session = null;
-			bool result = GameBaseTemplateContext._SessionManager.GetUserSession(packet.SiteUserId, out session);
+			bool result = GameBaseAccountTemplate.GetGameBaseAccountImpl()._UserSessionManager.GetUserSession(packet.SiteUserId, out session);
 
 			PACKET_LM_SESSION_INFO_RES sendData = new PACKET_LM_SESSION_INFO_RES();
 			sendData.Found = result;

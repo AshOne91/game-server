@@ -27,7 +27,7 @@ namespace MasterServer
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
 
 			TemplateConfig templateConfig = new TemplateConfig();
-			GameBaseTemplateContext.InitTemplate(templateConfig);
+			GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Master);
 			GameBaseTemplateContext.LoadDataTable(templateConfig);
 
 			PerformanceCounter._WarningEvent += OnPerfWarning;
