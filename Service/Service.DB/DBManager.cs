@@ -54,6 +54,7 @@ namespace Service.DB
         public short _dbIndex;
         public int _serverID;
         public EDBType _dbType;
+        public int _dbSharding_key;
         public string _dbName;
         public string _dbID;
         public string _dbPW;
@@ -88,8 +89,9 @@ namespace Service.DB
         protected DBConfig _dbConfig;
 
         protected Dictionary<int, DBThread> _dbThreadByIndex;
+        protected Dictionary<int, DBThread> _penddingDbThreadByIndex;
 
-        protected Dictionary<int/*ServerID * 100 + EDBType*/, short/*DBIndex*/> _dbIndexByMakeKey;
+        protected Dictionary<int/*ServerID * 10000 + EDBType + 100 + DBIndex*/, short/*DBIndex*/> _dbIndexByMakeKey;
         protected HashSet<EDBType> _setDBType;
 
         protected ulong _serialAllocator;
@@ -113,6 +115,7 @@ namespace Service.DB
             _dbConfig = new DBConfig();
 
             _dbThreadByIndex = new Dictionary<int, DBThread>();
+            _penddingDbThreadByIndex = new Dictionary<int, DBThread>();
 
             _dbIndexByMakeKey = new Dictionary<int, short>();
             _setDBType = new HashSet<EDBType>();
@@ -130,10 +133,18 @@ namespace Service.DB
             _waitQueueSizeByDBType = new Dictionary<EDBType, long>();
             _completeQueueSizeByDBType = new Dictionary<EDBType, long>();
             _queryTimeInfoByNameHashCode = new Dictionary<ulong, QueryTimeInfo>();
+
+            foreach(var value in Enum.GetValues(typeof(EDBType)))
+            {
+                _waitQueueSizeByDBType.Add((EDBType)value, 0);
+                _completeQueueSizeByDBType.Add((EDBType)value, 0);
+            }
+            
         }
         ~DBManager()
         {
             _dbThreadByIndex.Clear();
+            _penddingDbThreadByIndex.Clear();
             _dbIndexByMakeKey.Clear();
             _setDBType.Clear();
             _multiQueryBySerial.Clear();
@@ -159,7 +170,7 @@ namespace Service.DB
             }
             return (_listEndDBThread.Count == 0);
         }
-        public void SetupDB(string dbConfig)
+        public void SetupDB(string dbConfig, bool firstSetting = false)
         {
             try
             {
@@ -174,14 +185,14 @@ namespace Service.DB
                         listDBSimpleInfo.Add(DBSimpleInfo);
                     }
                 }
-                SetDB(listDBSimpleInfo);
+                SetDB(listDBSimpleInfo, firstSetting);
             }
             catch (Exception Error)
             {
                 throw new Exception("[DBManager.SetupDB] " + Error.Message);
             }
         }
-        public bool SetDB(List<DBSimpleInfo> listDBSimpleInfo)
+        public bool SetDB(List<DBSimpleInfo> listDBSimpleInfo, bool firstSetting = false)
         {
             foreach (var rDBSimpleInfo in listDBSimpleInfo)
             {
@@ -205,7 +216,7 @@ namespace Service.DB
                 _openDBInfo._pw = rDBSimpleInfo._dbPW;
                 _openDBInfo._indexByRedisDB = rDBSimpleInfo._redisDBIndex;
 
-                int DBIndexKey = rDBSimpleInfo._serverID * 100 + (int)rDBSimpleInfo._dbType;
+                int DBIndexKey = rDBSimpleInfo._serverID * 10000 + (int)rDBSimpleInfo._dbType * 100 + rDBSimpleInfo._dbSharding_key;
                 _dbIndexByMakeKey.Add(DBIndexKey, rDBSimpleInfo._dbIndex);
 
                 _setDBType.Add(rDBSimpleInfo._dbType);
@@ -219,7 +230,14 @@ namespace Service.DB
                         DBThread dbThread = new DBThread(rDBSimpleInfo._dbType, _logFunc);
                         dbThread.BegineThread();
 
-                        _dbThreadByIndex.Add(DBKey, dbThread);
+                        if (firstSetting == true)
+                        {
+                            _dbThreadByIndex.Add(DBKey, dbThread);
+                        }
+                        else
+                        {
+                            _penddingDbThreadByIndex.Add(DBKey, dbThread);
+                        }
                         _listEndDBThread.Add(dbThread);
 
                         dbThread.GetDB().Open(_openDBInfo, _dbConfig._dbReconnectTime);
@@ -247,8 +265,20 @@ namespace Service.DB
         public void OnLoop()
         {
             _listTroubleDB.Clear();
-            _completeQueueSizeByDBType.Clear();
+            for (int i = 0; i < (int)EDBType.Max; ++i)
+            {
+                _waitQueueSizeByDBType[(EDBType)i] = 0;
+                _completeQueueSizeByDBType[(EDBType)i] = 0;
+            }
 
+            if (_penddingDbThreadByIndex.Count > 0)
+            {
+                foreach(var keyValue in _penddingDbThreadByIndex)
+                {
+                    _dbThreadByIndex.Add(keyValue.Key, keyValue.Value);
+                }
+                _penddingDbThreadByIndex.Clear();
+            }
             foreach (var pair in _dbThreadByIndex)
             {
                 DBThread dbThread = pair.Value;
@@ -410,9 +440,9 @@ namespace Service.DB
             return type.ToString();
         }
 
-        protected short _GetDBIndex(EDBType type, int serverID)
+        protected short _GetDBIndex(EDBType type, int serverID, int sharding_key)
         {
-            int DBIndexKey = serverID * 100 + (byte)type;
+            int DBIndexKey = serverID * 10000 + (int)type * 100 + sharding_key;
 
             if (!_dbIndexByMakeKey.ContainsKey(DBIndexKey))
             {

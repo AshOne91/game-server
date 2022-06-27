@@ -10,7 +10,7 @@ namespace GameBase.Template.GameBase
 {
     public class GameBaseDBManager : DBManager
     {
-        private HashSet<short/*DBIndex*/> _setGameDBIndex;
+        private HashSet<short/*DBIndex*/> _setGameDBIndex = new HashSet<short>();
         public GameBaseDBManager(Logger logFunc) : base(logFunc)
         {
 
@@ -30,6 +30,8 @@ namespace GameBase.Template.GameBase
                     foreach (var simpleInfo in query._dbSampleInfos)
                     {
                         _GetDBConfig().SetDBSimpleInfo(simpleInfo);
+                        //FIXME FIXME
+                        simpleInfo._threadCount = 2;
                         //FIXME FIXME
                         if (simpleInfo._dbType == EDBType.Game)
                         {

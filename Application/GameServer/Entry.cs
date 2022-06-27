@@ -48,7 +48,29 @@ namespace GameServer
 				Logger.Default.Create(true, "GameServer", "/log/GS" + System.Diagnostics.Process.GetCurrentProcess().Id);
 				Logger.Default.Log(ELogLevel.Always, "Start GameServer...");
 
+				bool result = serverApp.Create(config);
+				if (result == false)
+				{
+					Logger.Default.Log(ELogLevel.Fatal, "Failed Create GameServer.");
+					return;
+				}
+
+				result = serverApp.ConnectToMaster();
+
+				if (result == false)
+				{
+					Logger.Default.Log(ELogLevel.Fatal, "Failed connect to master server.");
+					return;
+				}
+
+				ticker = new Timer(TimerMethod, null, 10000, 10000);
+
+				Logger.Default.Log(ELogLevel.Always, "Start WaitForSessionEvent...");
+
 				GameBaseTemplateContext.SetDBManager(new GameBaseDBManager(Logger.Default));
+
+				
+
 				//FIXME
 				DBSimpleInfo test = new DBSimpleInfo();
 				test._dbIndex = 0;
@@ -63,30 +85,15 @@ namespace GameServer
 				test._dbType = EDBType.Global;
 				List<DBSimpleInfo> testSImpleInfo = new List<DBSimpleInfo>();
 				testSImpleInfo.Add(test);
+
 				//FIXME 원래는 SetUp에서 불러와야함
 				GameBaseTemplateContext.GetDBManager()._GetDBConfig().SetDBSimpleInfo(test);
-				GameBaseTemplateContext.GetDBManager().SetDB(testSImpleInfo);
-				GameBaseTemplateContext.GetDBManager().DBLoad_Request(1, () => { 
-					bool result = serverApp.Create(config);
-					if (result == false)
-					{
-						Logger.Default.Log(ELogLevel.Fatal, "Failed Create GameServer.");
-						return;
-					}
-
-					result = serverApp.ConnectToMaster();
-				
-					if (result == false)
-					{
-						Logger.Default.Log(ELogLevel.Fatal, "Failed connect to master server.");
-						return;
-					}
-
-					ticker = new Timer(TimerMethod, null, 10000, 10000);
-
-					Logger.Default.Log(ELogLevel.Always, "Start WaitForSessionEvent...");
-					serverApp.Join();
+				GameBaseTemplateContext.GetDBManager().SetDB(testSImpleInfo, true);
+				GameBaseTemplateContext.GetDBManager().DBLoad_Request(1, () => {
+					Logger.Default.Log(ELogLevel.Always, "DBList Request Completed...");
 				});
+
+				serverApp.Join();
 			}
 			catch (Exception e)
 			{
@@ -96,7 +103,7 @@ namespace GameServer
 			}
 			finally
 			{
-				//serverApp.Destroy();
+				serverApp.Destroy();
 			}
 
 			return;

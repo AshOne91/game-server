@@ -8,6 +8,7 @@ using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
 using System.Diagnostics;
 using PerformanceCounter = Service.Core.PerformanceCounter;
+using Service.DB;
 
 namespace GameServer
 {
@@ -239,6 +240,7 @@ namespace GameServer
 		public override void OnUpdate(float dt)
 		{
 			GameBaseTemplateContext.UpdateClient(dt);
+			GameBaseTemplateContext.GetDBManager().OnLoop();
 		}
 	}
 }
