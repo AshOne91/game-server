@@ -10,6 +10,7 @@ namespace Service.DB
         Global,
         Sharding,
         Game,
+        Log,
         Redis1,
         Redis2,
         Max

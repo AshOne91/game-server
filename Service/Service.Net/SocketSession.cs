@@ -54,6 +54,7 @@ namespace Service.Net
         public void SetUserObject(UserObject userObj) { _userObject = userObj; }
         public UserObject GetUserObject() { return _userObject; }
         public ServerApp GetServerApp() { return _serverApp; }
+        public SessionManager GetSessionManager() { return _sessionManager; }
         public (string ip, int port) GetRemoteAddr()
         {
             IPEndPoint remote = _socket.RemoteEndPoint as IPEndPoint;

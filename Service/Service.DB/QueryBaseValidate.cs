@@ -9,9 +9,8 @@ namespace Service.DB
     {
         private UserObject _callUser;
 
-        private Int64 _callerUserDBKey;
-        private Int64 _callerSessionKey;
-        private Int64 _callerPlayerDBKey;
+        private ulong _callerUserDBKey;
+        private ulong _callerSessionKey;
 
         public QueryBaseValidate(UserObject userObject) : base()
         {
@@ -27,6 +26,12 @@ namespace Service.DB
             {
                 m_CallerPlayerDBKey = m_pCallPlayer->GetPlayerDBKey();
             }*/
+            if (_callUser != null)
+            {
+                _callerSessionKey = _callUser.GetSession().GetUid();
+                _callerUserDBKey = _callUser.GetUserDBKey();
+            }
+
         }
         ~QueryBaseValidate() { }
 
@@ -52,7 +57,20 @@ namespace Service.DB
                 }
             }
             return false;*/
-            return true;
+            if (_callUser == null)
+            {
+                return true;
+            }
+            if (_callUser.GetSession() == null)
+            {
+                return true;
+            }
+            var session = _callUser.GetSession().GetSessionManager().FindActiveSession(_callUser.GetSession().GetUid());
+            if (_callUser == session.GetUserObject())
+            {
+                return true;
+            }
+            return false;
         }
 
         public override string vGetName()
@@ -62,7 +80,6 @@ namespace Service.DB
         }
 
         UserObject GetCallUser() { return _callUser; }
-        Int64 GetCallerUserDBKey() { return _callerUserDBKey; }
-        Int64 GetCallerPlayerDBKey() { return _callerPlayerDBKey; }
+        ulong GetCallerUserDBKey() { return _callerUserDBKey; }
     }
 }

@@ -13,6 +13,7 @@ namespace Service.Net
 
         protected SocketSession _session = null;
         protected ulong _objectID;
+        protected ulong _userDBKey;
         protected int _lastCheckTick = 0;
         protected int _timeOverCount = 0;
         protected int _maxTimerOverCount = 5;
@@ -68,6 +69,8 @@ namespace Service.Net
 
         public void SetObjectID(ulong objectId) { _objectID = objectId; }
         public ulong GetObjectID() { return _objectID; }
+        public void SetUserDBKey(ulong userDBKey) { _userDBKey = userDBKey; }
+        public ulong GetUserDBKey() { return _userDBKey; }
         public static long GetUserObjCount() { return s_userObjectCnt; }
         public virtual void OnPacket(Packet packet)
         {
