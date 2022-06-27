@@ -59,7 +59,7 @@ namespace Service.DB
         public string _dbPW;
         public string _dbIP;
         public string _slaveDBIP;
-        public int _dbPort;
+        public short _dbPort;
         public Byte _threadCount;
         public Dictionary<string, short> _redisDBIndex = new Dictionary<string, short>();
 

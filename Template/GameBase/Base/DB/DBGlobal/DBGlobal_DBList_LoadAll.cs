@@ -17,7 +17,10 @@ namespace GameBase.Template.GameBase
         {
             try
             {
-                QueryBuilder query = new QueryBuilder("gp_db_list_load");
+                //https://social.msdn.microsoft.com/Forums/en-US/c00cb4e0-8162-495c-871f-34fe692dec6e/call-a-stored-procedure-with-parameter-in-c-and-mysql?forum=aspwebforms
+                //https://stackoverflow.com/questions/3583074/execute-parameterized-sql-storedprocedure-via-odbc
+                //mssql과 mysql odbc의 storedProcedure 호출 방법이 다름
+                QueryBuilder query = new QueryBuilder("call gp_db_list_load()");
 
                 adoDB.Execute(query);
 
@@ -31,8 +34,9 @@ namespace GameBase.Template.GameBase
                     simpleInfo._dbID = adoDB.RecordGetStrValue("id");
                     simpleInfo._dbPW = adoDB.RecordGetStrValue("pw");
                     simpleInfo._dbIP = adoDB.RecordGetStrValue("ip");
-                    simpleInfo._slaveDBIP = adoDB.RecordGetStrValue("slaveIp");
+                    simpleInfo._slaveDBIP = adoDB.RecordGetStrValue("slave_ip");
                     simpleInfo._dbPort = adoDB.RecordGetValue("port");
+                    _dbSampleInfos.Add(simpleInfo);
                 }
                 adoDB.RecordEnd();
             }

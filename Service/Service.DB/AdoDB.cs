@@ -10,7 +10,7 @@ namespace Service.DB
     public struct RecordType
     {
         private int _index;
-        private object _value;
+        private dynamic _value;
 
         public RecordType(int index, object value) { _index = index; _value = value; }
         public RecordType(RecordType rRecordType) { _index = rRecordType._index; _value = rRecordType._value; }
@@ -55,6 +55,8 @@ namespace Service.DB
         {
             try
             {
+                //https://stackoverflow.com/questions/9741788/why-does-this-cast-from-short-to-int-fail
+                //언박싱 에러
                 T tempValue = (T)(d._value);
                 return tempValue;
             }
@@ -254,7 +256,9 @@ namespace Service.DB
                 bool IsNotEOF = true;
                 if (_isFirstRecord)
                 {
+                    //테스트 필요 !!!!
                     _isFirstRecord = false;
+                    IsNotEOF = _recSet.Read();
                 }
                 else
                 {
