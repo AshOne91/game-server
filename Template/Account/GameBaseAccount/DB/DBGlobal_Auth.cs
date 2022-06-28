@@ -14,14 +14,16 @@ namespace GameBase.Template.GameBase
         public int _platform_type;
 
         //Out
-        public ulong _user_indx;
-        public int _sharding_index;
-        public int _gamedb_index;
-        public int _logdb_index;
+        public ulong _account_db_key;
+        public ulong _encode_account_id;
+        public string _account_status;
+        public DateTime _block_endtime;
+        public bool _is_withdraw;
+        public DateTime _withdraw_time;
+        public int _withdraw_cancel_count;
         public bool _is_google_link;
         public bool _is_apple_link;
         public bool _is_facebook_link;
-        public bool _is_kakao_link;
 
         public DBGlobal_PlatformAuth(UserObject obj):base(obj) {}
 
@@ -37,10 +39,13 @@ namespace GameBase.Template.GameBase
 
                 if (adoDB.RecordNotEOF())
                 {
-                    _user_indx = adoDB.RecordGetValue("user_indx");
-                    _sharding_index = adoDB.RecordGetValue("sharding_index");
-                    _gamedb_index = adoDB.RecordGetValue("gamedb_index");
-                    _logdb_index = adoDB.RecordGetValue("logdb_index");
+                    _account_db_key = adoDB.RecordGetValue("account_db_key");
+                    _encode_account_id = adoDB.RecordGetValue("encode_account_id");
+                    _account_status = adoDB.RecordGetStrValue("account_status");
+                    _block_endtime = adoDB.RecordGetTimeValue("block_endtime");
+                    _is_withdraw = adoDB.RecordGetValue("is_withdraw");
+                    _withdraw_time = adoDB.RecordGetTimeValue("withdraw_time");
+                    _withdraw_cancel_count = adoDB.RecordGetValue("withdraw_cancel_count");
                     _is_google_link = adoDB.RecordGetValue("is_google_link");
                     _is_apple_link = adoDB.RecordGetValue("is_apple_link");
                     _is_facebook_link = adoDB.RecordGetValue("is_facebook_link");
@@ -60,7 +65,7 @@ namespace GameBase.Template.GameBase
 
         public override string vGetName()
         {
-            return "DBGlobal_get_user_config";
+            return "gp_server_platform_auth";
         }
     }
 }

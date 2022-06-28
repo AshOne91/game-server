@@ -5,10 +5,12 @@ namespace GameBase.Template.Account.GameBaseAccount
 	// TODO : 템플릿에서 사용할 열거혐을 정의합니다.
 	public enum EPlatformType
     {
-        Guest = 0,
-        Google = 1,
-        Apple = 2,
-        Facebook = 3,
-        Kakao = 4
+        None = 0,
+        Guest = 1,
+        Google = 2,
+        Apple = 3,
+        Facebook = 4,
+        Kakao = 5,
+        MAX = 100
     }
 }

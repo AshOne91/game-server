@@ -71,18 +71,24 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		/// -1이 아닌 경우 원하는 서버로 이동할 수 있음(다이렉트로 이동 가능 한 지 서버에서 체크(재접, 게임매칭 등등)
 		/// </summary>
 		public int WantedServerId = new int();
+		/// <summary>
+		/// 플랫폼 구분 타입
+		/// </summary>
+		public int PlatformType = new int();
 		public PACKET_CL_CHECK_AUTH_REQ():base(ProtocolId){}
 		public override void Serialize(Packet packet)
 		{
 			base.Serialize(packet);
 			packet.Write(SiteUserId);
 			packet.Write(WantedServerId);
+			packet.Write(PlatformType);
 		}
 		public override void Deserialize(Packet packet)
 		{
 			base.Deserialize(packet);
 			packet.Read(ref SiteUserId);
 			packet.Read(ref WantedServerId);
+			packet.Read(ref PlatformType);
 		}
 	}
 	public sealed class PACKET_CL_CHECK_AUTH_RES : PacketBaseResponse

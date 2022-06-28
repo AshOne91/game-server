@@ -172,6 +172,7 @@ namespace GameBase.Template.Account.GameBaseAccount
         //LoginUserObj
         public ConnectInfo _connInfo = new ConnectInfo();
         public int _WantedServerId = -1;
+        public int _PlatformType = -1;
         public bool _CheckVersion = false;
         public string _SiteUserId = string.Empty;
 

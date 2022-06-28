@@ -46,7 +46,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			GameBaseAccountUserImpl userImpl = userObject.GetAccountImpl<GameBaseAccountUserImpl>();
 			userImpl._PassportExtra = extra.Split(";");
 
-			if (userImpl._PassportExtra.Length != 4)
+			if (userImpl._PassportExtra.Length != 5)
             {
 				Logger.Default.Log(ELogLevel.Err, "Passport ExtraValue Verify Failed : {0}", userImpl._PassportExtra);
 				userObject.GetSession().Disconnect();
@@ -54,12 +54,18 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}
 
 			int passportServerId = int.Parse(userImpl._PassportExtra[3]);
+			int platformType = int.Parse(userImpl._PassportExtra[4]);
 			if (passportServerId == -1 || passportServerId != GetGameBaseAccountImpl()._ServerId)
             {
 				Logger.Default.Log(ELogLevel.Err, "Passport Not Allowed for This Server : {0} != {1}", passportServerId, GetGameBaseAccountImpl()._ServerId);
 				userObject.GetSession().Disconnect();
 				return;
 			}
+
+			DBGlobal_PlatformAuth query = new DBGlobal_PlatformAuth(userObject);
+			query._platform_type = platformType;
+			query._site_user_id = id;
+			GameBaseTemplateContext.GetDBManager().PushQueryGlobal()
 		}
 		public void ON_CG_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CG_CHECK_AUTH_RES packet)
 		{

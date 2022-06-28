@@ -7,8 +7,8 @@ namespace Service.DB
 {
     public enum EDBType
     {
+        None = 0,
         Global,
-        Sharding,
         Game,
         Log,
         Redis1,

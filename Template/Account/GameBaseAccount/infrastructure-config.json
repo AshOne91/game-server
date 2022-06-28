@@ -49,6 +49,11 @@
                     "type": "int",
                     "name": "WantedServerId",
                     "comment": "-1이 아닌 경우 원하는 서버로 이동할 수 있음(다이렉트로 이동 가능 한 지 서버에서 체크(재접, 게임매칭 등등)"
+                },
+                {
+                    "type": "int",
+                    "name": "PlatformType",
+                    "comment": "플랫폼 구분 타입"
                 }
             ],
             "resMembers": [

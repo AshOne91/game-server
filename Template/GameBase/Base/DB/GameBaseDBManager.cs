@@ -11,6 +11,7 @@ namespace GameBase.Template.GameBase
     public class GameBaseDBManager : DBManager
     {
         private HashSet<short/*DBIndex*/> _setGameDBIndex = new HashSet<short>();
+        private int _ServerId = -1;
         public GameBaseDBManager(Logger logFunc) : base(logFunc)
         {
 
@@ -60,24 +61,42 @@ namespace GameBase.Template.GameBase
         {
             _PushQueryDB(EDBType.Global, 0, playerDBKey, query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
+        public void PushQUeryGlobal(string accountId, QueryBase query, Action completeCallback = null)
+        {
+            _PushQueryDB(EDBType.Global, 0, Hash.GenerateHash64(accountId), query, completeCallback, MethodBase.GetCurrentMethod().Name);
+        }
         public void PushQueryGlobal(QueryBase query, Action completeCallback = null)
         {
-            
+            _PushQueryDB(EDBType.Global, 0, (ulong)UtilRandom.GetRandomValue64(100, 200), query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
 
-        public void PushQueryGame(int threadSeed, QueryBase query, Action completeCallback = null)
+        public void PushQueryGame(ulong userDBKey, short dbIndex, int shardingKey, QueryBase query, Action completeCallback = null)
         {
-
+            if (dbIndex == 0)
+            {
+                dbIndex = _GetDBIndex(EDBType.Game, _ServerId, shardingKey);
+            }
+            _PushQueryDB(EDBType.Game, dbIndex, userDBKey, query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
 
-        public void PushQueryGame(QueryBase query, Action completeCallback = null)
+        public void PushQueryGame(ulong threadSeed, int shardingKey, QueryBase query, Action completeCallback = null)
         {
-           
+            short dbIndex = _GetDBIndex(EDBType.Game, _ServerId, shardingKey);
+            _PushQueryDB(EDBType.Game, dbIndex, threadSeed, query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
 
-        public void PushQuerySharding(int threadSeed, QueryBase query, Action completeCallback = null)
+        public void PushQueryGame(QueryBase query, short dbIndex, Action completeCallback = null)
         {
+            _PushQueryDB(EDBType.Game, dbIndex, (ulong)UtilRandom.GetRandomValue64(100, 200), query, completeCallback, MethodBase.GetCurrentMethod().Name);
+        }
 
+        public void PushQUeryLogDB(ulong userDBKey, short dbIndex, int shardingkey, QueryBase query, Action completeCallback = null)
+        {
+            if (dbIndex == 0)
+            {
+                dbIndex = _GetDBIndex(EDBType.Log, _ServerId, shardingkey);
+            }
+            _PushQueryDB(EDBType.Log, dbIndex, userDBKey, query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
 
         private void _PushQueryDB(EDBType type, short dbIndex, ulong threadSeed, QueryBase query, Action completeCallback, string fuctionName)

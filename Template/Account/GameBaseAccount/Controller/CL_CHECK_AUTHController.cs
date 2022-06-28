@@ -22,6 +22,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 			userObject.GetAccountImpl<GameBaseAccountUserImpl>()._SiteUserId = packet.SiteUserId;
 			userObject.GetAccountImpl<GameBaseAccountUserImpl>()._WantedServerId = packet.WantedServerId;
+			userObject.GetAccountImpl<GameBaseAccountUserImpl>()._PlatformType = packet.PlatformType;
 
 			PACKET_LM_SESSION_INFO_REQ sendData = new PACKET_LM_SESSION_INFO_REQ();
 			sendData.SiteUserId = userObject.GetAccountImpl<GameBaseAccountUserImpl>()._SiteUserId;
