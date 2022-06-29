@@ -156,14 +156,27 @@ namespace LoginServer
 
         public override void OnPacket(SocketSession session, Packet packet)
         {
-            ImplObject userObject = (ImplObject)session.GetUserObject();
-            if (userObject != null)
+            try
             {
-                AccountController.OnPacket(userObject, packet.GetId(), packet);
+                ImplObject obj = session.GetUserObject() as ImplObject;
+                if (obj != null)
+                {
+                    AccountController.OnPacket(obj, packet.GetId(), packet);
+                }
+                else
+                {
+                    Logger.Default.Log(ELogLevel.Err, "wrong session OnPacket");
+                }
             }
-            else
+            catch (FatalException e)
             {
-                Logger.Default.Log(ELogLevel.Always, "session Disconnect but OnPacket");
+                Logger.WriteExceptionLog(e);
+                throw e;
+            }
+            catch (Exception e)
+            {
+                Logger.WriteExceptionLog(e);
+                session.Disconnect();
             }
         }
 

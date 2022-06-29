@@ -179,6 +179,7 @@ namespace GameBase.Template.Account.GameBaseAccount
         //GameUserObj
         public PlayerInfo _PlayerInfo = new PlayerInfo();
         public string[] _PassportExtra = { };
+        public AuthInfo _AuthInfo = new AuthInfo();
 
         public GameBaseAccountUserImpl(ImplObject obj) : base(obj)
         {

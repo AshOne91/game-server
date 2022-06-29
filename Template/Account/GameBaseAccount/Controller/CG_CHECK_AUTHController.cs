@@ -65,10 +65,84 @@ namespace GameBase.Template.Account.GameBaseAccount
 			DBGlobal_PlatformAuth query = new DBGlobal_PlatformAuth(userObject);
 			query._platform_type = platformType;
 			query._site_user_id = id;
-			GameBaseTemplateContext.GetDBManager().PushQueryGlobal()
+			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(id, query, () => {
+				if (query.IsSuccess())
+                {
+
+					Login_DBAuth_Complete(userImpl
+						, query._account_db_key
+						, query._encode_account_id
+						, query._account_status
+						, query._block_endtime
+						, query._is_withdraw
+						, query._withdraw_time
+						, query._withdraw_cancel_count
+						, query._is_google_link
+						, query._is_apple_link
+						, query._is_facebook_link);
+				}
+				else
+                {
+					PACKET_CG_CHECK_AUTH_RES sendPacket = new PACKET_CG_CHECK_AUTH_RES();
+					sendPacket.ErrorCode = (int)GServerCode.DBError;
+					userObject.GetSession().SendPacket(sendPacket.Serialize());
+				}
+			});
 		}
 		public void ON_CG_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CG_CHECK_AUTH_RES packet)
 		{
+		}
+
+		public void Login_DBAuth_Complete(GameBaseAccountUserImpl Impl
+			, ulong accountDBKey
+			, string encodeAccountId
+			, string accountStatus
+			, DateTime blockEndTime
+			, bool isWithdraw
+			, DateTime withdrawTime
+			, int withdrawCancelCount
+			, bool isGoogleLink
+			, bool isAppleLink
+			, bool isFacebookLink)
+        {
+			PACKET_CG_CHECK_AUTH_RES sendPacket = new PACKET_CG_CHECK_AUTH_RES();
+			if (accountStatus == "Withdraw" || isWithdraw == true)
+            {
+				sendPacket.ErrorCode = (int)GServerCode.Withdraw;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+			}
+			else if (accountStatus == "EternalBlock")
+            {
+				sendPacket.ErrorCode = (int)GServerCode.EternalBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+			}
+			else if (accountStatus == "PeriodBlock")
+            {
+				sendPacket.ErrorCode = (int)GServerCode.PeriodBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+			}
+			else if (accountStatus == "TempBlock")
+            {
+				sendPacket.ErrorCode = (int)GServerCode.TempBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+			}
+			else if (accountStatus == "LongTimeBlock")
+            {
+				sendPacket.ErrorCode = (int)GServerCode.LongTimeBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+			}
+			else
+            {
+				Impl._obj.SetAccountDBKey(accountDBKey);
+
+				Impl._AuthInfo._accountDBKey = accountDBKey;
+				Impl._AuthInfo._encodeAccountId = encodeAccountId;
+				Impl._AuthInfo._isGoogleLink = isGoogleLink;
+				Impl._AuthInfo._isAppleLink = isAppleLink;
+				Impl._AuthInfo._isFacebook = isFacebookLink;
+
+				sendPacket.
+			}
 		}
 	}
 }

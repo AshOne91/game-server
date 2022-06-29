@@ -38,7 +38,13 @@ namespace GameBase.Template.GameBase
         PENDING_ERROR,
         DUPLICATED_LOGIN,
         ERROR_NO_GAME_SERVER,
-        INVALID_SITE_USER_ID
+        INVALID_SITE_USER_ID,
+        DBError,
+        Withdraw,
+        EternalBlock,
+        PeriodBlock,
+        TempBlock,
+        LongTimeBlock
     }
 
     public class ConnectInfo
@@ -48,5 +54,14 @@ namespace GameBase.Template.GameBase
         public string Ip = "";
         public ushort Port = 0;
         public UInt64 Location = 0;
+    }
+
+    public class AuthInfo
+    {
+        public ulong _accountDBKey = 0;
+        public string _encodeAccountId = string.Empty;
+        public bool _isGoogleLink = false;
+        public bool _isAppleLink = false;
+        public bool _isFacebook = false;
     }
 }

@@ -61,7 +61,7 @@ namespace GameBase.Template.GameBase
         {
             _PushQueryDB(EDBType.Global, 0, playerDBKey, query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
-        public void PushQUeryGlobal(string accountId, QueryBase query, Action completeCallback = null)
+        public void PushQueryGlobal(string accountId, QueryBase query, Action completeCallback = null)
         {
             _PushQueryDB(EDBType.Global, 0, Hash.GenerateHash64(accountId), query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }

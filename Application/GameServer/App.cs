@@ -199,7 +199,7 @@ namespace GameServer
 				}
 				else
 				{
-					Logger.Default.Log(ELogLevel.Err, "wrong session OpPacket");
+					Logger.Default.Log(ELogLevel.Err, "wrong session OnPacket");
 				}
 			}
 			catch (FatalException e)
