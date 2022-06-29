@@ -63,7 +63,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}
 
 			DBGlobal_PlatformAuth query = new DBGlobal_PlatformAuth(userObject);
-			query._platform_type = platformType;
+			query._platform_type = userImpl._AuthInfo._platformType = platformType;
 			query._site_user_id = id;
 			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(id, query, () => {
 				if (query.IsSuccess())
@@ -109,40 +109,47 @@ namespace GameBase.Template.Account.GameBaseAccount
 			if (accountStatus == "Withdraw" || isWithdraw == true)
             {
 				sendPacket.ErrorCode = (int)GServerCode.Withdraw;
-				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "EternalBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.EternalBlock;
-				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "PeriodBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.PeriodBlock;
-				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "TempBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.TempBlock;
-				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "LongTimeBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.LongTimeBlock;
-				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else
             {
 				Impl._obj.SetAccountDBKey(accountDBKey);
-
 				Impl._AuthInfo._accountDBKey = accountDBKey;
 				Impl._AuthInfo._encodeAccountId = encodeAccountId;
-				Impl._AuthInfo._isGoogleLink = isGoogleLink;
-				Impl._AuthInfo._isAppleLink = isAppleLink;
-				Impl._AuthInfo._isFacebook = isFacebookLink;
-
-				sendPacket.
+				sendPacket.IsGoogleLink = Impl._AuthInfo._isGoogleLink = isGoogleLink;
+				sendPacket.IsAppleLink = Impl._AuthInfo._isAppleLink = isAppleLink;
+				sendPacket.IsFacebookLink = Impl._AuthInfo._isFacebook = isFacebookLink;
+				DBGlobal_GetUser query = new DBGlobal_GetUser(Impl._obj);
+				query._account_db_key = Impl._obj.GetAccountDBKey();
+				query._server_id = GetGameBaseAccountImpl()._ServerId;
+				GameBaseTemplateContext.GetDBManager().PushQueryGlobal(encodeAccountId, query, ()=>{ 
+					if (query.IsSuccess())
+                    {
+						//FIXME FIXME 내일하기
+                    }
+					else
+                    {
+						sendPacket.ErrorCode = (int)GServerCode.DBError;
+					}
+				});
 			}
+			//Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+			//Impl._AuthInfo._Auth = true;
 		}
 	}
 }

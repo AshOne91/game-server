@@ -60,8 +60,10 @@ namespace GameBase.Template.GameBase
     {
         public ulong _accountDBKey = 0;
         public string _encodeAccountId = string.Empty;
+        public int _platformType = 0;
         public bool _isGoogleLink = false;
         public bool _isAppleLink = false;
         public bool _isFacebook = false;
+        public bool _Auth = false;
     }
 }

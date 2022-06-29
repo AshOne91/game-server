@@ -444,19 +444,19 @@
             ],
             "resMembers": [
                 {
-                    "type": "string",
-                    "name": "PlayerName",
-                    "comment": "플레이어 네임"
+                    "type": "bool",
+                    "name": "IsGoogleLink",
+                    "comment": "구글 계정 연동여부"
                 },
                 {
-                    "type": "ulong",
-                    "name": "PlayerIdx",
-                    "comment": "유저 DB고유 인덱스"
+                    "type": "bool",
+                    "name": "IsAppleLink",
+                    "comment": "애플 계정 연동여부"
                 },
                 {
-                    "type": "string",
-                    "name": "SiteUserId",
-                    "comment": "사이트 유저 아이디"
+                    "type": "bool",
+                    "name": "IsFacebookLink",
+                    "comment": "페이스북 계정 연동여부"
                 }
             ]
         },

@@ -40,7 +40,7 @@ namespace GameBase.Template.GameBase
                 if (adoDB.RecordNotEOF())
                 {
                     _account_db_key = adoDB.RecordGetValue("account_db_key");
-                    _encode_account_id = adoDB.RecordGetValue("encode_account_id");
+                    _encode_account_id = adoDB.RecordGetStrValue("encode_account_id");
                     _account_status = adoDB.RecordGetStrValue("account_status");
                     _block_endtime = adoDB.RecordGetTimeValue("block_endtime");
                     _is_withdraw = adoDB.RecordGetValue("is_withdraw");

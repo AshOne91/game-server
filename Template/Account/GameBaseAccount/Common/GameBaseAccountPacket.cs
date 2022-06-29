@@ -768,31 +768,31 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 	{
 		public static readonly ushort ProtocolId = 48;
 		/// <summary>
-		/// 플레이어 네임
+		/// 구글 계정 연동여부
 		/// </summary>
-		public string PlayerName = string.Empty;
+		public bool IsGoogleLink = new bool();
 		/// <summary>
-		/// 유저 DB고유 인덱스
+		/// 애플 계정 연동여부
 		/// </summary>
-		public ulong PlayerIdx = new ulong();
+		public bool IsAppleLink = new bool();
 		/// <summary>
-		/// 사이트 유저 아이디
+		/// 페이스북 계정 연동여부
 		/// </summary>
-		public string SiteUserId = string.Empty;
+		public bool IsFacebookLink = new bool();
 		public PACKET_CG_CHECK_AUTH_RES():base(ProtocolId){}
 		public override void Serialize(Packet packet)
 		{
 			base.Serialize(packet);
-			packet.Write(PlayerName);
-			packet.Write(PlayerIdx);
-			packet.Write(SiteUserId);
+			packet.Write(IsGoogleLink);
+			packet.Write(IsAppleLink);
+			packet.Write(IsFacebookLink);
 		}
 		public override void Deserialize(Packet packet)
 		{
 			base.Deserialize(packet);
-			packet.Read(ref PlayerName);
-			packet.Read(ref PlayerIdx);
-			packet.Read(ref SiteUserId);
+			packet.Read(ref IsGoogleLink);
+			packet.Read(ref IsAppleLink);
+			packet.Read(ref IsFacebookLink);
 		}
 	};
 	public sealed class PACKET_CG_CREATE_PLAYER_REQ : PacketBaseRequest
