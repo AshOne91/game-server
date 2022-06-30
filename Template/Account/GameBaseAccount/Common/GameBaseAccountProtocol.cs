@@ -55,6 +55,10 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			MessageControllers.Add(PACKET_CG_CHECK_AUTH_RES.ProtocolId, CG_CHECK_AUTH_RES_CONTROLLER);
 			MessageControllers.Add(PACKET_CG_CREATE_PLAYER_REQ.ProtocolId, CG_CREATE_PLAYER_REQ_CONTROLLER);
 			MessageControllers.Add(PACKET_CG_CREATE_PLAYER_RES.ProtocolId, CG_CREATE_PLAYER_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_PLAYERLIST_REQ.ProtocolId, CG_PLAYERLIST_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_PLAYERLIST_RES.ProtocolId, CG_PLAYERLIST_RES_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_PLAYER_SELECT_REQ.ProtocolId, CG_PLAYER_SELECT_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_PLAYER_SELECT_RES.ProtocolId, CG_PLAYER_SELECT_RES_CONTROLLER);
 		}
 
 		public virtual bool OnPacket(ImplObject userObject, ushort protocolId, Packet packet)
@@ -402,6 +406,38 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			PACKET_CG_CREATE_PLAYER_RES recvPacket = new PACKET_CG_CREATE_PLAYER_RES();
 			recvPacket.Deserialize(packet);
 			ON_CG_CREATE_PLAYER_RES_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_PLAYERLIST_REQ_CALLBACK(ImplObject userObject, PACKET_CG_PLAYERLIST_REQ packet);
+		public CG_PLAYERLIST_REQ_CALLBACK ON_CG_PLAYERLIST_REQ_CALLBACK;
+		public void CG_PLAYERLIST_REQ_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_PLAYERLIST_REQ recvPacket = new PACKET_CG_PLAYERLIST_REQ();
+			recvPacket.Deserialize(packet);
+			ON_CG_PLAYERLIST_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_PLAYERLIST_RES_CALLBACK(ImplObject userObject, PACKET_CG_PLAYERLIST_RES packet);
+		public CG_PLAYERLIST_RES_CALLBACK ON_CG_PLAYERLIST_RES_CALLBACK;
+		public void CG_PLAYERLIST_RES_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_PLAYERLIST_RES recvPacket = new PACKET_CG_PLAYERLIST_RES();
+			recvPacket.Deserialize(packet);
+			ON_CG_PLAYERLIST_RES_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_PLAYER_SELECT_REQ_CALLBACK(ImplObject userObject, PACKET_CG_PLAYER_SELECT_REQ packet);
+		public CG_PLAYER_SELECT_REQ_CALLBACK ON_CG_PLAYER_SELECT_REQ_CALLBACK;
+		public void CG_PLAYER_SELECT_REQ_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_PLAYER_SELECT_REQ recvPacket = new PACKET_CG_PLAYER_SELECT_REQ();
+			recvPacket.Deserialize(packet);
+			ON_CG_PLAYER_SELECT_REQ_CALLBACK(obj, recvPacket);
+		}
+		public delegate void CG_PLAYER_SELECT_RES_CALLBACK(ImplObject userObject, PACKET_CG_PLAYER_SELECT_RES packet);
+		public CG_PLAYER_SELECT_RES_CALLBACK ON_CG_PLAYER_SELECT_RES_CALLBACK;
+		public void CG_PLAYER_SELECT_RES_CONTROLLER(ImplObject obj, Packet packet)
+		{
+			PACKET_CG_PLAYER_SELECT_RES recvPacket = new PACKET_CG_PLAYER_SELECT_RES();
+			recvPacket.Deserialize(packet);
+			ON_CG_PLAYER_SELECT_RES_CALLBACK(obj, recvPacket);
 		}
 	}
 }

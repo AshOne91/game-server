@@ -818,25 +818,89 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 	{
 		public static readonly ushort ProtocolId = 50;
 		/// <summary>
-		/// 플레이어 인덱스
+		/// 생성 플레이어
 		/// </summary>
-		public ulong PlayerIdx = new ulong();
-		/// <summary>
-		/// 유저 닉네임
-		/// </summary>
-		public string PlayerName = string.Empty;
+		public PlayerInfo Player = new PlayerInfo();
 		public PACKET_CG_CREATE_PLAYER_RES():base(ProtocolId){}
 		public override void Serialize(Packet packet)
 		{
 			base.Serialize(packet);
-			packet.Write(PlayerIdx);
-			packet.Write(PlayerName);
+			packet.Write(Player);
 		}
 		public override void Deserialize(Packet packet)
 		{
 			base.Deserialize(packet);
-			packet.Read(ref PlayerIdx);
-			packet.Read(ref PlayerName);
+			packet.Read(Player);
+		}
+	};
+	public sealed class PACKET_CG_PLAYERLIST_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 51;
+		public PACKET_CG_PLAYERLIST_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+		}
+	}
+	public sealed class PACKET_CG_PLAYERLIST_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 52;
+		/// <summary>
+		/// 유저의 플레이어 리스트
+		/// </summary>
+		public list<PlayerInfo> PlayerInfoList = new list<PlayerInfo>();
+		public PACKET_CG_PLAYERLIST_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(PlayerInfoList);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(PlayerInfoList);
+		}
+	};
+	public sealed class PACKET_CG_PLAYER_SELECT_REQ : PacketBaseRequest
+	{
+		public static readonly ushort ProtocolId = 53;
+		/// <summary>
+		/// 플레이어 고유값
+		/// </summary>
+		public ulong PlayerDBKey = new ulong();
+		public PACKET_CG_PLAYER_SELECT_REQ():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(PlayerDBKey);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(ref PlayerDBKey);
+		}
+	}
+	public sealed class PACKET_CG_PLAYER_SELECT_RES : PacketBaseResponse
+	{
+		public static readonly ushort ProtocolId = 54;
+		/// <summary>
+		/// 플레이어 정보
+		/// </summary>
+		public PlayerInfo Player = new PlayerInfo();
+		public PACKET_CG_PLAYER_SELECT_RES():base(ProtocolId){}
+		public override void Serialize(Packet packet)
+		{
+			base.Serialize(packet);
+			packet.Write(Player);
+		}
+		public override void Deserialize(Packet packet)
+		{
+			base.Deserialize(packet);
+			packet.Read(Player);
 		}
 	};
 }
