@@ -13,9 +13,14 @@ namespace Service.Net
 
         protected SocketSession _session = null;
         protected ulong _objectID;
+
         protected ulong _accountDBKey;
         protected ulong _userDBKey;
         protected ulong _playerDBKey;
+
+        protected short _gameDBIdx;
+        protected short _logDBIdx;
+
         protected int _lastCheckTick = 0;
         protected int _timeOverCount = 0;
         protected int _maxTimerOverCount = 5;
@@ -77,6 +82,12 @@ namespace Service.Net
         public ulong GetAccountDBKey() { return _accountDBKey; }
         public ulong GetUserDBKey() { return _userDBKey; }
         public ulong GetPlayerDBKey() { return _playerDBKey; }
+
+        public void SetGameDBIdx(short gameDBIdx) { _gameDBIdx = gameDBIdx; }
+        public void SetLogDBIdx(short logDBIdx) { _logDBIdx = logDBIdx; }
+        public short GetGameDBIdx() { return _gameDBIdx; }
+        public short GetLogDBIdx() { return _logDBIdx; }
+
         public static long GetUserObjCount() { return s_userObjectCnt; }
         public virtual void OnPacket(Packet packet)
         {

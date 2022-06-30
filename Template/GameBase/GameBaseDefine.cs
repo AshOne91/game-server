@@ -47,6 +47,16 @@ namespace GameBase.Template.GameBase
         LongTimeBlock
     }
 
+    public enum EBlockStatus
+    {
+        None = 0,
+        EternalBlock,
+        PeriodBlock,
+        TempBlock,
+        ChattingBlock,
+        Max
+    }
+
     public class ConnectInfo
     {
         public int ConnType = (int)ConnectType.Normal;
@@ -59,6 +69,7 @@ namespace GameBase.Template.GameBase
     public class AuthInfo
     {
         public ulong _accountDBKey = 0;
+        public ulong _userDBKey = 0;
         public string _encodeAccountId = string.Empty;
         public int _platformType = 0;
         public bool _isGoogleLink = false;

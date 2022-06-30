@@ -109,22 +109,27 @@ namespace GameBase.Template.Account.GameBaseAccount
 			if (accountStatus == "Withdraw" || isWithdraw == true)
             {
 				sendPacket.ErrorCode = (int)GServerCode.Withdraw;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "EternalBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.EternalBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "PeriodBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.PeriodBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "TempBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.TempBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else if (accountStatus == "LongTimeBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.LongTimeBlock;
+				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			}
 			else
             {
@@ -140,16 +145,61 @@ namespace GameBase.Template.Account.GameBaseAccount
 				GameBaseTemplateContext.GetDBManager().PushQueryGlobal(encodeAccountId, query, ()=>{ 
 					if (query.IsSuccess())
                     {
-						//FIXME FIXME 내일하기
-                    }
+						Login_GetUser_Complete(sendPacket, Impl
+							, query._server_id
+							, query._user_db_key
+							, query._gamedb_idx
+							, query._logdb_idx
+							, query._block_status
+							, query._block_end_time
+							, query._gm_level);
+					}
 					else
                     {
 						sendPacket.ErrorCode = (int)GServerCode.DBError;
+						Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 					}
 				});
 			}
 			//Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
 			//Impl._AuthInfo._Auth = true;
+		}
+
+		public void Login_GetUser_Complete(PACKET_CG_CHECK_AUTH_RES resPacket
+			, GameBaseAccountUserImpl Impl
+			, int serverId
+			, ulong userDBKey
+			, short gameDBIdx
+			, short logDBIdx
+			, int blockStatus
+			, DateTime blockEndTime
+			, byte gm_level)
+        {
+			Impl._obj.SetUserDBKey(userDBKey);
+			Impl._obj.SetGameDBIdx(gameDBIdx);
+			Impl._obj.SetLogDBIdx(logDBIdx);
+			Impl._AuthInfo._userDBKey = userDBKey;
+			switch ((EBlockStatus)blockStatus)
+            {
+				case EBlockStatus.None:
+				case EBlockStatus.ChattingBlock:
+					break;
+				case EBlockStatus.EternalBlock:
+					resPacket.ErrorCode = (int)GServerCode.EternalBlock;
+					break;
+				case EBlockStatus.PeriodBlock:
+					resPacket.ErrorCode = (int)GServerCode.PeriodBlock;
+					break;
+				case EBlockStatus.TempBlock:
+					resPacket.ErrorCode = (int)GServerCode.TempBlock;
+					break;
+            }
+			DBGlobal_User_Login query = new DBGlobal_User_Login();
+			query._platform_type = Impl._AuthInfo._platformType;
+			query._encode_account_id = Impl._AuthInfo._encodeAccountId;
+			query._user_db_key = Impl._AuthInfo._userDBKey;
+			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(Impl._AuthInfo._encodeAccountId, query);
+			Impl._AuthInfo._Auth = true;
 		}
 	}
 }
