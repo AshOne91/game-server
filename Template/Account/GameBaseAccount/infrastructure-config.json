@@ -474,19 +474,63 @@
             ],
             "resMembers": [
                 {
-                    "type": "ulong",
-                    "name": "PlayerIdx",
-                    "comment": "플레이어 인덱스"
-                },
+                    "type": "PlayerInfo",
+                    "name": "Player",
+                    "comment": "생성 플레이어"
+                }
+            ]
+        },
+        {
+            "id": 51,
+            "method": "react",
+            "name": "CG_PLAYERLIST",
+            "protocolType": "",
+            "reqMembers": [
+            ],
+            "resMembers": [
                 {
-                    "type": "string",
-                    "name": "PlayerName",
-                    "comment": "유저 닉네임"
+                    "type": "list<PlayerInfo>",
+                    "name": "PlayerInfoList",
+                    "comment": "유저의 플레이어 리스트"
+                }
+            ]
+        },
+        {
+            "id": 53,
+            "method": "react",
+            "name": "CG_PLAYER_SELECT",
+            "protocolType": "",
+            "reqMembers": [
+                {
+                    "type": "ulong",
+                    "name": "PlayerDBKey",
+                    "comment": "플레이어 고유값"
+                }
+            ],
+            "resMembers": [
+                {
+                    "type": "PlayerInfo",
+                    "name": "Player",
+                    "comment": "플레이어 정보"
                 }
             ]
         }
     ],
     "models": [
-
+        {
+            "name": "PlayerInfo",
+            "members": [
+                {
+                    "type": "ulong",
+                    "name": "PlayerDBKey",
+                    "comment": "플레이어 DB Key"
+                },
+                {
+                    "type": "ulong",
+                    "name": "PlayerName",
+                    "comment": "플레이어 네임"
+                }
+            ]
+        }
     ]
 }
