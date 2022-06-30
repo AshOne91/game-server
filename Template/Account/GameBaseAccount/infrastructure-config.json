@@ -489,7 +489,7 @@
             ],
             "resMembers": [
                 {
-                    "type": "list<PlayerInfo>",
+                    "type": "List<PlayerInfo>",
                     "name": "PlayerInfoList",
                     "comment": "유저의 플레이어 리스트"
                 }

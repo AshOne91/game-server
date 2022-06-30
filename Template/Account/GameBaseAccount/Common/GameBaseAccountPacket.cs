@@ -852,17 +852,29 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		/// <summary>
 		/// 유저의 플레이어 리스트
 		/// </summary>
-		public list<PlayerInfo> PlayerInfoList = new list<PlayerInfo>();
+		public List<PlayerInfo> PlayerInfoList = new List<PlayerInfo>();
 		public PACKET_CG_PLAYERLIST_RES():base(ProtocolId){}
 		public override void Serialize(Packet packet)
 		{
 			base.Serialize(packet);
-			packet.Write(PlayerInfoList);
+			int lengthPlayerInfoList = (PlayerInfoList == null) ? 0 : PlayerInfoList.Count;
+			packet.Write(lengthPlayerInfoList);
+			for (int i = 0; i < lengthPlayerInfoList; ++i)
+			{
+				packet.Write(PlayerInfoList[i]);
+			}
 		}
 		public override void Deserialize(Packet packet)
 		{
 			base.Deserialize(packet);
-			packet.Read(PlayerInfoList);
+			int lengthPlayerInfoList = (PlayerInfoList == null) ? 0 : PlayerInfoList.Count;
+			packet.Read(ref lengthPlayerInfoList);
+			for (int i = 0; i < lengthPlayerInfoList; ++i)
+			{
+				PlayerInfo element = new PlayerInfo();
+				packet.Read(element);
+				PlayerInfoList.Add(element);
+			}
 		}
 	};
 	public sealed class PACKET_CG_PLAYER_SELECT_REQ : PacketBaseRequest
