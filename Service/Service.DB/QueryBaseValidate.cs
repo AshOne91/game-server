@@ -46,7 +46,7 @@ namespace Service.DB
             return "";
         }
 
-        UserObject GetCallUser() { return _callUser; }
-        ulong GetCallerUserDBKey() { return _callerUserDBKey; }
+        public UserObject GetCallUser() { return _callUser; }
+        public ulong GetCallerUserDBKey() { return _callerUserDBKey; }
     }
 }

@@ -186,4 +186,37 @@ namespace GameBase.Template.GameBase
         }
     }
 
+    public class DBGlobal_Get_PlayerDBKey : QueryBaseValidate
+    {
+        public ulong _user_db_key;
+        public string _player_name;
+        public int _server_id;
+
+        public ulong _player_db_key;
+
+        public DBGlobal_Get_PlayerDBKey(UserObject obj) : base(obj) { }
+
+        public override void vRun(AdoDB adoDB)
+        {
+            try
+            {
+                QueryBuilder query = new QueryBuilder("call gp_aplayer_get_playerdbkey(?,?,?)");
+                query.SetInputParam("@p_user_db_key", _user_db_key);
+                query.SetInputParam("@p_player_name", _player_name);
+                query.SetInputParam("@p_server_id", _server_id);
+
+                adoDB.Execute(query);
+            }
+            catch (OdbcException e)
+            {
+                _strResult = "[gp_aplayer_get_playerdbkey] " + e.Message;
+            }
+        }
+
+        public override string vGetName()
+        {
+            return "gp_aplayer_get_playerdbkey";
+        }
+    }
+
 }

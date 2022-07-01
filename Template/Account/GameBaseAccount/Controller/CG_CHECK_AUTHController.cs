@@ -179,6 +179,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			Impl._obj.SetGameDBIdx(gameDBIdx);
 			Impl._obj.SetLogDBIdx(logDBIdx);
 			Impl._AuthInfo._userDBKey = userDBKey;
+			Impl._AuthInfo._gm_level = gm_level;
 			switch ((EBlockStatus)blockStatus)
             {
 				case EBlockStatus.None:

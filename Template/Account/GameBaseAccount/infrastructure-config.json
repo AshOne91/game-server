@@ -515,22 +515,5 @@
                 }
             ]
         }
-    ],
-    "models": [
-        {
-            "name": "PlayerInfo",
-            "members": [
-                {
-                    "type": "ulong",
-                    "name": "PlayerDBKey",
-                    "comment": "플레이어 DB Key"
-                },
-                {
-                    "type": "ulong",
-                    "name": "PlayerName",
-                    "comment": "플레이어 네임"
-                }
-            ]
-        }
     ]
 }

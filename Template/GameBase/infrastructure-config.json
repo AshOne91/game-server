@@ -402,7 +402,7 @@
             "members": [
                 {
                     "type": "ulong",
-                    "name": "PlayerIdx",
+                    "name": "PlayerDBKey",
                     "comment": ""
                 },
                 {

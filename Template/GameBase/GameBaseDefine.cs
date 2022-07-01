@@ -44,7 +44,8 @@ namespace GameBase.Template.GameBase
         EternalBlock,
         PeriodBlock,
         TempBlock,
-        LongTimeBlock
+        LongTimeBlock,
+        DuplicateName
     }
 
     public enum EBlockStatus
@@ -75,6 +76,7 @@ namespace GameBase.Template.GameBase
         public bool _isGoogleLink = false;
         public bool _isAppleLink = false;
         public bool _isFacebook = false;
+        public byte _gm_level = 0;
         public bool _Auth = false;
     }
 }

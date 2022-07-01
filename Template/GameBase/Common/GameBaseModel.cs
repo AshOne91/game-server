@@ -779,7 +779,7 @@ namespace GameBase.Template.GameBase.Common
 		/// <sumary>
 		/// 
 		/// </sumary>
-		public ulong PlayerIdx = new ulong();
+		public ulong PlayerDBKey = new ulong();
 		/// <sumary>
 		/// 
 		/// </sumary>
@@ -798,7 +798,7 @@ namespace GameBase.Template.GameBase.Common
 		public string MatchToken = string.Empty;
 		public void Serialize(Packet packet)
 		{
-			packet.Write(PlayerIdx);
+			packet.Write(PlayerDBKey);
 			packet.Write(SiteUserId);
 			packet.Write(PlayerName);
 			packet.Write(Version);
@@ -806,7 +806,7 @@ namespace GameBase.Template.GameBase.Common
 		}
 		public void Deserialize(Packet packet)
 		{
-			packet.Read(ref PlayerIdx);
+			packet.Read(ref PlayerDBKey);
 			packet.Read(ref SiteUserId);
 			packet.Read(ref PlayerName);
 			packet.Read(ref Version);
