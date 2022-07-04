@@ -62,329 +62,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-03 21:10:40
-CREATE DATABASE  IF NOT EXISTS `gamedb2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `gamedb2`;
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: gamedb2
--- ------------------------------------------------------
--- Server version	8.0.29
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `table_auto_guser`
---
-
-DROP TABLE IF EXISTS `table_auto_guser`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `table_auto_guser` (
-  `idx` bigint NOT NULL AUTO_INCREMENT,
-  `user_db_key` bigint NOT NULL,
-  `newbie` bit(1) NOT NULL DEFAULT b'1',
-  `encode_account_id` varchar(100) NOT NULL,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `gm_level` tinyint NOT NULL DEFAULT '0',
-  PRIMARY KEY (`idx`),
-  UNIQUE KEY `ix_guser_userdbkey` (`user_db_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `table_auto_guser`
---
-
-LOCK TABLES `table_auto_guser` WRITE;
-/*!40000 ALTER TABLE `table_auto_guser` DISABLE KEYS */;
-/*!40000 ALTER TABLE `table_auto_guser` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `table_auto_player`
---
-
-DROP TABLE IF EXISTS `table_auto_player`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `table_auto_player` (
-  `idx` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `player_db_key` bigint unsigned NOT NULL,
-  `user_db_key` bigint unsigned NOT NULL,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `logout_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `is_login` bit(1) NOT NULL DEFAULT b'0',
-  `newbie` bit(1) NOT NULL DEFAULT b'1',
-  `serial_allocator` bigint NOT NULL DEFAULT '0',
-  `player_name` varchar(50) NOT NULL,
-  `level` smallint NOT NULL DEFAULT '1',
-  `exp` bigint NOT NULL DEFAULT '0',
-  PRIMARY KEY (`idx`),
-  UNIQUE KEY `ix_player_playerdbkey` (`player_db_key`) /*!80000 INVISIBLE */,
-  UNIQUE KEY `ix_player_playername` (`player_name`) /*!80000 INVISIBLE */,
-  KEY `ix_player_islogin` (`is_login`) /*!80000 INVISIBLE */,
-  KEY `ix_player_level` (`level`) /*!80000 INVISIBLE */,
-  KEY `ix_player_logintime` (`login_time`) /*!80000 INVISIBLE */,
-  KEY `ix_player_userdbkey` (`user_db_key`) /*!80000 INVISIBLE */
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `table_auto_player`
---
-
-LOCK TABLES `table_auto_player` WRITE;
-/*!40000 ALTER TABLE `table_auto_player` DISABLE KEYS */;
-/*!40000 ALTER TABLE `table_auto_player` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `table_errorlog`
---
-
-DROP TABLE IF EXISTS `table_errorlog`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `table_errorlog` (
-  `idx` int NOT NULL,
-  `procedure_name` varchar(45) DEFAULT NULL,
-  `error_state` varchar(10) DEFAULT NULL,
-  `error_no` varchar(10) DEFAULT NULL,
-  `error_message` varchar(128) DEFAULT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `param` varchar(4000) NOT NULL,
-  PRIMARY KEY (`idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `table_errorlog`
---
-
-LOCK TABLES `table_errorlog` WRITE;
-/*!40000 ALTER TABLE `table_errorlog` DISABLE KEYS */;
-/*!40000 ALTER TABLE `table_errorlog` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping events for database 'gamedb2'
---
-
---
--- Dumping routines for database 'gamedb2'
---
-/*!50003 DROP PROCEDURE IF EXISTS `gp_user_player_create` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`ubf`@`%` PROCEDURE `gp_user_player_create`(
-	IN p_user_db_key BIGINT UNSIGNED,
-    IN p_max_player_count TINYINT UNSIGNED,
-    IN p_player_db_key BIGINT UNSIGNED,
-    IN p_player_name varchar(50),
-    IN p_player_level SMALLINT
-)
-BEGIN
-	DECLARE ProcParam varchar(4000);
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET DIAGNOSTICS @cno = NUMBER;
-		GET DIAGNOSTICS CONDITION @cno
-		@p_ErrorState = RETURNED_SQLSTATE, @p_ErrorNo = MYSQL_ERRNO, @p_ErrorMessage = MESSAGE_TEXT;
-		SET ProcParam = CONCAT(p_user_db_key, ',', p_max_player_count, ',', p_player_db_key, ',',  p_player_name, ',', p_player_level);
-		ROLLBACK;
-		INSERT INTO table_errorlog (procedure_name, error_state, error_no, error_message, param)
-			VALUES ('gp_user_player_create', @p_ErrorState, @p_ErrorNo, @p_ErrorMessage, ProcParam);
-		RESIGNAL;
-	END;
-		
-        #플레이어 최대 생성 수 체크
-        IF (SELECT
-					COUNT(*)
-				FROM table_auto_player
-                WHERE user_db_key = p_user_db_key) >= p_max_player_count THEN
-			SELECT
-				1 AS result;
-		# 플레이어 이름 중복 체크
-        ELSEIF EXISTS (SELECT
-					1
-				FROM table_auto_player
-                WHERE player_name = p_player_name LIMIT 1) THEN
-			SELECT
-				2 AS result;
-		ELSEIF EXISTS (SELECT
-					1
-				FROM table_auto_player
-                WHERE player_db_key = p_player_db_key LIMIT 1) THEN
-			SELECT
-				3 AS result;
-		ELSE 
-			INSERT INTO table_auto_player (user_db_key,
-            player_db_key,
-            player_name,
-            level)
-				VALUES (p_user_db_key, p_player_db_key, p_player_name, p_player_level);
-                
-			SELECT
-				0 AS result,
-                player_db_key,
-                player_name,
-                level
-			FROM table_auto_player
-            WHERE player_db_key = p_player_db_key;
-		END IF;        
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `gp_user_player_list_load` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`ubf`@`%` PROCEDURE `gp_user_player_list_load`(
-	IN p_user_db_key BIGINT UNSIGNED,
-	IN p_encode_account_id varchar(50),
-    IN p_gm_level TINYINT
-)
-BEGIN
-	DECLARE ProcParam varchar(4000);
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET DIAGNOSTICS @cno = NUMBER;
-		GET DIAGNOSTICS CONDITION @cno
-		@p_ErrorState = RETURNED_SQLSTATE, @p_ErrorNo = MYSQL_ERRNO, @p_ErrorMessage = MESSAGE_TEXT;
-		SET ProcParam = CONCAT(p_user_db_key, ',', p_encode_account_id, ',', p_gm_level);
-		INSERT INTO table_errorlog (procedure_name, error_state, error_no, error_message, create_time)
-			VALUES ('gp_user_player_list_load', @p_ErrorState, @p_ErrorNo, @p_ErrorMessage, ProcParam);
-		RESIGNAL;
-	END;
-    
-    IF NOT EXISTS (SELECT
-				user_db_key
-			FROM table_auto_guser
-            WHERE user_db_key = p_user_db_key) THEN
-		INSERT INTO table_auto_guser (user_db_key, encode_account_id, gm_level)
-			VALUES (p_user_db_key, p_encode_account_id, p_gm_level);
-	END IF;
-    
-    SELECT
-		player_db_key,
-        player_name,
-        create_time,
-        logout_time,
-        level,
-        exp
-	FROM table_auto_player
-    WHERE user_db_key = p_user_db_key;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2022-07-03 21:10:40
-CREATE DATABASE  IF NOT EXISTS `logdb1` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `logdb1`;
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: logdb1
--- ------------------------------------------------------
--- Server version	8.0.29
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `table_errorlog`
---
-
-DROP TABLE IF EXISTS `table_errorlog`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `table_errorlog` (
-  `idx` int NOT NULL,
-  `procedure_name` varchar(45) DEFAULT NULL,
-  `error_state` varchar(10) DEFAULT NULL,
-  `error_no` varchar(10) DEFAULT NULL,
-  `error_message` varchar(128) DEFAULT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `param` varchar(4000) NOT NULL,
-  PRIMARY KEY (`idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `table_errorlog`
---
-
-LOCK TABLES `table_errorlog` WRITE;
-/*!40000 ALTER TABLE `table_errorlog` DISABLE KEYS */;
-/*!40000 ALTER TABLE `table_errorlog` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping events for database 'logdb1'
---
-
---
--- Dumping routines for database 'logdb1'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2022-07-03 21:10:40
+-- Dump completed on 2022-07-04 18:24:52
 CREATE DATABASE  IF NOT EXISTS `globaldb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `globaldb`;
 -- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
@@ -967,7 +645,72 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-03 21:10:40
+-- Dump completed on 2022-07-04 18:24:52
+CREATE DATABASE  IF NOT EXISTS `logdb1` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `logdb1`;
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: logdb1
+-- ------------------------------------------------------
+-- Server version	8.0.29
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `table_errorlog`
+--
+
+DROP TABLE IF EXISTS `table_errorlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `table_errorlog` (
+  `idx` int NOT NULL,
+  `procedure_name` varchar(45) DEFAULT NULL,
+  `error_state` varchar(10) DEFAULT NULL,
+  `error_no` varchar(10) DEFAULT NULL,
+  `error_message` varchar(128) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `param` varchar(4000) NOT NULL,
+  PRIMARY KEY (`idx`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `table_errorlog`
+--
+
+LOCK TABLES `table_errorlog` WRITE;
+/*!40000 ALTER TABLE `table_errorlog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `table_errorlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'logdb1'
+--
+
+--
+-- Dumping routines for database 'logdb1'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-07-04 18:24:53
 CREATE DATABASE  IF NOT EXISTS `gamedb1` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `gamedb1`;
 -- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
@@ -1109,7 +852,8 @@ CREATE DEFINER=`ubf`@`%` PROCEDURE `gp_user_player_create`(
     IN p_max_player_count TINYINT UNSIGNED,
     IN p_player_db_key BIGINT UNSIGNED,
     IN p_player_name varchar(50),
-    IN p_player_level SMALLINT
+    IN p_player_level SMALLINT,
+    IN p_player_exp BIGINT
 )
 BEGIN
 	DECLARE ProcParam varchar(4000);
@@ -1150,13 +894,14 @@ BEGIN
             player_db_key,
             player_name,
             level)
-				VALUES (p_user_db_key, p_player_db_key, p_player_name, p_player_level);
+				VALUES (p_user_db_key, p_player_db_key, p_player_name, p_player_level, p_player_exp);
                 
 			SELECT
 				0 AS result,
                 player_db_key,
                 player_name,
-                level
+                level,
+                exp
 			FROM table_auto_player
             WHERE player_db_key = p_player_db_key;
 		END IF;        
@@ -1227,4 +972,263 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-03 21:10:41
+-- Dump completed on 2022-07-04 18:24:53
+CREATE DATABASE  IF NOT EXISTS `gamedb2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `gamedb2`;
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: gamedb2
+-- ------------------------------------------------------
+-- Server version	8.0.29
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `table_auto_guser`
+--
+
+DROP TABLE IF EXISTS `table_auto_guser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `table_auto_guser` (
+  `idx` bigint NOT NULL AUTO_INCREMENT,
+  `user_db_key` bigint NOT NULL,
+  `newbie` bit(1) NOT NULL DEFAULT b'1',
+  `encode_account_id` varchar(100) NOT NULL,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `gm_level` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idx`),
+  UNIQUE KEY `ix_guser_userdbkey` (`user_db_key`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `table_auto_guser`
+--
+
+LOCK TABLES `table_auto_guser` WRITE;
+/*!40000 ALTER TABLE `table_auto_guser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `table_auto_guser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `table_auto_player`
+--
+
+DROP TABLE IF EXISTS `table_auto_player`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `table_auto_player` (
+  `idx` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `player_db_key` bigint unsigned NOT NULL,
+  `user_db_key` bigint unsigned NOT NULL,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `logout_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_login` bit(1) NOT NULL DEFAULT b'0',
+  `newbie` bit(1) NOT NULL DEFAULT b'1',
+  `serial_allocator` bigint NOT NULL DEFAULT '0',
+  `player_name` varchar(50) NOT NULL,
+  `level` smallint NOT NULL DEFAULT '1',
+  `exp` bigint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idx`),
+  UNIQUE KEY `ix_player_playerdbkey` (`player_db_key`) /*!80000 INVISIBLE */,
+  UNIQUE KEY `ix_player_playername` (`player_name`) /*!80000 INVISIBLE */,
+  KEY `ix_player_islogin` (`is_login`) /*!80000 INVISIBLE */,
+  KEY `ix_player_level` (`level`) /*!80000 INVISIBLE */,
+  KEY `ix_player_logintime` (`login_time`) /*!80000 INVISIBLE */,
+  KEY `ix_player_userdbkey` (`user_db_key`) /*!80000 INVISIBLE */
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `table_auto_player`
+--
+
+LOCK TABLES `table_auto_player` WRITE;
+/*!40000 ALTER TABLE `table_auto_player` DISABLE KEYS */;
+/*!40000 ALTER TABLE `table_auto_player` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `table_errorlog`
+--
+
+DROP TABLE IF EXISTS `table_errorlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `table_errorlog` (
+  `idx` int NOT NULL,
+  `procedure_name` varchar(45) DEFAULT NULL,
+  `error_state` varchar(10) DEFAULT NULL,
+  `error_no` varchar(10) DEFAULT NULL,
+  `error_message` varchar(128) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `param` varchar(4000) NOT NULL,
+  PRIMARY KEY (`idx`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `table_errorlog`
+--
+
+LOCK TABLES `table_errorlog` WRITE;
+/*!40000 ALTER TABLE `table_errorlog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `table_errorlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'gamedb2'
+--
+
+--
+-- Dumping routines for database 'gamedb2'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `gp_user_player_create` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`ubf`@`%` PROCEDURE `gp_user_player_create`(
+	IN p_user_db_key BIGINT UNSIGNED,
+    IN p_max_player_count TINYINT UNSIGNED,
+    IN p_player_db_key BIGINT UNSIGNED,
+    IN p_player_name varchar(50),
+    IN p_player_level SMALLINT,
+    IN p_player_exp BIGINT
+)
+BEGIN
+	DECLARE ProcParam varchar(4000);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		GET DIAGNOSTICS @cno = NUMBER;
+		GET DIAGNOSTICS CONDITION @cno
+		@p_ErrorState = RETURNED_SQLSTATE, @p_ErrorNo = MYSQL_ERRNO, @p_ErrorMessage = MESSAGE_TEXT;
+		SET ProcParam = CONCAT(p_user_db_key, ',', p_max_player_count, ',', p_player_db_key, ',',  p_player_name, ',', p_player_level);
+		ROLLBACK;
+		INSERT INTO table_errorlog (procedure_name, error_state, error_no, error_message, param)
+			VALUES ('gp_user_player_create', @p_ErrorState, @p_ErrorNo, @p_ErrorMessage, ProcParam);
+		RESIGNAL;
+	END;
+		
+        #플레이어 최대 생성 수 체크
+        IF (SELECT
+					COUNT(*)
+				FROM table_auto_player
+                WHERE user_db_key = p_user_db_key) >= p_max_player_count THEN
+			SELECT
+				1 AS result;
+		# 플레이어 이름 중복 체크
+        ELSEIF EXISTS (SELECT
+					1
+				FROM table_auto_player
+                WHERE player_name = p_player_name LIMIT 1) THEN
+			SELECT
+				2 AS result;
+		ELSEIF EXISTS (SELECT
+					1
+				FROM table_auto_player
+                WHERE player_db_key = p_player_db_key LIMIT 1) THEN
+			SELECT
+				3 AS result;
+		ELSE 
+			INSERT INTO table_auto_player (user_db_key,
+            player_db_key,
+            player_name,
+            level)
+				VALUES (p_user_db_key, p_player_db_key, p_player_name, p_player_level, p_player_exp);
+                
+			SELECT
+				0 AS result,
+                player_db_key,
+                player_name,
+                level,
+                exp
+			FROM table_auto_player
+            WHERE player_db_key = p_player_db_key;
+		END IF;        
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `gp_user_player_list_load` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`ubf`@`%` PROCEDURE `gp_user_player_list_load`(
+	IN p_user_db_key BIGINT UNSIGNED,
+	IN p_encode_account_id varchar(50),
+    IN p_gm_level TINYINT
+)
+BEGIN
+	DECLARE ProcParam varchar(4000);
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		GET DIAGNOSTICS @cno = NUMBER;
+		GET DIAGNOSTICS CONDITION @cno
+		@p_ErrorState = RETURNED_SQLSTATE, @p_ErrorNo = MYSQL_ERRNO, @p_ErrorMessage = MESSAGE_TEXT;
+		SET ProcParam = CONCAT(p_user_db_key, ',', p_encode_account_id, ',', p_gm_level);
+		INSERT INTO table_errorlog (procedure_name, error_state, error_no, error_message, create_time)
+			VALUES ('gp_user_player_list_load', @p_ErrorState, @p_ErrorNo, @p_ErrorMessage, ProcParam);
+		RESIGNAL;
+	END;
+    
+    IF NOT EXISTS (SELECT
+				user_db_key
+			FROM table_auto_guser
+            WHERE user_db_key = p_user_db_key) THEN
+		INSERT INTO table_auto_guser (user_db_key, encode_account_id, gm_level)
+			VALUES (p_user_db_key, p_encode_account_id, p_gm_level);
+	END IF;
+    
+    SELECT
+		player_db_key,
+        player_name,
+        create_time,
+        logout_time,
+        level,
+        exp
+	FROM table_auto_player
+    WHERE user_db_key = p_user_db_key;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-07-04 18:24:53
