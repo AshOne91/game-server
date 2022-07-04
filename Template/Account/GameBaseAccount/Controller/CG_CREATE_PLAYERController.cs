@@ -13,6 +13,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 	{
 		public void ON_CG_CREATE_PLAYER_REQ_CALLBACK(ImplObject userObject, PACKET_CG_CREATE_PLAYER_REQ packet)
 		{
+			//FIXME
+
 			//상태체크 추가
 
 			//플레이어 이름 체크
@@ -31,31 +33,68 @@ namespace GameBase.Template.Account.GameBaseAccount
 			{
 				PACKET_CG_CREATE_PLAYER_RES sendPacket = new PACKET_CG_CREATE_PLAYER_RES();
 				if (!query.IsSuccess()) //트랜잭션 실패
-                {
+				{
 					sendPacket.ErrorCode = (int)GServerCode.DuplicateName;
 					_obj.GetSession().SendPacket(sendPacket.Serialize());
 					return;
-                }
+				}
 				else if (query._player_db_key == 0) //이름 중복
-                {
+				{
 					sendPacket.ErrorCode = (int)GServerCode.DuplicateName;
 					_obj.GetSession().SendPacket(sendPacket.Serialize());
 				}
-				PlayerCreate_Complete(_obj, query._player_name, query._player_db_key, 1, 0);
+				else
+				{
+					PlayerCreate_Complete(_obj, query._player_name, query._player_db_key, 1, 0);
+				}
 			});
 		}
 		public void ON_CG_CREATE_PLAYER_RES_CALLBACK(ImplObject userObject, PACKET_CG_CREATE_PLAYER_RES packet)
 		{
 		}
 
-		public void PlayerCreate_Complete(UserObject obj, string playerName, ulong playerDBKey, short playerLevel, ulong playerExp)
+		public void PlayerCreate_Complete(UserObject obj, string playerName, ulong playerDBKey, short playerLevel, long playerExp)
         {
 			DBGame_Player_Create query = new DBGame_Player_Create(_obj);
 			query._max_player_count = 1;//일단 한명으로
 			query._player_db_key = playerDBKey;
 			query._player_name = playerName;
 			query._player_level = playerLevel;
-			query._player_exp = PlayerExp;
+			query._player_exp = playerExp;
+			GameBaseTemplateContext.GetDBManager().PushQueryGame(obj.GetUserDBKey(), obj.GetGameDBIdx(), 0, query, () =>
+			{
+				PACKET_CG_CREATE_PLAYER_RES sendPacket = new PACKET_CG_CREATE_PLAYER_RES();
+				GServerCode result = GServerCode.DBNotFound;
+				if (query.IsSuccess())
+				{
+					if (query._result == DBGame_Player_Create.EResult.Success)
+					{
+						result = GServerCode.SUCCESS;
+					}
+					else if (query._result == DBGame_Player_Create.EResult.MaxCountOver)
+                    {
+						result = GServerCode.PlayerMaxCount;
+                    }
+					else if (query._result == DBGame_Player_Create.EResult.DuplicateName)
+                    {
+						result = GServerCode.DuplicateName;
+                    }
+					else if (query._result == DBGame_Player_Create.EResult.DuplicatePlayerDBKey)
+                    {
+						result = GServerCode.PlayerDBKeyInvalid;
+                    }
+				}
+
+				if (result == GServerCode.SUCCESS)
+                {
+					sendPacket.Player = query._player;
+					obj.GetSession().SendPacket(sendPacket.Serialize());
+				}
+				else
+                {
+					obj.GetSession().SendPacket(sendPacket.Serialize());
+                }
+			});
 
 		}
 	}

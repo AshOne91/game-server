@@ -45,7 +45,11 @@ namespace GameBase.Template.GameBase
         PeriodBlock,
         TempBlock,
         LongTimeBlock,
-        DuplicateName
+        DuplicateName,
+        DBNotFound,
+        PlayerMaxCount,
+        PlayerDBKeyInvalid,
+
     }
 
     public enum EBlockStatus

@@ -8,9 +8,14 @@ namespace GameBase.Template.GameBase
 {
     public partial class DBGameUserLoad : QueryBaseValidate
     {
-        private UInt64 _partitionKey_1;
-        private UInt64 _partitionKey_2;
-        private UserDB _userDB;
+        //IN
+        public UInt64 _partitionKey_1;
+        public UInt64 _partitionKey_2;
+        public string _encode_account_id;
+        public Byte _gm_level;
+
+        //Out
+        public UserDB _userDB;
 
         public DBGameUserLoad(UserObject caller) : base(caller)
         {

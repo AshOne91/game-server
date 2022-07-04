@@ -63,6 +63,7 @@ namespace GameBase.Template.GameBase
         public ulong _player_db_key;
         public string _player_name;
         public short _player_level;
+        public long _player_exp;
 
         public enum EResult { Success, MaxCountOver, DuplicateName, DuplicatePlayerDBKey };
         public EResult _result;
@@ -74,11 +75,12 @@ namespace GameBase.Template.GameBase
             try
             {
                 QueryBuilder query = new QueryBuilder("call gp_user_player_create(?,?,?,?)");
-                query.SetInputParam("@p_user_db_key", _user_db_key);
+                query.SetInputParam("@p_user_db_key", GetCallerUserDBKey());
                 query.SetInputParam("@p_max_player_count", _max_player_count);
                 query.SetInputParam("@p_player_db_key", _player_db_key);
                 query.SetInputParam("@p_player_name", _player_name);
                 query.SetInputParam("@p_player_level", _player_level);
+                query.SetInputParam("@p_player_exp", _player_exp);
 
                 adoDB.Execute(query);
 
