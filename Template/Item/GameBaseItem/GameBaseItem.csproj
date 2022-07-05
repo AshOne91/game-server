@@ -7,4 +7,8 @@
     <StartupObject />
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Service\Service.DB\Service.DB.csproj" />
+  </ItemGroup>
+
 </Project>
