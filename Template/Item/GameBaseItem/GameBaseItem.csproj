@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Service\Service.DB\Service.DB.csproj" />
+    <ProjectReference Include="..\..\GameBase\GameBase.csproj" />
   </ItemGroup>
 
 </Project>
