@@ -33,7 +33,6 @@ namespace GameBase.Template.GameBase
             try
             {
                 _userDB.LoadRun(adoDB, _partitionKey_1, _partitionKey_2);
-
             }
             catch (Exception Error)
             {

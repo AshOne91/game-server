@@ -18,18 +18,70 @@ namespace GameBase.Template.Account.GameBaseAccount
 			//환불유저인지 체크
 
 			//이제 전체 유저 로딩 들어감!!! FIXME
+
+			GameBaseAccountUserImpl Impl = userObject.GetAccountImpl<GameBaseAccountUserImpl>();
 			DBGameUserLoad query = new DBGameUserLoad(userObject);
 			query._partitionKey_1 = userObject.GetUserDBKey();
 			query._partitionKey_2 = userObject.GetPlayerDBKey();
-			query._encode_account_id = userObject.GetAccountImpl<GameBaseAccountUserImpl>()._AuthInfo._encodeAccountId;
-			query._gm_level = userObject.GetAccountImpl<GameBaseAccountUserImpl>()._AuthInfo._gm_level;
+			query._encode_account_id = Impl._AuthInfo._encodeAccountId;
+			query._gm_level = Impl._AuthInfo._gm_level;
 			GameBaseTemplateContext.GetDBManager().PushQueryGame(userObject.GetUserDBKey(), userObject.GetGameDBIdx(), 0, query, () =>
 			{
-
+				if (query.IsSuccess())
+                {
+					if (!UserLoadComplete(Impl, query._userDB))
+                    {
+						PACKET_CG_PLAYER_SELECT_RES sendPacket = new PACKET_CG_PLAYER_SELECT_RES();
+						sendPacket.ErrorCode = (int)GServerCode.PlayerCreateFail;
+						_obj.GetSession().SendPacket(sendPacket.Serialize());
+					}
+                }
+				else
+                {
+					PACKET_CG_PLAYER_SELECT_RES sendPacket = new PACKET_CG_PLAYER_SELECT_RES();
+					sendPacket.ErrorCode = (int)GServerCode.DBNotFound;
+					_obj.GetSession().SendPacket(sendPacket.Serialize());
+				}
 			});
 		}
 		public void ON_CG_PLAYER_SELECT_RES_CALLBACK(ImplObject userObject, PACKET_CG_PLAYER_SELECT_RES packet)
 		{
 		}
+
+		public bool UserLoadComplete(GameBaseAccountUserImpl impl, UserDB srcDB)
+        {
+			_obj.GetUserDB().Copy(srcDB, false);
+
+			/*
+			//신규 플레이어 생성
+			CPlayer* pPlayer = CObjectManager::Instance()->CreatePlayer(m_pThis);
+			WRITELOG_RETURN_FALSE(pPlayer);
+
+			m_pThis->SetPlayer(pPlayer);
+
+			//DB로부터 받은 신규 정보로 각 Agent들의 자료구조를 만든다.
+			if (!m_pThis->OnPlayerSelect_Prepare())
+			{
+				CObjectManager::Instance()->DestroyObject(pPlayer);
+				m_pThis->SetPlayer(nullptr);
+				return false;
+			}*/
+
+			DBGlobal_Player_Login query = new DBGlobal_Player_Login();
+			query._account_db_key = impl._obj.GetAccountDBKey();
+			query._user_db_key = impl._obj.GetUserDBKey();
+			query._player_db_key = impl._obj.GetPlayerDBKey();
+			query._server_id = GetGameBaseAccountImpl()._ServerId;
+			query._player_name = impl._PlayerInfo.PlayerName;
+			query._player_level = 1;
+			query._player_class_type = 0;
+			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(impl._obj.GetUserDBKey(), query);
+
+			PACKET_CG_PLAYER_SELECT_RES sendPacket = new PACKET_CG_PLAYER_SELECT_RES();
+			sendPacket.Player = impl._PlayerInfo;
+			impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+
+			return true;
+        }
 	}
 }

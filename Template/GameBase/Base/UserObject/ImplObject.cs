@@ -25,6 +25,18 @@ namespace GameBase.Template.GameBase
         public ReportImpl ReportImpl = null;
         public SeasonImpl SeasonImpl = null;
         public UserImpl UserImpl = null;
+
+        protected UserDB _userDB = null;
+
+        public void SetUserDB(UserDB userDB)
+        {
+            _userDB = userDB;
+        }
+        public UserDB GetUserDB()
+        {
+            return _userDB;
+        }
+
         public T GetGameBaseImpl<T>() where T : BaseImpl
         {
             return this.GameBaseImpl as T;

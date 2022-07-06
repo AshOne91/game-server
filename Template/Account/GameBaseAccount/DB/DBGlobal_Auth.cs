@@ -219,4 +219,79 @@ namespace GameBase.Template.GameBase
         }
     }
 
+    public class DBGlobal_Player_Login : QueryBase
+    {
+        //IN
+        public ulong _account_db_key;
+        public ulong _user_db_key;
+        public ulong _player_db_key;
+        public int _server_id;
+        public string _player_name;
+        public short _player_level;
+        public SByte _player_class_type;
+
+
+        public DBGlobal_Player_Login() : base() { }
+
+        public override void vRun(AdoDB adoDB)
+        {
+            try
+            {
+                QueryBuilder query = new QueryBuilder("call gp_aplayer_login(?,?,?,?,?,?,?)");
+                query.SetInputParam("@p_account_db_key", _account_db_key);
+                query.SetInputParam("@p_user_db_key", _user_db_key);
+                query.SetInputParam("@p_player_db_key", _player_db_key);
+                query.SetInputParam("@p_server_id", _server_id);
+                query.SetInputParam("@p_player_name", _player_name);
+                query.SetInputParam("@p_player_level", _player_level);
+                query.SetInputParam("@p_player_class_type", _player_class_type);
+
+                adoDB.ExecuteNoRecords(query);
+            }
+            catch (OdbcException e)
+            {
+                _strResult = "[gp_aplayer_login] " + e.Message;
+            }
+        }
+
+        public override string vGetName()
+        {
+            return "gp_aplayer_login";
+        }
+    }
+
+    public class DBGlobal_Player_Logout : QueryBase
+    {
+        //IN
+        public ulong _player_db_key;
+        public string _player_name;
+        public short _player_level;
+        public SByte _player_class_type;
+
+        public DBGlobal_Player_Logout() : base() { }
+
+        public override void vRun(AdoDB adoDB)
+        {
+            try
+            {
+                QueryBuilder query = new QueryBuilder("call gp_aplayer_logout(?,?,?,?)");
+                query.SetInputParam("@p_player_db_key", _player_db_key);
+                query.SetInputParam("@p_player_name", _player_name);
+                query.SetInputParam("@p_player_level", _player_level);
+                query.SetInputParam("@p_player_class_type", _player_class_type);
+
+                adoDB.ExecuteNoRecords(query);
+            }
+            catch (OdbcException e)
+            {
+                _strResult = "[gp_aplayer_logout] " + e.Message;
+            }
+        }
+
+        public override string vGetName()
+        {
+            return "gp_aplayer_logout";
+        }
+    }
+
 }

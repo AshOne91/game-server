@@ -39,9 +39,17 @@ namespace Service.DB
         {
             _SetParam(szParamName, DbType.Int64, ParameterDirection.Input, value, 8, value.ToString());
         }
+        public void SetInputParam(string szParamName, UInt32 value)
+        {
+            _SetParam(szParamName, DbType.UInt32, ParameterDirection.Input, value, 4, value.ToString());
+        }
         public void SetInputParam(string szParamName, Int32 value)
         {
             _SetParam(szParamName, DbType.Int32, ParameterDirection.Input, value, 4, value.ToString());
+        }
+        public void SetInputParam(string szParamName, ushort value)
+        {
+            _SetParam(szParamName, DbType.UInt16, ParameterDirection.Input, value, 2, value.ToString());
         }
         public void SetInputParam(string szParamName, short value)
         {
@@ -50,6 +58,10 @@ namespace Service.DB
         public void SetInputParam(string szParamName, Byte value)
         {
             _SetParam(szParamName, DbType.Byte, ParameterDirection.Input, value, 1, value.ToString());
+        }
+        public void SetInputParam(string szParamName, SByte value)
+        {
+            _SetParam(szParamName, DbType.SByte, ParameterDirection.Input, value, 1, value.ToString());
         }
         public void SetInputParam(string szParamName, bool value)
         {

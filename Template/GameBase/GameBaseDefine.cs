@@ -49,6 +49,7 @@ namespace GameBase.Template.GameBase
         DBNotFound,
         PlayerMaxCount,
         PlayerDBKeyInvalid,
+        PlayerCreateFail
 
     }
 
