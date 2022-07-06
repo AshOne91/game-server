@@ -1,51 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Service.DB;
 
 namespace GameBase.Template.GameBase
 {
     public partial class UserDB
     {
+        Dictionary<ETemplateType, GameBaseUserDB> _userDBs = new Dictionary<ETemplateType, GameBaseUserDB>();
         public bool _IsLoaded = false;
-        public void Copy(UserDB userSrc, bool isChanged)
+
+        public bool AddUserDB(ETemplateType key, GameBaseUserDB baseUserDB)
         {
-            AccountCopy(userSrc, isChanged);
-            AdvertCopy(userSrc, isChanged);
-            AttendanceCopy(userSrc, isChanged);
-            AuctionCopy(userSrc, isChanged);
-            BattleCopy(userSrc, isChanged);
-            BuildingCopy(userSrc, isChanged);
-            CharacterCopy(userSrc, isChanged);
-            InternalCopy(userSrc, isChanged);
-            ItemCopy(userSrc, isChanged);
-            MailBoxCopy(userSrc, isChanged);
-            MatchingCopy(userSrc, isChanged);
-            NoticeCopy(userSrc, isChanged);
-            QuestCopy(userSrc, isChanged);
-            RankCopy(userSrc, isChanged);
-            ReportCopy(userSrc, isChanged);
-            SeasonCopy(userSrc, isChanged);
-            ShopCopy(userSrc, isChanged);
-            UserCopy(userSrc, isChanged);
+            if (_userDBs.ContainsKey(key) == true)
+            {
+                return false;
+            }
+            _userDBs.Add(key, baseUserDB);
+            return true;
         }
 
-        partial void AccountCopy(UserDB userSrc, bool isChanged);
-        partial void AdvertCopy(UserDB userSrc, bool isChanged);
-        partial void AttendanceCopy(UserDB userSrc, bool isChanged);
-        partial void AuctionCopy(UserDB userSrc, bool isChanged);
-        partial void BattleCopy(UserDB userSrc, bool isChanged);
-        partial void BuildingCopy(UserDB userSrc, bool isChanged);
-        partial void CharacterCopy(UserDB userSrc, bool isChanged);
-        partial void InternalCopy(UserDB userSrc, bool isChanged);
-        partial void ItemCopy(UserDB userSrc, bool isChanged);
-        partial void MailBoxCopy(UserDB userSrc, bool isChanged);
-        partial void MatchingCopy(UserDB userSrc, bool isChanged);
-        partial void NoticeCopy(UserDB userSrc, bool isChanged);
-        partial void QuestCopy(UserDB userSrc, bool isChanged);
-        partial void RankCopy(UserDB userSrc, bool isChanged);
-        partial void ReportCopy(UserDB userSrc, bool isChanged);
-        partial void SeasonCopy(UserDB userSrc, bool isChanged);
-        partial void ShopCopy(UserDB userSrc, bool isChanged);
-        partial void UserCopy(UserDB userSrc, bool isChanged);
+        public T GetUserDB<T>(ETemplateType key) where T : GameBaseUserDB
+        {
+            GameBaseUserDB value;
+            if (_userDBs.TryGetValue(key, out value) == false)
+            {
+                return null;
+            }
+            return value as T;
+        }
+
+        public void Copy(UserDB userSrc, bool isChanged)
+        {
+            foreach(var keyValue in _userDBs)
+            {
+                keyValue.Value.Copy(userSrc, isChanged);
+            }
+        }
+
+        public void LoadRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+        {
+            foreach(var keyValue in _userDBs)
+            {
+                keyValue.Value.LoadRun(adoDB, partitionKey_1, partitionKey_2);
+            }
+        }
+
+        public void SaveRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+        {
+            foreach(var keyValue in _userDBs)
+            {
+                keyValue.Value.SaveRun(adoDB, partitionKey_1, partitionKey_2);
+            }
+        }
     }
 }

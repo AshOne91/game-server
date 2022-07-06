@@ -8,14 +8,14 @@ using GameBase.Template.GameBase;
 
 namespace GameBase.Template.Item.GameBaseItem.Common
 {
-    public class GameBaseItemUserDB : ItemUserDB
+    public partial class GameBaseItemUserDB : GameBaseUserDB
     {
         public DBSlotContainer_DBItemTable _dbSlotContainer_DBItemTable = new DBSlotContainer_DBItemTable();
 
-        void override ItemCopy(UserDB userSrc, bool isChanged)
+        public override void Copy(UserDB userSrc, bool isChanged)
         {
-            GameBaseItemUserDB _ItemUserDB = userSrc._ItemUserDB;
-            _dbSlotContainer_DBItemTable.Copy(_ItemUserDB._dbSlotContainer_DBItemTable, isChanged);
+            GameBaseItemUserDB userDB = userSrc.GetUserDB<GameBaseItemUserDB>(ETemplateType.Item);
+            _dbSlotContainer_DBItemTable.Copy(userDB._dbSlotContainer_DBItemTable, isChanged);
         }
     }
 }
