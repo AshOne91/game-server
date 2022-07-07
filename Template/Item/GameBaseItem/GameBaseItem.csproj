@@ -1,15 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <ApplicationIcon />
-    <StartupObject />
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Service\Service.DB\Service.DB.csproj" />
-    <ProjectReference Include="..\..\GameBase\GameBase.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="../../../Service/Service.Core/Service.Core.csproj" />
+		<ProjectReference Include="../../../Service/Service.DB/Service.DB.csproj" />
+		<ProjectReference Include="../../../Service/Service.Net/Service.Net.csproj" />
+		<ProjectReference Include="../../../Template/GameBase/GameBase.csproj" />
+	</ItemGroup>
 
 </Project>
