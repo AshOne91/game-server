@@ -2,7 +2,37 @@
 	"templateType" : "Item",
 	"templateName" : "GameBaseItem",
 	"templateVersion" : "1.0.0",
-	"databases" : [],
+	"databases": [
+		{
+			"databaseName": "gamedb1",
+			"tableType": "slot",
+			"tableName": "DBItemTable",
+			"partitionKey_1": "user_db_key",
+			"partitionKey_2": "player_db_key",
+			"members": [
+				{
+					"type": "int",
+					"name": "item_type",
+					"comment": "아이템 타입"
+				},
+				{
+					"type": "int",
+					"name": "item_id",
+					"comment": "아이템 아이디"
+				},
+				{
+					"type": "long",
+					"name": "item_count",
+					"comment": "아이템 카운트"
+				},
+				{
+					"type": "DateTime",
+					"name": "remain_charge_time",
+					"comment": "남은 충전 타입"
+				}
+			]
+		}
+	],
 	"protocols" : [],
 	"models" : []
 }
