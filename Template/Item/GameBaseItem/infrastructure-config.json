@@ -4,7 +4,7 @@
 	"templateVersion" : "1.0.0",
 	"databases": [
 		{
-			"databaseName": "gamedb1",
+			"databaseType": "game",//game, global, log
 			"tableType": "slot",
 			"tableName": "DBItemTable",
 			"partitionKey_1": "user_db_key",
