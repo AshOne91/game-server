@@ -28,7 +28,7 @@ namespace GameBase.Template.GameBase
                 {
                     DBSimpleInfo simpleInfo = new DBSimpleInfo();
 
-                    simpleInfo._dbIndex = adoDB.RecordGetValue("index");
+                    simpleInfo._dbIndex = adoDB.RecordGetValue("idx");
                     simpleInfo._serverID = adoDB.RecordGetValue("server_id");
                     simpleInfo._dbType = (EDBType)(ushort)adoDB.RecordGetValue("type");
                     simpleInfo._dbSharding_key = adoDB.RecordGetValue("sharding_key");

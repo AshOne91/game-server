@@ -3,6 +3,11 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <WarningLevel>5</WarningLevel>
+	  <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+	  <OutputPath>../../Bin/GameServer</OutputPath>
+	</PropertyGroup>
 
 	<ItemGroup>
 <ProjectReference Include="../../Service/Service.Core\Service.Core.csproj" />

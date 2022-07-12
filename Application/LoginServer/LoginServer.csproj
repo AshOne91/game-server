@@ -3,6 +3,10 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+	  <OutputPath>../../Bin/LoginServer</OutputPath>
+	</PropertyGroup>
 
 	<ItemGroup>
 <ProjectReference Include="../../Service/Service.Core\Service.Core.csproj" />
