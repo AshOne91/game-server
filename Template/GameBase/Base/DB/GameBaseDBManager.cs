@@ -90,7 +90,7 @@ namespace GameBase.Template.GameBase
             _PushQueryDB(EDBType.Game, dbIndex, (ulong)UtilRandom.GetRandomValue64(100, 200), query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
 
-        public void PushQUeryLogDB(ulong userDBKey, short dbIndex, int shardingkey, QueryBase query, Action completeCallback = null)
+        public void PushQueryLogDB(ulong userDBKey, short dbIndex, int shardingkey, QueryBase query, Action completeCallback = null)
         {
             if (dbIndex == 0)
             {

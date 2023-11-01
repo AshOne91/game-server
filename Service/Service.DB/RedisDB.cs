@@ -180,40 +180,40 @@ namespace Service.DB
         {
             return _slaveRedis.ZRevRank(key, member);
         }
-        RankingPairList_t ZRange(string key, long start, long end)
+        public RankingPairList_t ZRange(string key, long start, long end)
         {
             return _slaveRedis.ZRange(key, start, end);
         }
-        RankingPairList_t ZRevRange(string key, long start, long end)
+        public RankingPairList_t ZRevRange(string key, long start, long end)
         {
             return _slaveRedis.ZRevRange(key, start, end);
         }
-        StringList_t ZRangeByScore(string key, double min, double max, int offset = 0, int maxCount = -1)
+        public StringList_t ZRangeByScore(string key, double min, double max, int offset = 0, int maxCount = -1)
         {
             return _slaveRedis.ZRangeByScore(key, min, max, offset, maxCount);
         }
-        StringList_t ZRevRangeByScore(string key, double max, double min, int offset = 0, int maxCount = -1)
+        public StringList_t ZRevRangeByScore(string key, double max, double min, int offset = 0, int maxCount = -1)
         {
             return _slaveRedis.ZRevRangeByScore(key, max, min, offset, maxCount);
         }
-        double ZIncrBy(string key, string member, double increment)
+        public double ZIncrBy(string key, string member, double increment)
         {
             return _masterRedis.ZIncrBy(key, member, increment);
         }
-        long ZCard(string key)
+        public long ZCard(string key)
         {
             return _masterRedis.ZCard(key);
         }
 
-        void HSet(string key, string field, string value)
+        public void HSet(string key, string field, string value)
         {
             _masterRedis.HSet(key, field, value);
         }
-        string HGet(string key, string field)
+        public string HGet(string key, string field)
         {
             return _slaveRedis.HGet(key, field);
         }
-        StringPairDic_t HGetAll(string key)
+        public StringPairDic_t HGetAll(string key)
         {
             StringPairDic_t stringPairDIc = new StringPairDic_t();
             StringPairList_t stringPairList = _slaveRedis.HGetAll(key);

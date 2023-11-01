@@ -379,7 +379,7 @@ namespace Service.DB
 
         public bool IsTroubleDisplay() { return _troubleDisplayTimer.IsFinished(); }
         public bool IsServiceStop() { return _serviceStopTimer.IsFinished(); }
-        public List<DBBase.DBInfo> GetRoubleDBList()
+        public List<DBBase.DBInfo> GetTroubleDBList()
         {
             return _listTroubleDB;
         }

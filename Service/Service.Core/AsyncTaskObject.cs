@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Service.Core
 {
-    public class AsyncTaskObject : ObjectCounter, IDisposable
+    public class AsyncTaskObject : ObjectCounter
     {
         public int _beginTick = Environment.TickCount;
         public MemoryStream _stream;
@@ -20,18 +20,13 @@ namespace Service.Core
         }
         ~AsyncTaskObject()
         {
-            this.Dispose(false);
+            this.Dispose(true);
         }
 
         #region IDisposable Members
         private bool disposed;
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
-        private void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (this.disposed)
                 return;
@@ -51,9 +46,7 @@ namespace Service.Core
             {
                 this.disposed = true;
             }
-
-
-
+            base.Dispose(disposing);
             this.disposed = true;
         }
         #endregion

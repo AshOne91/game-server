@@ -44,5 +44,9 @@ namespace GameBase.Template.Item.GameBaseItem.Common
 				throw new Exception("[gp_player_dbitemtable_load]" + e.Message);
 			}
 		}
-	}
+        public override void LoadRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+        {
+            _Run_LoadUser_DBItemTable(adoDB, partitionKey_1, partitionKey_2);
+        }
+    }
 }
