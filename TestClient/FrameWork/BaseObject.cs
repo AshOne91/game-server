@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestClient.FramwWork
+namespace TestClient.FrameWork
 {
     public abstract class BaseObject : IDisposable, IEventInterface
     {
@@ -52,11 +52,11 @@ namespace TestClient.FramwWork
 
         public virtual void Enable()
         {
-            //EntityManager.Instance.RegisterEntity(this);
+
         }
         public virtual void Disable()
         {
-            //EntityManager.Instance.RemoveEntity(this);
+
         }
 
         public virtual void Init()

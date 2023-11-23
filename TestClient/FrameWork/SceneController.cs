@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Transactions;
 
-namespace TestClient.FramwWork
+namespace TestClient.FrameWork
 {
     public abstract class SceneController<T> : Singleton<T>, ISceneController where T :BaseObject, new()
     {

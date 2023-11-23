@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace TestClient.FramwWork
+namespace TestClient.FrameWork
 {
     public abstract class Singleton<T> : BaseObject where T : BaseObject, new()
     {

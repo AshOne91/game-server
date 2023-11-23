@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace TestClient.FramwWork
+namespace TestClient.FrameWork
 {
     public enum EventType
     {

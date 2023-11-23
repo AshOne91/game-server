@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace TestClient.FramwWork
+namespace TestClient.FrameWork
 {
     public abstract class Component  : BaseObject
     {

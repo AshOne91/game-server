@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
-namespace TestClient.FramwWork
+namespace TestClient.FrameWork
 {
     public interface IUpdatable
     {
