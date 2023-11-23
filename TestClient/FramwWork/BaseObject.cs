@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestClient.FramwWork
 {
-    public abstract class BaseObject : IDisposable
+    public abstract class BaseObject : IDisposable, IEventInterface
     {
         private BaseObject _parent = null;
         public BaseObject Parent
@@ -50,10 +50,26 @@ namespace TestClient.FramwWork
             Dispose(false);
         }
 
-        public abstract void Enable();
-        public abstract void Disable();
+        public virtual void Enable()
+        {
+            //EntityManager.Instance.RegisterEntity(this);
+        }
+        public virtual void Disable()
+        {
+            //EntityManager.Instance.RemoveEntity(this);
+        }
 
-        public abstract void Init();
-        public abstract void Release();
+        public virtual void Init()
+        {
+            EntityManager.Instance.RegisterEntity(this);
+        }
+        public virtual void Release()
+        {
+            EntityManager.Instance.RemoveEntity(this);
+        }
+        public virtual bool OnMessage(Message message)
+        {
+            return false;
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace TestClient.FramwWork
         }
         public sealed override void Init()
         {
+            base.Init();
             foreach(var subSystem in _subSystems)
             {
                 subSystem.Item1.Init();
@@ -35,9 +36,11 @@ namespace TestClient.FramwWork
             }
             _subSystems.Clear();
             _sceneSubSystems.Clear();
+            base.Release();
         }
         public sealed override void Enable()
         {
+            base.Enable();
             foreach(var subSystem in _subSystems)
             {
                 subSystem.Item1.Enable();
@@ -51,6 +54,7 @@ namespace TestClient.FramwWork
             {
                 subSystem.Item1.Disable();
             }
+            base.Disable();
         }
 
         protected void AddSceneSubSystem<U>() where U : BaseObject, IUpdatable, new()

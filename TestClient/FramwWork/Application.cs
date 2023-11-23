@@ -21,6 +21,7 @@ namespace TestClient.FramwWork
         }
         public sealed override void Enable()
         {
+            base.Enable();
             foreach(var subSystem in _subSystemContainer)
             {
                 subSystem.Item1.Enable();
@@ -34,10 +35,12 @@ namespace TestClient.FramwWork
             {
                 _subSystemContainer[num].Item1.Disable();
             }
+            base.Disable();
         }
 
         public sealed override void Init()
         {
+            base.Init();
             PrepareInit();
             foreach(var subSystem in _subSystemContainer)
             {
@@ -68,6 +71,7 @@ namespace TestClient.FramwWork
             _appSubSystems.Clear();
             _subSystemContainer.Clear();
             _sceneController.Clear();
+            base.Disable();
         }
         public void Update()
         {

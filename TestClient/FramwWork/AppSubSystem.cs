@@ -7,21 +7,25 @@ namespace TestClient.FramwWork
     public abstract class AppSubSystem<T> : Singleton<T>, IUpdatable where T : BaseObject, new()
     {
         public abstract void DoUpdate();
-        public override void Enable()
+        public sealed override void Enable()
         {
+            base.Enable();
             OnEnable();
         }
-        public override void Disable() 
+        public sealed override void Disable() 
         {
             OnDisable();
+            base.Disable();
         }
-        public override void Init()
+        public sealed override void Init()
         {
+            base.Init();
             OnInit();
         }
-        public override void Release()
+        public sealed override void Release()
         {
             OnRelease();
+            base.Release();
         }
 
         public abstract void OnEnable();

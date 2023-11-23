@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 
 namespace TestClient.FramwWork
@@ -12,5 +13,10 @@ namespace TestClient.FramwWork
     public interface ISceneController
     {
         void DoUpdateManaged();
+    }
+
+    public interface IEventInterface
+    {
+        bool OnMessage(Message message);
     }
 }
