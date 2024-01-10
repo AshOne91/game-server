@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace TestClient.FramwWork
+namespace TestClient.FrameWork
 {
     public abstract class Application<T> : Singleton<T> where T : BaseObject, new()
     {
@@ -41,6 +41,9 @@ namespace TestClient.FramwWork
         public sealed override void Init()
         {
             base.Init();
+            AddAppSubSystem<TimerManager>();
+            AddAppSubSystem<EventManager>();
+            AddAppSubSystem<ObjectManager>();
             PrepareInit();
             foreach(var subSystem in _subSystemContainer)
             {
@@ -55,7 +58,7 @@ namespace TestClient.FramwWork
         public sealed override void Release()
         {
             OnRelease();
-            if (_activeSceneController.Item1 != null)
+            if (_activeSceneController != null)
             {
                 _activeSceneController.Item1.Disable();
                 _activeSceneController = null;
@@ -68,6 +71,7 @@ namespace TestClient.FramwWork
             {
                 sceneController.Value?.Item1.Release();
             }
+
             _appSubSystems.Clear();
             _subSystemContainer.Clear();
             _sceneController.Clear();

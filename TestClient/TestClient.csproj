@@ -5,4 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Service\Service.Net\Service.Net.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestTable\" />
+  </ItemGroup>
+
 </Project>

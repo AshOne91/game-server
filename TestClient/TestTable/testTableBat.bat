@@ -1,0 +1,1 @@
+common-tool gen table --target-path ./ -output ./

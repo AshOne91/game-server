@@ -7,7 +7,6 @@ namespace TestClient.FrameWork
 {
     public abstract class SceneSubSystem<T> : Singleton<T>, IUpdatable where T : BaseObject, new() 
     {
-        public abstract void DoUpdate();
         public sealed override void Enable()
         {
             OnEnable();
@@ -24,6 +23,7 @@ namespace TestClient.FrameWork
         {
             OnRelease();
         }
+        public abstract void DoUpdate();
         public abstract void OnEnable();
         public abstract void OnDisable();
         public abstract void OnInit();

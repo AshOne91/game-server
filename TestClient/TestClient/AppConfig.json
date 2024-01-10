@@ -1,0 +1,7 @@
+{
+  "ClientConfig": {
+    "loginServerIP": "127.0.0.1",
+    "loginServerPort": 10000,
+    "heartBeat": 10
+  }
+}

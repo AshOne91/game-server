@@ -19,7 +19,7 @@ namespace TestClient.FrameWork
         }
         public sealed override void Init()
         {
-            base.Init();
+            PreInit();
             foreach(var subSystem in _subSystems)
             {
                 subSystem.Item1.Init();
@@ -36,7 +36,6 @@ namespace TestClient.FrameWork
             }
             _subSystems.Clear();
             _sceneSubSystems.Clear();
-            base.Release();
         }
         public sealed override void Enable()
         {
@@ -84,6 +83,7 @@ namespace TestClient.FrameWork
             return _sceneSubSystems[typeof(U)].Item1 as U;
         }
 
+        protected abstract void PreInit();
         protected abstract void DoUpdate();
         protected abstract void OnInit();
         protected abstract void OnRelease();
