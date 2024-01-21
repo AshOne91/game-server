@@ -1,25 +1,39 @@
-﻿using Service.Net;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading;
+using Service.Net;
+using GameBase.Template.GameBase;
+using GameBase.Template.Account.GameBaseAccount;
+using GameBase.Template.Item.GameBaseItem;
 
 namespace TestClient.TestClient
 {
     public class AgentApp : ServerApp
     {
+
         public sealed override bool Create(ServerConfig config, int frame = 30)
         {
-            return base.Create(config, frame);
-        }
-        public sealed override void OnAccept(SocketSession session, IPEndPoint localEP, IPEndPoint remoteEP)
-        {
+            bool result = base.Create(config, frame);
 
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Item, new GameBaseItemTemplate());
+
+
+            TemplateConfig templateConfig = new TemplateConfig();
+            GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Client);
+            GameBaseTemplateContext.LoadDataTable(templateConfig);
+            return result;
         }
         public sealed override void OnConnect(SocketSession session, IPEndPoint ep)
         {
+            GameUserObject userObject = new GameUserObject();
+            session.SetUserObject(userObject);
+            userObject.SetSocketSession(session);
+            userObject.OnConnect(ep);
 
+            GameBaseTemplateContext.AddTemplate<GameUserObject>(userObject, ETemplateType.Account, new GameBaseAccountTemplate());
         }
         public sealed override void OnConnectFailed(SocketSession session, string e)
         {

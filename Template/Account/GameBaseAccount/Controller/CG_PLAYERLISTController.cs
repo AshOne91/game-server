@@ -17,7 +17,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			DBGame_PlayerList_LoadAll query = new DBGame_PlayerList_LoadAll(userObject);
 			query._encode_account_id = Impl._AuthInfo._encodeAccountId;
 			query._gm_level = Impl._AuthInfo._gm_level;
-			GameBaseTemplateContext.GetDBManager().PushQueryGame(userObject.GetUserDBKey(), userObject.GetGameDBIdx(), 0, query, () =>
+			GameBaseTemplateContext.GetDBManager().PushQueryGame(userObject.UserDBKey, userObject.GameDBIdx, 0, query, () =>
 			{
 				PACKET_CG_PLAYERLIST_RES sendPacket = new PACKET_CG_PLAYERLIST_RES();
 				if (query.IsSuccess())

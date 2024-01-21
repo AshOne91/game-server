@@ -18,7 +18,7 @@ namespace Service.DB
             if (_callUser != null)
             {
                 _callerSessionKey = _callUser.GetSession().GetUid();
-                _callerUserDBKey = _callUser.GetUserDBKey();
+                _callerUserDBKey = _callUser.UserDBKey;
             }
 
         }

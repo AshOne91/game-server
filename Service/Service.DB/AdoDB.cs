@@ -86,8 +86,6 @@ namespace Service.DB
 
         public override bool IsOpen()
         {
-            long conn_state = 0;
-
             if (_conn != null && base.IsOpen() == true)
             {
                 ConnectionState state = _conn.State;

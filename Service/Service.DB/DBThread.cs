@@ -125,6 +125,7 @@ namespace Service.DB
             }
             catch (Exception error)
             {
+                Console.WriteLine(error);
                 return false;
             }
             return rtn;

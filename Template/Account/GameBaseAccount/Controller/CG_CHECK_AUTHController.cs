@@ -133,14 +133,14 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}
 			else
             {
-				Impl._obj.SetAccountDBKey(accountDBKey);
+				Impl._obj.AccountDBKey = accountDBKey;
 				Impl._AuthInfo._accountDBKey = accountDBKey;
 				Impl._AuthInfo._encodeAccountId = encodeAccountId;
 				sendPacket.IsGoogleLink = Impl._AuthInfo._isGoogleLink = isGoogleLink;
 				sendPacket.IsAppleLink = Impl._AuthInfo._isAppleLink = isAppleLink;
 				sendPacket.IsFacebookLink = Impl._AuthInfo._isFacebook = isFacebookLink;
 				DBGlobal_GetUser query = new DBGlobal_GetUser(Impl._obj);
-				query._account_db_key = Impl._obj.GetAccountDBKey();
+				query._account_db_key = Impl._obj.AccountDBKey;
 				query._server_id = GetGameBaseAccountImpl()._ServerId;
 				GameBaseTemplateContext.GetDBManager().PushQueryGlobal(encodeAccountId, query, ()=>{ 
 					if (query.IsSuccess())
@@ -175,9 +175,9 @@ namespace GameBase.Template.Account.GameBaseAccount
 			, DateTime blockEndTime
 			, byte gm_level)
         {
-			Impl._obj.SetUserDBKey(userDBKey);
-			Impl._obj.SetGameDBIdx(gameDBIdx);
-			Impl._obj.SetLogDBIdx(logDBIdx);
+			Impl._obj.UserDBKey = userDBKey;
+			Impl._obj.GameDBIdx = gameDBIdx;
+			Impl._obj.LogDBIdx = logDBIdx;
 			Impl._AuthInfo._userDBKey = userDBKey;
 			Impl._AuthInfo._gm_level = gm_level;
 			switch ((EBlockStatus)blockStatus)

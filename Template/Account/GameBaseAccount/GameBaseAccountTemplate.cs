@@ -29,7 +29,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 		{
 			// TODO : 유저의 최초 생성시 필요한 DB관련 로직을 작성
 			_obj = userObject;
-			switch ((ObjectType)userObject.GetObjectID())
+			switch ((ObjectType)userObject.ObjectID)
 			{
 				case ObjectType.Master:
 					{

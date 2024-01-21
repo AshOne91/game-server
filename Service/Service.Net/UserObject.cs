@@ -76,24 +76,11 @@ namespace Service.Net
         public SocketSession GetSession() { return _session; }
 
         public ulong ObjectID { get { return _objectID; } set { _objectID = value; } }
-        //public void SetObjectID(ulong objectId) { _objectID = objectId; }
-        //public ulong GetObjectID() { return _objectID; }
         public ulong AccountDBKey { get { return _accountDBKey; } set { _accountDBKey = value; } }
         public ulong UserDBKey { get { return _userDBKey; } set { _userDBKey = value; } }
         public ulong PlayerDBKey { get { return _playerDBKey; } set { _playerDBKey = value; } }
         public short GameDBIdx { get { return _gameDBIdx; } set { _gameDBIdx = value; } }
         public short LogDBIdx { get { return _logDBIdx; } set { _logDBIdx = value; } }
-        //public void SetAccountDBKey(ulong accountDBKey) { _accountDBKey = accountDBKey; }
-        //public void SetUserDBKey(ulong userDBKey) { _userDBKey = userDBKey; }
-        //public void SetPlayerDBKey(ulong playerDBKey) { _playerDBKey = playerDBKey; }
-       // public ulong GetAccountDBKey() { return _accountDBKey; }
-        //public ulong GetUserDBKey() { return _userDBKey; }
-        //public ulong GetPlayerDBKey() { return _playerDBKey; }
-
-        //public void SetGameDBIdx(short gameDBIdx) { _gameDBIdx = gameDBIdx; }
-        //public void SetLogDBIdx(short logDBIdx) { _logDBIdx = logDBIdx; }
-       // public short GetGameDBIdx() { return _gameDBIdx; }
-       // public short GetLogDBIdx() { return _logDBIdx; }
 
         public static long GetUserObjCount() { return s_userObjectCnt; }
         public virtual void OnPacket(Packet packet)

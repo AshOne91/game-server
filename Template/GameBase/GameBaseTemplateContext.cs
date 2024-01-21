@@ -30,7 +30,6 @@ namespace GameBase.Template.GameBase
     }
     public static class GameBaseTemplateContext
     {
-        static ServerApp _app = null;
         static GameBaseDBManager _dbManager = null;
         static Dictionary<ulong/*uid*/, ImplObject> _objByUid = new Dictionary<ulong, ImplObject>();
         static Dictionary<ETemplateType, GameBaseTemplate> _templates = new Dictionary<ETemplateType, GameBaseTemplate>();
@@ -287,16 +286,6 @@ namespace GameBase.Template.GameBase
             _templateByUid.Clear();
         }
 
-        public static void SetApp(ServerApp app)
-        {
-            _app = app;
-        }
-
-        public static ServerApp GetApp()
-        {
-            return _app;
-        }
-
         public static void SetDBManager(GameBaseDBManager dbMgr)
         {
             _dbManager = dbMgr;
@@ -321,7 +310,7 @@ namespace GameBase.Template.GameBase
         public static bool AddTemplate<T>(T userObject, ETemplateType key, GameBaseTemplate value) where T : ImplObject
         {
             ulong uid = userObject.GetSession().GetUid();
-            ulong objectType = userObject.GetObjectID();
+            ulong objectType = userObject.ObjectID;
             if (_objByUid.ContainsKey(uid) == false)
             {
                 _objByUid.Add(uid, userObject);
@@ -388,6 +377,7 @@ namespace GameBase.Template.GameBase
 
         public static void InitTemplate(TemplateConfig config, ServerType type)
         {
+            GameBaseTemplate.ServerType = type;
             foreach (var t in _templates.Values)
             {
                 t.Init(config, type);

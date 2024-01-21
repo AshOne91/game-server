@@ -8,7 +8,10 @@ namespace GameBase.Template.GameBase
 {
     public partial class GameBaseTemplate
     {
-        static BaseImpl _baseImpl = null;
+        private static ServerType _serverType = ServerType.None;
+        private static BaseImpl _baseImpl = null;
+
+        public static ServerType ServerType { get => _serverType; set => _serverType = value; }
         static GameBaseTemplate()
         {
             _baseImpl = new BaseImpl(ServerType.None);

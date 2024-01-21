@@ -26,7 +26,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			//유효성 체크 위에서 미리 해야됨
 
 			DBGlobal_Get_PlayerDBKey query = new DBGlobal_Get_PlayerDBKey(userObject);
-			query._user_db_key = userObject.GetUserDBKey();
+			query._user_db_key = userObject.UserDBKey;
 			query._player_name = packet.PlayerName;
 			query._server_id = GetGameBaseAccountImpl()._ServerId;
 			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(query.GetCallerUserDBKey(), query, () =>
@@ -61,7 +61,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			query._player_name = playerName;
 			query._player_level = playerLevel;
 			query._player_exp = playerExp;
-			GameBaseTemplateContext.GetDBManager().PushQueryGame(obj.GetUserDBKey(), obj.GetGameDBIdx(), 0, query, () =>
+			GameBaseTemplateContext.GetDBManager().PushQueryGame(obj.UserDBKey, obj.GameDBIdx, 0, query, () =>
 			{
 				PACKET_CG_CREATE_PLAYER_RES sendPacket = new PACKET_CG_CREATE_PLAYER_RES();
 				GServerCode result = GServerCode.DBNotFound;

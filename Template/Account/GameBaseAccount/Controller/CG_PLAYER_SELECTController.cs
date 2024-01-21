@@ -21,11 +21,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 			GameBaseAccountUserImpl Impl = userObject.GetAccountImpl<GameBaseAccountUserImpl>();
 			DBGameUserLoad query = new DBGameUserLoad(userObject);
-			query._partitionKey_1 = userObject.GetUserDBKey();
-			query._partitionKey_2 = userObject.GetPlayerDBKey();
+			query._partitionKey_1 = userObject.UserDBKey;
+			query._partitionKey_2 = userObject.PlayerDBKey;
 			query._encode_account_id = Impl._AuthInfo._encodeAccountId;
 			query._gm_level = Impl._AuthInfo._gm_level;
-			GameBaseTemplateContext.GetDBManager().PushQueryGame(userObject.GetUserDBKey(), userObject.GetGameDBIdx(), 0, query, () =>
+			GameBaseTemplateContext.GetDBManager().PushQueryGame(userObject.UserDBKey, userObject.GameDBIdx, 0, query, () =>
 			{
 				if (query.IsSuccess())
                 {
@@ -68,14 +68,14 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}*/
 
 			DBGlobal_Player_Login query = new DBGlobal_Player_Login();
-			query._account_db_key = impl._obj.GetAccountDBKey();
-			query._user_db_key = impl._obj.GetUserDBKey();
-			query._player_db_key = impl._obj.GetPlayerDBKey();
+			query._account_db_key = impl._obj.AccountDBKey;
+			query._user_db_key = impl._obj.UserDBKey;
+			query._player_db_key = impl._obj.PlayerDBKey;
 			query._server_id = GetGameBaseAccountImpl()._ServerId;
 			query._player_name = impl._PlayerInfo.PlayerName;
 			query._player_level = 1;
 			query._player_class_type = 0;
-			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(impl._obj.GetUserDBKey(), query);
+			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(impl._obj.UserDBKey, query);
 
 			PACKET_CG_PLAYER_SELECT_RES sendPacket = new PACKET_CG_PLAYER_SELECT_RES();
 			sendPacket.Player = impl._PlayerInfo;

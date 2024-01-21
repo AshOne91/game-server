@@ -11,7 +11,7 @@ namespace TestClient.FrameWork
         private List<Tuple<BaseObject, IUpdatable>> _subSystemContainer = new List<Tuple<BaseObject, IUpdatable>>();
         private Dictionary<Type, Tuple<BaseObject, ISceneController>> _sceneController = new Dictionary<Type, Tuple<BaseObject, ISceneController>>();
         private Tuple<BaseObject, ISceneController> _activeSceneController = null;
-        private bool _app_run = false;
+        private bool _app_run = true;
         public bool AppRun => _app_run;
         protected Application() 
         { 
@@ -99,7 +99,7 @@ namespace TestClient.FrameWork
             OnApplicationQuit();
         }
         // 나중에 확인(U where 절)
-        void LoadScene<U>() where U : Singleton<U>, ISceneController, new()
+        public void LoadScene<U>() where U : Singleton<U>, ISceneController, new()
         {
             if (_activeSceneController != null)
             {
@@ -109,39 +109,41 @@ namespace TestClient.FrameWork
             Tuple<BaseObject, ISceneController> loadSceneController = new Tuple<BaseObject, ISceneController>
                 (Singleton<U>.Instance, Singleton<U>.Instance);
             loadSceneController.Item1.Enable();
+            _activeSceneController = loadSceneController;
         }
-        void AddScene<U>() where U : Singleton<U>, ISceneController, new()
+        public void AddScene<U>() where U : Singleton<U>, ISceneController, new()
         {
             Tuple<BaseObject, ISceneController> newSceneController = new Tuple<BaseObject, ISceneController>
                 (Singleton<U>.Instance, Singleton<U>.Instance);
             newSceneController.Item1.Parent = this;
             _sceneController.Add(typeof(U), newSceneController);
         }
-        void CreateScene<U>() where U : Singleton<U>, ISceneController, new()
+        public void CreateScene<U>() where U : Singleton<U>, ISceneController, new()
         {
             AddScene<U>();
             U scene = GetScene<U>();
             scene.Init();
         }
-        U GetScene<U>() where U : Singleton<U>, ISceneController, new()
+        public U GetScene<U>() where U : Singleton<U>, ISceneController, new()
         {
             return _sceneController[typeof(U)].Item1 as U;
         }
-        void AddAppSubSystem<U>() where U : Singleton<U>, IUpdatable, new()
+        public void AddAppSubSystem<U>() where U : Singleton<U>, IUpdatable, new()
         {
             Tuple<BaseObject, IUpdatable> newAppSubSystem = new Tuple<BaseObject, IUpdatable>
                 (Singleton<U>.Instance, Singleton<U>.Instance);
             newAppSubSystem.Item1.Parent = this;
             _appSubSystems.Add(typeof(U), newAppSubSystem);
+            _subSystemContainer.Add(newAppSubSystem);
         }
-        void CreateAppSubSystem<U>() where U : Singleton<U>, IUpdatable, new()
+        public void CreateAppSubSystem<U>() where U : Singleton<U>, IUpdatable, new()
         {
             AddAppSubSystem<U>();
             U subSystem = GetAppSubSystem<U>();
             subSystem.Init();
         }
-        
-        U GetAppSubSystem<U>() where U : Singleton<U>, IUpdatable, new()
+
+        public U GetAppSubSystem<U>() where U : Singleton<U>, IUpdatable, new()
         {
             return _appSubSystems[typeof(U)].Item1 as U;
         }

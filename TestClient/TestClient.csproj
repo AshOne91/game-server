@@ -7,6 +7,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Service\Service.Net\Service.Net.csproj" />
+    <ProjectReference Include="..\Template\Account\GameBaseAccount\GameBaseAccount.csproj" />
+    <ProjectReference Include="..\Template\GameBase\GameBase.csproj" />
+    <ProjectReference Include="..\Template\Item\GameBaseItem\GameBaseItem.csproj" />
   </ItemGroup>
 
   <ItemGroup>

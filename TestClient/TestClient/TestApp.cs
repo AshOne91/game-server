@@ -21,11 +21,12 @@ namespace TestClient.TestClient
         }
         protected sealed override void PrepareInit()
         {
-
+            AddAppSubSystem<NetworkManager>();
+            AddAppSubSystem<ConsoleManager>();
         }
         protected sealed override void OnInit()
         {
-
+            LoadScene<EntryScene>();
         }
         protected sealed override void OnRelease()
         {

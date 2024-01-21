@@ -5,12 +5,6 @@ using TestClient.FrameWork;
 
 namespace TestClient.TestClient
 {
-    public enum ServerType
-    {
-        None = -1,
-        Login
-    }
-
     public class EntryScene:AppBaseScene<EntryScene>
     {
         private string _entryLogo = string.Empty;
@@ -30,16 +24,17 @@ namespace TestClient.TestClient
         {
             if (Console.KeyAvailable == true)
             {
-
+                TestApp.Instance.LoadScene<MainMenu>();
             }
         }
         protected sealed override void OnEnter()
         {
-            _entryLogo += "===================================\n";
-            _entryLogo += "====     테스트 클라이언트     ====\n";
-            _entryLogo += "===================================\n";
-            _entryLogo += "         Create By 권성호\n";
-            _entryLogo += "           PressAnyKey\n";
+            _entryLogo += "======================================================================\n";
+            _entryLogo += "======================     테스트 클라이언트     =====================\n";
+            _entryLogo += "======================================================================\n";
+            _entryLogo += "                         Create By 권성호\n";
+            _entryLogo += "                           PressAnyKey\n";
+            ConsoleManager.Instance.SetBuffer(_entryLogo);
         }
         protected sealed override void OnExit()
         {

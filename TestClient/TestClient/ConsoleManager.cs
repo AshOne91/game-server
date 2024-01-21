@@ -15,7 +15,7 @@ namespace TestClient.TestClient
         public ConsoleManager() 
         {
             _pause = false;
-            _buffers = new string[2];
+            _buffers = new string[2] { "", ""};
             _activeIndex = 0;
             _bufferIndex = 1;
         }

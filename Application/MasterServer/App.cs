@@ -114,7 +114,7 @@ namespace MasterServer
 			UserObject userObj = session.GetUserObject();
 			if (userObj != null)
 			{
-				if (ObjectType.Game == (ObjectType)userObj.GetObjectID())
+				if (ObjectType.Game == (ObjectType)userObj.ObjectID)
                 {
 					GameServerObject gameObj = session.GetUserObject() as GameServerObject;
 					GameBaseAccountTemplate.GetGameBaseAccountImpl()._GameServerObjMap.Remove(gameObj.GetAccountImpl<GameBaseAccountGameImpl>()._Info.ServerId, out gameObj);
@@ -122,7 +122,7 @@ namespace MasterServer
 					//FIXME UpdateSessionInfo 완성후 넣기
 					//MasterServerEntry.GetUserSessionManager().RemoveSessionByServerID(_Info.ServerId);
 				}
-				else if (ObjectType.Login == (ObjectType)userObj.GetObjectID())
+				else if (ObjectType.Login == (ObjectType)userObj.ObjectID)
                 {
 					LoginServerObject loginObj = session.GetUserObject() as LoginServerObject;
 					GameBaseAccountTemplate.GetGameBaseAccountImpl()._LoginServerObjMap.Remove(loginObj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId, out loginObj);

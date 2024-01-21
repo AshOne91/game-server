@@ -168,7 +168,7 @@ namespace GameServer
 			UserObject userObj = session.GetUserObject();
 			if (userObj != null)
 			{
-				ObjectType type = (ObjectType)userObj.GetObjectID();
+				ObjectType type = (ObjectType)userObj.ObjectID;
 				GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
 				userObj.OnClose();
 				userObj.Dispose();

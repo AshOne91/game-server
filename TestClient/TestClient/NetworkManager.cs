@@ -6,6 +6,8 @@ using System.Net;
 using System.Collections.Concurrent;
 using System.IO;
 using Newtonsoft.Json;
+using Service.Net;
+using Service.Core;
 
 namespace TestClient.TestClient
 {
@@ -16,7 +18,6 @@ namespace TestClient.TestClient
         private int _authObjectCount = 0;
         private int _gameObjectCount = 0;
         private ConcurrentDictionary<int, AgentAuthObject> _authObjectList;
-        private ConcurrentDictionary<int, AgentGameObject> _gameObjectList;
         public float HeartBeat { get => _heartBeat; }
         public sealed override void DoUpdate()
         {
@@ -32,14 +33,25 @@ namespace TestClient.TestClient
         }
         public sealed override void OnInit()
         {
-            using (StreamReader reader = new StreamReader("AppConfig.json"))
+            Console.Title = "TestClient : " + System.Diagnostics.Process.GetCurrentProcess().Id;
+
+            ServerConfig AppConfig = new ServerConfig();
+            AppConfig.PeerConfig.UseSessionEventQueue = true;
+
+            Logger.Default = new Logger();
+            Logger.Default.Create(true, "TestClient");
+
+            _agentApp = new AgentApp();
+            _agentApp.Create(AppConfig);
+            string defaultPath = "../../../";
+            using (StreamReader reader = new StreamReader(defaultPath + "AppConfig.json"))
             {
-                //AppConfig config = JsonConvert.DeserializeObject<AppConfig>
+                AppConfig config = JsonConvert.DeserializeObject<AppConfig>(reader.ReadToEnd());
             }
         }
         public sealed override void OnRelease()
         {
-
+            _agentApp.Destroy();
         }
     }
 }

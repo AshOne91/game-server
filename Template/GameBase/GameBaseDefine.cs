@@ -10,7 +10,9 @@ namespace GameBase.Template.GameBase
         None,
         Login,
         Master,
-        Game
+        Game,
+
+        Client
     }
     public enum ConnectType : Byte
     {

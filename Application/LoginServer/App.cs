@@ -137,7 +137,7 @@ namespace LoginServer
             UserObject userObj = session.GetUserObject();
             if (userObj != null)
             {
-                if (userObj.GetObjectID() == (ulong)ObjectType.Master)
+                if (userObj.ObjectID == (ulong)ObjectType.Master)
                 {
                     ConnectToMaster();
                 }

@@ -79,6 +79,7 @@ namespace Service.DB
             }
             catch (RedisException e)
             {
+                Console.WriteLine(e);
                 return false;
             }
             return true;
@@ -218,7 +219,6 @@ namespace Service.DB
                 _isConnected = false;
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
-            return "";
         }
         public void Set(string key, string value)
         {
@@ -282,6 +282,7 @@ namespace Service.DB
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     _isConnected = false;
                 }
             }
@@ -301,7 +302,7 @@ namespace Service.DB
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return false;
         }
@@ -318,7 +319,7 @@ namespace Service.DB
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return false;
         }
@@ -339,7 +340,6 @@ namespace Service.DB
                 StackFrame stackFrame = new StackFrame(true);
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
-            return 0;
         }
         public long IncrBy(string key, long by)
         {
@@ -358,7 +358,6 @@ namespace Service.DB
                 StackFrame stackFrame = new StackFrame(true);
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
-            return 0;
         }
         public long Decr(string key)
         {
@@ -377,7 +376,6 @@ namespace Service.DB
                 StackFrame stackFrame = new StackFrame(true);
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
-            return 0;
         }
         public long DecrBy(string key, long by)
         {
@@ -396,7 +394,6 @@ namespace Service.DB
                 StackFrame stackFrame = new StackFrame(true);
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
-            return 0;
         }
 
         public void HSet(string key, string field, string value)
@@ -430,7 +427,7 @@ namespace Service.DB
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return "";
         }
@@ -454,7 +451,7 @@ namespace Service.DB
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
                 }
             }
             while (false);
@@ -492,6 +489,7 @@ namespace Service.DB
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
             }
         }
         public double ZScore(string key, string member)
@@ -512,6 +510,7 @@ namespace Service.DB
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
             }
             return 0.0;
         }
@@ -533,7 +532,7 @@ namespace Service.DB
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return -1;
         }
@@ -555,7 +554,7 @@ namespace Service.DB
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return -1;
         }
@@ -580,7 +579,7 @@ namespace Service.DB
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
                 }
             }
             while (false);
@@ -607,7 +606,7 @@ namespace Service.DB
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
                 }
             }
             while (false);
@@ -633,7 +632,7 @@ namespace Service.DB
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
                 }
             }
             while (false);
@@ -659,7 +658,7 @@ namespace Service.DB
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
                 }
             }
             while (false);
@@ -683,7 +682,6 @@ namespace Service.DB
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
 
             }
-            return 0.0;
         }
         public long ZCard(string key)
         {
@@ -702,7 +700,6 @@ namespace Service.DB
                 StackFrame stackFrame = new StackFrame(true);
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
-            return 0;
         }
 
         public void Expire(string key, uint secs)
@@ -745,7 +742,6 @@ namespace Service.DB
                 StackFrame stackFrame = new StackFrame(true);
                 throw new Exception("[" + stackFrame.GetMethod().Name + "]" + e.Message);
             }
-            return 0;
         }
 
         public void LPush(string key, string value)
@@ -871,7 +867,7 @@ namespace Service.DB
 
             try
             {
-                _redisCurrentServer.Save(SaveType.ForegroundSave);
+                _redisCurrentServer.Save(SaveType.BackgroundSave);
             }
             catch (Exception e)
             {
