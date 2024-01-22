@@ -34,6 +34,9 @@ namespace TestClient.TestClient
             userObject.OnConnect(ep);
 
             GameBaseTemplateContext.AddTemplate<GameUserObject>(userObject, ETemplateType.Account, new GameBaseAccountTemplate());
+            GameBaseTemplateContext.AddTemplate<GameUserObject>(userObject, ETemplateType.Item, new GameBaseItemTemplate());
+            AccountCon
+
         }
         public sealed override void OnConnectFailed(SocketSession session, string e)
         {

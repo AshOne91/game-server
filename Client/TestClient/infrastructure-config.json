@@ -1,0 +1,11 @@
+{
+	"applicationName" : "TestClient",
+	"applicationVersion" : "",
+	"services" : [
+		"../../Service/Service.Core",
+		"../../Service/Service.Net"
+	],
+	"templates": [
+		"../../Template/Account/GameBaseAccount"
+	]
+}
