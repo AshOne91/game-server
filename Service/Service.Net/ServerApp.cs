@@ -26,7 +26,9 @@ namespace Service.Net
         Master = 100,
         User = 200,
         Login = 300,
-        Game = 400
+        Game = 400,
+
+        Client = 1000
     }
 
     public abstract class ServerApp : TimeDispatcher
@@ -288,7 +290,7 @@ namespace Service.Net
                             break;
                         case SessionEvent.EvtType.SocketError:
                             OnSocketError(evt.session, evt.msg);
-                            OnClose(evt.session);
+                            //OnClose(evt.session);
                             break;
                         case SessionEvent.EvtType.Timer:
                             break;

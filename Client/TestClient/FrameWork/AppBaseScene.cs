@@ -33,6 +33,8 @@ namespace TestClient.FrameWork
 
         protected sealed override void Enter()
         {
+            EventManager.Instance.AddEvent("CreateObjectInComponent", this);
+            EventManager.Instance.AddEvent("DestroyObjectInComponent", this);
             OnEnter();
         }
         protected sealed override void Leave()
@@ -43,6 +45,8 @@ namespace TestClient.FrameWork
             }
             _objectList.Clear();
             OnExit();
+            EventManager.Instance.RemoveEvent("CreateObjectInComponent", this);
+            EventManager.Instance.RemoveEvent("DestroyObjectInComponent", this);
         }
         protected sealed override void DoUpdate()
         {

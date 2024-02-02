@@ -29,7 +29,8 @@ namespace GameBase.Template.Item.GameBaseItem
 		public override void OnClientCreate(ImplObject userObject)
 		{
 			_obj = userObject;
-			switch ((ObjectType)userObject.GetObjectID())
+			UserDB
+			switch ((ObjectType)userObject.ObjectID)
 			{
 				case ObjectType.Master:
 					{

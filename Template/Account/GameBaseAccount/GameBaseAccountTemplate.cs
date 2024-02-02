@@ -51,6 +51,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 						_obj.AccountImpl = new GameBaseAccountGameImpl(_obj);
 					}
 					break;
+				case ObjectType.Client:
+					{
+                        _obj.AccountImpl = new GameBaseAccountClientImpl(_obj);
+                    }
+					break;
 			}
 		}
 
@@ -126,5 +131,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 			PACKET_MG_HELLO_NOTI packet = new PACKET_MG_HELLO_NOTI();
 			_obj.GetSession().SendPacket(packet.Serialize());
         }
+
+		public void GC_HELLO_NOTI()
+		{
+			PACKET_GC_HELLO_NOTI packet = new PACKET_GC_HELLO_NOTI();
+			_obj.GetSession().SendPacket(packet.Serialize());
+		}
 	}
 }

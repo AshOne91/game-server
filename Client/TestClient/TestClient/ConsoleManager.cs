@@ -28,7 +28,7 @@ namespace TestClient.TestClient
         public sealed override void OnInit()
         {
             Console.WindowWidth = 75;
-            Console.WindowHeight = 60;
+            Console.WindowHeight = 30;
             Console.CursorVisible = false;
         }
         public sealed override void OnRelease()

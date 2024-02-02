@@ -44,6 +44,8 @@ namespace TestClient.FrameWork
             AddAppSubSystem<TimerManager>();
             AddAppSubSystem<EventManager>();
             AddAppSubSystem<ObjectManager>();
+            GetAppSubSystem<EventManager>().AddEvent("CreateObjectInComponent", GetAppSubSystem<ObjectManager>());
+            GetAppSubSystem<EventManager>().AddEvent("DestroyObjectInComponent", GetAppSubSystem<ObjectManager>());
             PrepareInit();
             foreach(var subSystem in _subSystemContainer)
             {

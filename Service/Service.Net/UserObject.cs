@@ -9,6 +9,13 @@ namespace Service.Net
 {
     public class UserObject : IDisposable
     {
+        private static ulong _allocUid = 0;
+        private ulong _uid = 0;
+        public ulong UId
+        {
+            get { return _uid; }
+        }
+
         static private long s_userObjectCnt;
 
         protected SocketSession _session = null;
@@ -25,9 +32,10 @@ namespace Service.Net
         protected int _timeOverCount = 0;
         protected int _maxTimerOverCount = 5;
         protected int _timeOverInterval = 60 * 1000;
-        
+
         public UserObject()
         {
+            _uid = ++_allocUid;
             Interlocked.Increment(ref UserObject.s_userObjectCnt);
         }
         
@@ -90,7 +98,9 @@ namespace Service.Net
         public virtual void OnAsyncTask(AsyncTaskObject task) { }
         public virtual void OnAccept(IPEndPoint ep) { }
         public virtual void OnConnect(IPEndPoint ep) { }
+        public virtual void OnDisconnected() { }
         public virtual void OnClose() { }
+        public virtual void OnConnectFailed() { }
         public virtual void OnSendComplete() { }
         public virtual void OnFailedKeepAlive() { }
         public virtual void CheckKeepALive()

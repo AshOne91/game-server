@@ -77,12 +77,12 @@ namespace GameServer
 
 				GameBaseTemplateContext.AddTemplate<GameUserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
 				AccountController.AddAccountController(session.GetUid());
-				GameBaseTemplateContext.CreateClient(session.GetUid());
+				
 				obj.OnAccept(localEP);
-				/*Log(LogLevel.TRACE, "Client onaccept called, Address-{0}, Port-{1}", ep.Address.ToString(), ep.Port);
-				NwPacket sendPacket = new NwPacket((ushort)EGPacketProtocol.GC_HELLO_NOTI);
-				_session.SendPacket(sendPacket);*/
-			}
+                GameBaseTemplateContext.CreateClient(session.GetUid());
+                Logger.Default.Log(ELogLevel.Trace, "Client onaccept called, Address-{0}, Port-{1}", localEP.Address.ToString(), localEP.Port);
+				GameBaseTemplateContext.GetTemplate<GameBaseAccountTemplate>(obj.GetSession().GetUid(), ETemplateType.Account).GC_HELLO_NOTI();
+            }
 		}
 
 		private bool _bListenState = false;

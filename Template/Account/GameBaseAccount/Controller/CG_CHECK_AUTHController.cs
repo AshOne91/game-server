@@ -110,26 +110,31 @@ namespace GameBase.Template.Account.GameBaseAccount
             {
 				sendPacket.ErrorCode = (int)GServerCode.Withdraw;
 				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+				return;
 			}
 			else if (accountStatus == "EternalBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.EternalBlock;
 				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+				return;
 			}
 			else if (accountStatus == "PeriodBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.PeriodBlock;
 				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+				return;
 			}
 			else if (accountStatus == "TempBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.TempBlock;
 				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+				return;
 			}
 			else if (accountStatus == "LongTimeBlock")
             {
 				sendPacket.ErrorCode = (int)GServerCode.LongTimeBlock;
 				Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+				return;
 			}
 			else
             {
@@ -158,12 +163,13 @@ namespace GameBase.Template.Account.GameBaseAccount
                     {
 						sendPacket.ErrorCode = (int)GServerCode.DBError;
 						Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+						return;
 					}
 				});
 			}
-			//Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
-			//Impl._AuthInfo._Auth = true;
-		}
+            Impl._AuthInfo._Auth = true;
+            Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+        }
 
 		public void Login_GetUser_Complete(PACKET_CG_CHECK_AUTH_RES resPacket
 			, GameBaseAccountUserImpl Impl
@@ -184,16 +190,16 @@ namespace GameBase.Template.Account.GameBaseAccount
             {
 				case EBlockStatus.None:
 				case EBlockStatus.ChattingBlock:
-					break;
+					return;
 				case EBlockStatus.EternalBlock:
 					resPacket.ErrorCode = (int)GServerCode.EternalBlock;
-					break;
+					return;
 				case EBlockStatus.PeriodBlock:
 					resPacket.ErrorCode = (int)GServerCode.PeriodBlock;
-					break;
+					return;
 				case EBlockStatus.TempBlock:
 					resPacket.ErrorCode = (int)GServerCode.TempBlock;
-					break;
+					return;
             }
 			DBGlobal_User_Login query = new DBGlobal_User_Login();
 			query._platform_type = Impl._AuthInfo._platformType;
@@ -201,6 +207,6 @@ namespace GameBase.Template.Account.GameBaseAccount
 			query._user_db_key = Impl._AuthInfo._userDBKey;
 			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(Impl._AuthInfo._encodeAccountId, query);
 			Impl._AuthInfo._Auth = true;
-		}
+        }
 	}
 }

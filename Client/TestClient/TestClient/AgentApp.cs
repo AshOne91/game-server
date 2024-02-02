@@ -7,12 +7,12 @@ using Service.Net;
 using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
 using GameBase.Template.Item.GameBaseItem;
+using Service.Core;
 
 namespace TestClient.TestClient
 {
     public class AgentApp : ServerApp
     {
-
         public sealed override bool Create(ServerConfig config, int frame = 30)
         {
             bool result = base.Create(config, frame);
@@ -28,40 +28,68 @@ namespace TestClient.TestClient
         }
         public sealed override void OnConnect(SocketSession session, IPEndPoint ep)
         {
-            GameUserObject userObject = new GameUserObject();
-            session.SetUserObject(userObject);
-            userObject.SetSocketSession(session);
+            GameUserObject userObject = (GameUserObject)session.GetUserObject();
             userObject.OnConnect(ep);
-
-            GameBaseTemplateContext.AddTemplate<GameUserObject>(userObject, ETemplateType.Account, new GameBaseAccountTemplate());
-            GameBaseTemplateContext.AddTemplate<GameUserObject>(userObject, ETemplateType.Item, new GameBaseItemTemplate());
-            AccountCon
-
         }
         public sealed override void OnConnectFailed(SocketSession session, string e)
         {
-            
+            GameUserObject userObject = (GameUserObject)session.GetUserObject();
+            userObject.OnConnectFailed();
         }
         public sealed override void OnDisconnected(SocketSession session, bool bRemote, string e)
         {
-            
+
         }
         public sealed override void OnClose(SocketSession session)
         {
-            
+            UserObject userObject = session.GetUserObject();
+            userObject.OnClose();
+
+            /*UserObject obj = session.GetUserObject();
+            if (obj != null)
+            {
+                GameBaseTemplateContext.DeleteClient(obj.GetSession().GetUid());
+                obj.OnClose();
+                obj.Dispose();
+                session.SetUserObject(null);
+            }*/
         }
-        public override void OnSocketError(SocketSession session, string e) { }
+        public override void OnSocketError(SocketSession session, string e) 
+        {
+            session.Disconnect();
+        }
         public override void OnUserEvent(SocketSession session) { }
         public override void OnPacket(SocketSession session, Packet packet)
         {
-
+            try
+            {
+                ImplObject obj = session.GetUserObject() as ImplObject;
+                if (obj != null)
+                {
+                    AccountController.OnPacket(obj, packet.GetId(), packet);
+                    //FIX ME
+                    //ItemController.OnPacket(obj, packet.GetId(), packet);
+                }
+                else
+                {
+                    Logger.Default.Log(ELogLevel.Err, "wrong session OnPacket");
+                }
+            }
+            catch (FatalException e)
+            {
+                Logger.Default.Log(ELogLevel.Err, e.ToString());
+                throw e;
+            }
+            catch (Exception e)
+            {
+                Logger.Default.Log(ELogLevel.Err, e.ToString());
+                session.Disconnect();
+            }
         }
-        public override void OnSendComplete(SocketSession session, int transBytes) { }
-        public override void OnAddSendQueue(SocketSession session, ushort protocol, int transBytes) { }
-        public override void OnPacketError(SocketSession session, Packet packet) { }
         public override void OnUpdate(float dt)
         {
-
+            GameBaseTemplateContext.UpdateClient(dt);
+            GameBaseTemplateContext.UpdateTemplate(dt);
         }
     }
 }

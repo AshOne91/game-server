@@ -31,7 +31,17 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 		public void ON_CL_CHECK_VERSION_RES_CALLBACK(ImplObject userObject, PACKET_CL_CHECK_VERSION_RES packet)
 		{
-
+			if (packet.ErrorCode == (int)GServerCode.SUCCESS)
+			{
+				PACKET_CL_CHECK_AUTH_REQ sendData = new PACKET_CL_CHECK_AUTH_REQ();
+				userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId = userObject.UId.ToString();
+                sendData.SiteUserId = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId;
+				userObject.GetSession().SendPacket(sendData.Serialize());
+            }
+			else
+			{
+				Logger.Default.Log(ELogLevel.Err, "CL_CHECK_VERSION_RES_CALLBACK ERR");
+			}
 		}
 	}
 }

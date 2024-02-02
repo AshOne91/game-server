@@ -24,7 +24,7 @@ namespace TestClient.TestClient
         {
             if (Console.KeyAvailable == true)
             {
-                TestApp.Instance.LoadScene<MainMenu>();
+                TestApp.Instance.LoadScene<LoginScene>();
             }
         }
         protected sealed override void OnEnter()

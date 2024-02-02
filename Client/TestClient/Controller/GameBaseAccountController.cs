@@ -64,6 +64,14 @@ namespace TestClient
 			_protocolByUid.Add(uid, protocol);
 		}
 
+		public static void RemoveAccountController(ulong uid)
+		{
+			if (_protocolByUid.ContainsKey(uid) == true) 
+			{
+				_protocolByUid.Remove(uid);
+			}
+		}
+
 		public static bool OnPacket(ImplObject obj, ushort protocolId, Packet packet)
 		{
 			ulong uid = obj.GetSession().GetUid();

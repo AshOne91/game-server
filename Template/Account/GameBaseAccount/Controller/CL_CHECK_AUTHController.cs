@@ -38,6 +38,17 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 		public void ON_CL_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CL_CHECK_AUTH_RES packet)
 		{
-		}
+			if ((GServerCode)packet.ErrorCode != GServerCode.SUCCESS)
+			{
+				Logger.Default.Log(ELogLevel.Trace, "Auth Check Error");
+				return;
+			}
+
+			//userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId = packet.;
+			userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Passport = packet.Passport;
+			userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP = packet.IP;
+			userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port = packet.Port;
+			userObject.GetAccountImpl<GameBaseAccountClientImpl>()._LoginAuth = true;
+        }
 	}
 }

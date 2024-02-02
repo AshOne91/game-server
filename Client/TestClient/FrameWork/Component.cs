@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -91,7 +92,7 @@ namespace TestClient.FrameWork
             OnRelease();
             foreach (var component in _componentList)
             {
-                // 메세지
+                EventManager.Instance.PostNotifycation("ReleaseComponent", NotifyType.BroadCast, Index, 0, 0.0f, false, component);
                 component.Value.Release(); 
             }
             _componentList.Clear();

@@ -9,7 +9,7 @@ using GameBase.Template.Account.GameBaseAccount.Common;
 
 namespace GameBase.Template.Account.GameBaseAccount
 {
-    public class GameBaseAccountImpl : AccountImpl
+    public class GameBaseAccountImpl : AccountImpl // 각 템플릿 서버의 객체
     {
         //LoginServer
         public int _LastHeartBeatTick = Environment.TickCount;
@@ -158,7 +158,7 @@ namespace GameBase.Template.Account.GameBaseAccount
         }
     }
 
-    public class GameBaseAccountMasterImpl : AccountImpl
+    public class GameBaseAccountMasterImpl : AccountImpl //게임서버, 로그인서버에서 마스터객체
     {
         public int _ServerId = -1;
         public GameBaseAccountMasterImpl(ImplObject obj) : base(obj)
@@ -167,7 +167,7 @@ namespace GameBase.Template.Account.GameBaseAccount
         }
     }
 
-    public class GameBaseAccountUserImpl : AccountImpl
+    public class GameBaseAccountUserImpl : AccountImpl//로그인,게임서버의 접속유저객체
     {
         //LoginUserObj
         public ConnectInfo _connInfo = new ConnectInfo();
@@ -187,7 +187,21 @@ namespace GameBase.Template.Account.GameBaseAccount
         }
     }
 
-    public class GameBaseAccountLoginImpl : AccountImpl
+    public class GameBaseAccountClientImpl : AccountImpl // 클라이언트 저장물
+    {
+        public bool _LoginAuth = false;
+        public string _SiteUserId = string.Empty;
+        public string _Passport = string.Empty;
+        public string _IP = string.Empty;
+        public ushort _Port = 0;
+
+        public GameBaseAccountClientImpl(ImplObject obj) : base(obj)
+        {
+
+        }
+    }
+
+    public class GameBaseAccountLoginImpl : AccountImpl //마스터의 로그인서버오브젝트 객체
     {
         public string _HostIP = string.Empty;
         public ushort _HostPort;
@@ -199,7 +213,7 @@ namespace GameBase.Template.Account.GameBaseAccount
         }
     }
 
-    public class GameBaseAccountGameImpl : AccountImpl
+    public class GameBaseAccountGameImpl : AccountImpl //마스터의 게임서버오브젝트 객체
     {
         public GameServerInfo _Info = new GameServerInfo();
         public bool _Auth = false;

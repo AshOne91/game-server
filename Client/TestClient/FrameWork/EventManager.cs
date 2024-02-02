@@ -50,6 +50,22 @@ namespace TestClient.FrameWork
         {
             _listener.Remove(eventType);
         }
+        public void RemoveEvent(string eventType, IEventInterface eventObject)
+        {
+            if (_listener.ContainsKey(eventType) == false)
+            {
+                return;
+            }
+
+            _listener[eventType].Remove(eventObject);
+
+            if (_listener[eventType].Count > 0)
+            {
+                return;
+            }
+
+            _listener.Remove(eventType);
+        }
         public void RemoveObject(IEventInterface eventObject)
         {
             foreach(var evt in _listener)
@@ -57,7 +73,7 @@ namespace TestClient.FrameWork
                 evt.Value.Remove(eventObject);
             }
         }
-        public void PostNotifycation(string eventType, NotifyType notifyType, UInt64 sender, UInt64 receiver, float dispatchDelay, bool dispatchRepeat, object extra_info = null)
+        public void PostNotifycation(string eventType, NotifyType notifyType, UInt64 sender = 0, UInt64 receiver = 0, float dispatchDelay = 0.0f, bool dispatchRepeat = false, object extra_info = null)
         {
             Message message = new Message();
             message.EventType = eventType;

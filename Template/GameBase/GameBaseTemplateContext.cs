@@ -276,7 +276,9 @@ namespace GameBase.Template.GameBase
         {
             if ( _objByUid.Remove(uid) == true)
             {
-                _templateByUid.Remove(uid);
+                _uidByObjectType[_objectTypeByUid[uid]].Remove(uid);
+                _objByUid.Remove(uid);
+                _objectTypeByUid.Remove(uid);
             }
         }
 
@@ -366,12 +368,13 @@ namespace GameBase.Template.GameBase
 
         public static void RemoveTemplate(ulong uid, ETemplateType key)
         {
-            if (_objByUid.ContainsKey(uid) == true)
+            if (_templateByUid.ContainsKey(uid) == true)
             {
-                _uidByObjectType[_objectTypeByUid[uid]].Remove(uid);
-                _objByUid.Remove(uid);
-                _objectTypeByUid.Remove(uid);
                 _templateByUid[uid].Remove(key);
+                if (_templateByUid[uid].Count == 0) 
+                {
+                    _templateByUid.Remove(uid);
+                }
             }
         }
 
