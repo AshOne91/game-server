@@ -28,9 +28,9 @@ namespace GameBase.Template.GameBase
 
         protected UserDB _userDB = null;
 
-        public void SetUserDB(UserDB userDB)
+        public ImplObject()
         {
-            _userDB = userDB;
+            _userDB = GameBaseTemplateContext.CreateUserDB();
         }
         public UserDB GetUserDB()
         {

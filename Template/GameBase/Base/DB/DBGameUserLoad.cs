@@ -19,7 +19,7 @@ namespace GameBase.Template.GameBase
 
         public DBGameUserLoad(UserObject caller) : base(caller)
         {
-            _userDB = new UserDB();
+            _userDB = GameBaseTemplateContext.CreateUserDB();
         }
 
         ~DBGameUserLoad()

@@ -13,6 +13,12 @@ namespace GameBase.Template.Item.GameBaseItem
 	{
 		ImplObject _obj = null;
 		static GameBaseItemImpl _Impl = null;
+
+        public override GameBaseUserDB CreateUserDB()
+        {
+			return new GameBaseItemUserDB();
+        }
+
 		public override void Init(TemplateConfig config, ServerType type)
 		{
 			base.Init(config, type);
@@ -29,7 +35,6 @@ namespace GameBase.Template.Item.GameBaseItem
 		public override void OnClientCreate(ImplObject userObject)
 		{
 			_obj = userObject;
-			UserDB
 			switch ((ObjectType)userObject.ObjectID)
 			{
 				case ObjectType.Master:

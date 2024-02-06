@@ -28,7 +28,7 @@ namespace GameServer
 			bool result = base.Create(config, frame);
 
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
-
+			GameBaseTemplateContext.AddTemplate(ETemplateType.Item, new GameBaseItemTemplate());
 			TemplateConfig templateConfig = new TemplateConfig();
 			GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Game);
 			GameBaseTemplateContext.LoadDataTable(templateConfig);
@@ -76,6 +76,7 @@ namespace GameServer
 				obj.SetSocketSession(session);
 
 				GameBaseTemplateContext.AddTemplate<GameUserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
+				GameBaseTemplateContext.AddTemplate<GameUserObject>(obj, ETemplateType.Item, new GameBaseItemTemplate());
 				AccountController.AddAccountController(session.GetUid());
 				
 				obj.OnAccept(localEP);

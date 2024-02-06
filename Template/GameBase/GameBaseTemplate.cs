@@ -16,6 +16,12 @@ namespace GameBase.Template.GameBase
         {
             _baseImpl = new BaseImpl(ServerType.None);
         }
+
+        public virtual GameBaseUserDB CreateUserDB()
+        {
+            return new GameBaseUserDB();
+        }
+
         public virtual void Init(TemplateConfig config, ServerType type)
         {
 

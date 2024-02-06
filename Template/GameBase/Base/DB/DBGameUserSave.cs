@@ -14,7 +14,7 @@ namespace GameBase.Template.GameBase
 
         public DBGameUserSave()
         {
-            _userDB = new UserDB();
+            _userDB = GameBaseTemplateContext.CreateUserDB();
         }
         ~DBGameUserSave()
         {

@@ -298,6 +298,16 @@ namespace GameBase.Template.GameBase
             return _dbManager;
         }
 
+        public static UserDB CreateUserDB()
+        {
+            UserDB userDB = new UserDB();
+            foreach(var template in _templates)
+            {
+                userDB.AddUserDB(template.Key, template.Value.CreateUserDB());
+            }
+            return userDB;
+        }
+
         public static bool AddTemplate(ETemplateType key, GameBaseTemplate value)
         {
             if (_templates.ContainsKey(key) == true)
