@@ -1,4 +1,5 @@
 ﻿using GameBase.Template.Account.GameBaseAccount;
+using Service.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,19 +15,19 @@ namespace TestClient.TestClient
             Connecting,
             ConnectError,
             Disconnect,
-            Main
+            Connection,
+            AuthComplete,
         }
 
         enum GameSequence
         {
-            ConnectGameServerReady,
-            ConnectLoginServer,
-            AuthReady,
-            AuthComplete
+            ConnectGameServer,
+            PlayerListRequest,
         }
         private string _mainLogo = string.Empty;
-        private GameSequence _gameStep = GameSequence.ConnectGameServerReady;
+        private GameSequence _gameStep = GameSequence.ConnectGameServer;
         private GamePage _gamePage = GamePage.Entry;
+        private GameUserObject _userObject = null;
         protected sealed override void PreInit()
         {
 
@@ -53,6 +54,7 @@ namespace TestClient.TestClient
             EventManager.Instance.AddEvent("ConnectionError", this);
             EventManager.Instance.AddEvent("Connection", this);
             EventManager.Instance.AddEvent("Disconnect", this);
+            EventManager.Instance.AddEvent("AuthComplete", this);
         }
         protected sealed override void OnExit()
         {
@@ -60,6 +62,7 @@ namespace TestClient.TestClient
             EventManager.Instance.RemoveEvent("ConnectionError", this);
             EventManager.Instance.RemoveEvent("Connection", this);
             EventManager.Instance.RemoveEvent("Disconnect", this);
+            EventManager.Instance.RemoveEvent("AuthComplete", this);
             _mainLogo = string.Empty;
             ConsoleManager.Instance.ConsoleClear();
         }
@@ -74,10 +77,13 @@ namespace TestClient.TestClient
                     _gamePage = GamePage.ConnectError;
                     break;
                 case "Connection":
-                    _gamePage = GamePage.Main;
+                    _gamePage = GamePage.Connection;
                     break;
                 case "Disconnect":
                     _gamePage = GamePage.Disconnect;
+                    break;
+                case "AuthComplete":
+                    _gamePage = GamePage.AuthComplete;
                     break;
             }
             return true;
@@ -92,22 +98,15 @@ namespace TestClient.TestClient
             _gameStep = step;
             switch (_gameStep) 
             {
-                case GameSequence.ConnectLoginServer:
+                case GameSequence.ConnectGameServer:
                     {
-                        GameUserObject userObject = NetworkManager.Instance.GetUserObject(NetworkManager.Instance.AuthUID);
-                        NetworkManager.Instance.GameConnect(userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP
-                            , userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port
+                        _userObject = NetworkManager.Instance.GetUserObject(NetworkManager.Instance.AuthUID);
+                        NetworkManager.Instance.GameConnect(_userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP
+                            , _userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port
                             , NetworkManager.Instance.AuthUID);
                     }
                     break;
-                case GameSequence.AuthReady: 
-                    { 
-                    }
-                    break;
-                case GameSequence.AuthComplete:
-                    {
-
-                    }
+                case GameSequence.PlayerListRequest:
                     break;
             }
         }
@@ -133,8 +132,11 @@ namespace TestClient.TestClient
                 case GamePage.Disconnect:
                     _mainLogo += "접 속 종 료                                                           \n";
                     break;
-                case GamePage.Main:
-                    _mainLogo += "인증 완료                                                             \n";
+                case GamePage.Connection:
+                    _mainLogo += "접 속 완 료                                                             \n";
+                    break;
+                case GamePage.AuthComplete:
+                    _mainLogo += "인 증 완 료                                                          \n";
                     break;
             }
             ConsoleManager.Instance.SetBuffer(_mainLogo);

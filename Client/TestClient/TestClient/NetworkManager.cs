@@ -81,6 +81,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
+                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnClient = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);
@@ -104,6 +105,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
+                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnClient = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);
@@ -137,6 +139,14 @@ namespace TestClient.TestClient
                 case ServerState.Connection:
                     EventManager.Instance.PostNotifycation("Connection", NotifyType.BroadCast, 0, 0, 0, false, gameUserObject);
                     break;
+            }
+        }
+
+        public void ClientAction(ImplObject obj, string action)
+        {
+            if (action == "GameAuth")
+            {
+                GameUserObject userObject = obj as GameUserObject;
             }
         }
 

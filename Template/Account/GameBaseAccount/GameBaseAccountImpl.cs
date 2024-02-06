@@ -194,6 +194,20 @@ namespace GameBase.Template.Account.GameBaseAccount
         public string _Passport = string.Empty;
         public string _IP = string.Empty;
         public ushort _Port = 0;
+        private Action<ImplObject, string> _fnClient;
+        public Action<ImplObject, string> FnClient
+        {
+            get { return _fnClient; }
+            set { _fnClient = value; }
+        }
+
+        public void ClientCallback(string action)
+        {
+            if (_fnClient != null)
+            {
+                _fnClient(_obj, action);
+            }
+        }
 
         public GameBaseAccountClientImpl(ImplObject obj) : base(obj)
         {
