@@ -3,7 +3,52 @@
     "templateName": "GameBaseAccount",
     "templateVersion": "1.0.0",
     "databases": [
-
+      {
+        "databaseType": "game",
+        "tableType": "",
+        "tableName": "player",
+        "partitionKey_1": "player_db_key"
+      },
+      {
+        "type": "DateTime",
+        "name": "login_time",
+        "comment": "로그인 시간"
+      },
+      {
+        "type": "DateTime",
+        "name": "logout_time",
+        "comment": "로그아웃 시간"
+      },
+      {
+        "type": "bool",
+        "name": "is_login",
+        "comment": "접속여부"
+      },
+      {
+        "type": "bool",
+        "name": "newbie",
+        "comment": "첫생성자 여부"
+      },
+      {
+        "type": "Int64",
+        "name": "serial_allocator",
+        "comment": "시리얼번호 생성기"
+      },
+      {
+        "type": "string",
+        "name": "player_name",
+        "comment": "플레이어 이름"
+      },
+      {
+        "type": "short",
+        "name": "level",
+        "comment": "레벨"
+      },
+      {
+        "type": "Int64",
+        "name": "exp",
+        "comment": "경험치"
+      }
     ],
     "protocols": [
         {

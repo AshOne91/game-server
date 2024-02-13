@@ -18,18 +18,5 @@ namespace GameBase.Template.Shop.GameBaseShop.Common
 
 		void Init()
 		{
-		}
-
-		public virtual bool OnPacket(ImplObject userObject, ushort protocolId, Packet packet)
-		{
-			ControllerDelegate controllerCallback;
-			if(MessageControllers.TryGetValue(protocolId, out controllerCallback) == false)
-			{
-				return false;
-			}
-			controllerCallback(userObject, packet);
-			return true;
-		}
-
-	}
-}
+			MessageControllers.Add(PACKET_CG_SHOP_INFO_REQ.ProtocolId, CG_SHOP_INFO_REQ_CONTROLLER);
+			MessageControllers.Add(PACKET_CG_SHOP_INFO_RES.ProtocolId, CG_SHOP_INFO_RES_CONTROLLER);

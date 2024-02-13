@@ -61,7 +61,16 @@ namespace GameBase.Template.Item.GameBaseItem
 			// TODO : 유저의 최초 생성시 필요한 DB관련 로직을 작성
 		}
 
-		public T GetGameBaseItemImpl<T>() where T : ItemImpl
+        public override void OnSetNewbie(ImplObject userObject)
+        {
+        }
+
+        public override bool OnPlayerSelectPrepare(ImplObject userObject)
+        {
+			return true;
+        }
+
+        public T GetGameBaseItemImpl<T>() where T : ItemImpl
 		{
 			return _obj.ItemImpl as T;
 		}
