@@ -24,6 +24,7 @@ namespace GameBase.Template.GameBase
         public RankImpl RankImpl = null;
         public ReportImpl ReportImpl = null;
         public SeasonImpl SeasonImpl = null;
+        public ShopImpl ShopImpl = null;
         public UserImpl UserImpl = null;
 
         protected UserDB _userDB = null;
@@ -104,6 +105,10 @@ namespace GameBase.Template.GameBase
         public T GetSeasonImpl<T>() where T : SeasonImpl
         {
             return this.SeasonImpl as T;
+        }
+        public T GetShopImpl<T>() where T : ShopImpl
+        {
+            return this.ShopImpl as T;
         }
         public T GetUserImpl<T>() where T : UserImpl
         {

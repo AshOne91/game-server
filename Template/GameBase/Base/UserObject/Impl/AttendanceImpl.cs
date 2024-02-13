@@ -4,17 +4,9 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class AttendanceImpl
+    public class AttendanceImpl : BaseImpl
     {
-        public ImplObject _obj;
-        public ServerType _serverType;
-        public AttendanceImpl(ImplObject obj)
-        {
-            _obj = obj;
-        }
-        public AttendanceImpl(ServerType type)
-        {
-            _serverType = type;
-        }
+        public AttendanceImpl(ImplObject obj) : base(obj) { }
+        public AttendanceImpl(ServerType type) : base(type) { }
     }
 }

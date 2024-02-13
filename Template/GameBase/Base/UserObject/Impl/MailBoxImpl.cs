@@ -4,17 +4,9 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class MailBoxImpl
+    public class MailBoxImpl : BaseImpl
     {
-        public ImplObject _obj;
-        public ServerType _serverType;
-        public MailBoxImpl(ImplObject obj)
-        {
-            _obj = obj;
-        }
-        public MailBoxImpl(ServerType type)
-        {
-            _serverType = type;
-        }
+        public MailBoxImpl(ImplObject obj) : base(obj) { }
+        public MailBoxImpl(ServerType type) : base(type) { }
     }
 }

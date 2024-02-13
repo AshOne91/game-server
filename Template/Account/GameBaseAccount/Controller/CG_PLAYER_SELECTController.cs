@@ -51,7 +51,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 		public bool UserLoadComplete(GameBaseAccountUserImpl impl, UserDB srcDB)
         {
 			_obj.GetUserDB().Copy(srcDB, false);
-
+			dfdf
 			/*
 			//신규 플레이어 생성
 			CPlayer* pPlayer = CObjectManager::Instance()->CreatePlayer(m_pThis);
@@ -66,6 +66,9 @@ namespace GameBase.Template.Account.GameBaseAccount
 				m_pThis->SetPlayer(nullptr);
 				return false;
 			}*/
+
+			_obj.GetUserDB().
+
 
 			DBGlobal_Player_Login query = new DBGlobal_Player_Login();
 			query._account_db_key = impl._obj.AccountDBKey;

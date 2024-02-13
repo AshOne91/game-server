@@ -1,21 +1,28 @@
+#define SERVER
 using System;
 using System.Collections.Generic;
 using Service.Core;
 using Service.Net;
 using GameBase.Template.GameBase;
 using GameBase.Template.GameBase.Common;
-using GameBase.Template.Account.GameBaseAccount.Common;
+using GameBase.Template.Shop.GameBaseShop.Common;
 
-namespace GameBase.Template.Account.GameBaseAccount
+namespace GameBase.Template.Shop.GameBaseShop
 {
-	public partial class GameBaseAccountTemplate : AccountTemplate
+	public partial class GameBaseShopTemplate : ShopTemplate
 	{
 		ImplObject _obj = null;
-		static GameBaseAccountImpl _accountImpl = null; 
+		static GameBaseShopImpl _Impl = null;
+
+		public override GameBaseUserDB CreateUserDB()
+		{
+			return base.CreateUserDB();
+		}
+
 		public override void Init(TemplateConfig config, ServerType type)
 		{
 			base.Init(config, type);
-			_accountImpl = new GameBaseAccountImpl(type);
+			_Impl = new GameBaseShopImpl(type);
 			//OnLoadData(config)
 			// TODO : 서버 기동시 실행할 템플릿 관련 로직을 아래에 작성
 		}
@@ -27,65 +34,65 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 		public override void OnClientCreate(ImplObject userObject)
 		{
-			// TODO : 유저의 최초 생성시 필요한 DB관련 로직을 작성
 			_obj = userObject;
 			switch ((ObjectType)userObject.ObjectID)
 			{
 				case ObjectType.Master:
 					{
-						_obj.AccountImpl = new GameBaseAccountMasterImpl(_obj);
+						_obj.ShopImpl = new GameBaseShopMasterImpl(_obj);
 					}
 					break;
 				case ObjectType.User:
 					{
-						_obj.AccountImpl = new GameBaseAccountUserImpl(_obj);
+						_obj.ShopImpl = new GameBaseShopUserImpl(_obj);
 					}
 					break;
 				case ObjectType.Login:
 					{
-						_obj.AccountImpl = new GameBaseAccountLoginImpl(_obj);
+						_obj.ShopImpl = new GameBaseShopLoginImpl(_obj);
 					}
 					break;
 				case ObjectType.Game:
 					{
-						_obj.AccountImpl = new GameBaseAccountGameImpl(_obj);
+						_obj.ShopImpl = new GameBaseShopGameImpl(_obj);
 					}
 					break;
 				case ObjectType.Client:
 					{
-                        _obj.AccountImpl = new GameBaseAccountClientImpl(_obj);
-                    }
+						_obj.ShopImpl = new GameBaseShopClientImpl(_obj);
+					}
 					break;
 			}
+			// TODO : 유저의 최초 생성시 필요한 DB관련 로직을 작성
 		}
 
-        public override void OnSetNewbie(ImplObject userObject)
-        {
-        }
-
-        public override bool OnPlayerSelectPrepare(ImplObject userObject)
-        {
-            return true;
-        }
-
-        public T GetGameBaseAccountImpl<T>() where T : AccountImpl
+		public override void OnSetNewbie(ImplObject userObject)
 		{
-			return _obj.AccountImpl as T;
 		}
 
-		public static GameBaseAccountImpl GetGameBaseAccountImpl()
-        {
-			return _accountImpl;
-		}
-
-        public override void OnTemplateUpdate(float dt)
-        {
-			_accountImpl.Update(dt);
-        }
-
-        public override void OnClientUpdate(float dt)
+		public override bool OnPlayerSelectPrepare(ImplObject userObject)
 		{
-			// TODO : 유저의 로그인시 필요한 DB관련 로직을 작성
+			return true;
+		}
+
+		public T GetGameBaseShopImpl<T>() where T : ShopImpl
+		{
+			return _obj.ShopImpl as T;
+		}
+
+		public static GameBaseShopImpl GetGameBaseShopImpl()
+		{
+			return _Impl;
+		}
+
+		public override void OnTemplateUpdate(float dt)
+		{
+			// TODO : 템플릿 업데이트 사항 작성(유저X)
+		}
+
+		public override void OnClientUpdate(float dt)
+		{
+			// TODO : 템플릿 업데이트 사항 작성
 		}
 
 		public override void OnClientDelete(ImplObject userObject)
@@ -121,30 +128,6 @@ namespace GameBase.Template.Account.GameBaseAccount
 		public override bool OnHasItemSubType(ImplObject userObject, int subType)
 		{
 			return false;
-		}
-
-		public void LC_HELLO_NOTI()
-        {
-			PACKET_LC_HELLO_NOTI packet = new PACKET_LC_HELLO_NOTI();
-			_obj.GetSession().SendPacket(packet.Serialize());
-		}
-
-		public void ML_HELLO_NOTI()
-        {
-			PACKET_ML_HELLO_NOTI packet = new PACKET_ML_HELLO_NOTI();
-			_obj.GetSession().SendPacket(packet.Serialize());
-        }
-
-		public void MG_HELLO_NOTI()
-        {
-			PACKET_MG_HELLO_NOTI packet = new PACKET_MG_HELLO_NOTI();
-			_obj.GetSession().SendPacket(packet.Serialize());
-        }
-
-		public void GC_HELLO_NOTI()
-		{
-			PACKET_GC_HELLO_NOTI packet = new PACKET_GC_HELLO_NOTI();
-			_obj.GetSession().SendPacket(packet.Serialize());
 		}
 	}
 }

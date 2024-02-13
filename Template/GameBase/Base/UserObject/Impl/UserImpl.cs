@@ -4,17 +4,9 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class UserImpl
+    public class UserImpl : BaseImpl
     {
-        public ImplObject _obj;
-        public ServerType _serverType;
-        public UserImpl(ImplObject obj)
-        {
-            _obj = obj;
-        }
-        public UserImpl(ServerType type)
-        {
-            _serverType = type;
-        }
+        public UserImpl(ImplObject obj) : base(obj) { }
+        public UserImpl(ServerType type) : base(type) { }
     }
 }

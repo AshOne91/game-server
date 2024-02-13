@@ -1,0 +1,7 @@
+id,name,shopId,buyType,buyPrice,itemId
+1001,gold_1,1,1,10,1002
+1002,gold_2,1,1,20,1002
+1003,gold_3,1,1,30,1002
+1004,stemina_1,1,1,40,1003
+1005,stemina_2,1,1,50,1003
+1007,stemina_3,1,1,60,1003

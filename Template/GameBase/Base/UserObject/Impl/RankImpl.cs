@@ -4,17 +4,9 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class RankImpl
+    public class RankImpl : BaseImpl
     {
-        public ImplObject _obj;
-        public ServerType _serverType;
-        public RankImpl(ImplObject obj)
-        {
-            _obj = obj;
-        }
-        public RankImpl(ServerType type)
-        {
-            _serverType = type;
-        }
+        public RankImpl(ImplObject obj) : base(obj) { }
+        public RankImpl(ServerType type) : base(type) { }
     }
 }

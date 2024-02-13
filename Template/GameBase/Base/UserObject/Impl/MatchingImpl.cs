@@ -4,17 +4,9 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class MatchingImpl
+    public class MatchingImpl : BaseImpl
     {
-        public ImplObject _obj;
-        public ServerType _serverType;
-        public MatchingImpl(ImplObject obj)
-        {
-            _obj = obj;
-        }
-        public MatchingImpl(ServerType type)
-        {
-            _serverType = type;
-        }
+        public MatchingImpl(ImplObject obj) : base(obj) { }
+        public MatchingImpl(ServerType type) : base(type) { }
     }
 }

@@ -4,17 +4,9 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class NoticeImpl
+    public class NoticeImpl : BaseImpl
     {
-        public ImplObject _obj;
-        public ServerType _serverType;
-        public NoticeImpl(ImplObject obj)
-        {
-            _obj = obj;
-        }
-        public NoticeImpl(ServerType type)
-        {
-            _serverType = type;
-        }
+        public NoticeImpl(ImplObject obj) : base(obj) { }
+        public NoticeImpl(ServerType type) : base(type) { }
     }
 }

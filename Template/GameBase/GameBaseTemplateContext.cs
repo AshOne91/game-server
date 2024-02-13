@@ -448,6 +448,26 @@ namespace GameBase.Template.GameBase
             }
         }
 
+        public static void SetNewbie(ulong uid)
+        {
+            ImplObject obj = FindUserObj<ImplObject>(uid);
+            foreach (var t in _templateByUid[uid].Values)
+            {
+                t.OnSetNewbie(obj);
+            }
+        }
+
+        public static bool PlayerSelectPrepare(ulong uid)
+        {
+            bool retval = true;
+            ImplObject obj = FindUserObj<ImplObject>(uid);
+            foreach (var t in _templateByUid[uid].Values)
+            {
+                retval = t.OnPlayerSelectPrepare(obj);
+            }
+            return retval;
+        }
+
         public static void UpdateTemplate(float dt)
         {
             foreach (var t in _templates)

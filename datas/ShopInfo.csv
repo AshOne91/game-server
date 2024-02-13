@@ -1,0 +1,3 @@
+id,name,maxCount,isShow,startDate,endDate
+int,string,int,bool,DateTime,DateTime
+1,test_shop,6,TRUE,-1,-1

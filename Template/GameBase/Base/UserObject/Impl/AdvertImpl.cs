@@ -4,17 +4,9 @@ using System.Text;
 
 namespace GameBase.Template.GameBase
 {
-    public class AdvertImpl
+    public class AdvertImpl : BaseImpl
     {
-        public ImplObject _obj;
-        public ServerType _serverType;
-        public AdvertImpl(ImplObject obj)
-        {
-            _obj = obj;
-        }
-        public AdvertImpl(ServerType type)
-        {
-            _serverType = type;
-        }
+        public AdvertImpl(ImplObject obj) : base(obj) { }
+        public AdvertImpl(ServerType type) : base(type) { }
     }
 }

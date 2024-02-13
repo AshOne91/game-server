@@ -51,7 +51,14 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 		public void ON_CG_CREATE_PLAYER_RES_CALLBACK(ImplObject userObject, PACKET_CG_CREATE_PLAYER_RES packet)
 		{
-		}
+            if (packet.ErrorCode != (int)GServerCode.SUCCESS)
+			{
+				userObject.GetAccountImpl<GameBaseAccountClientImpl>().ClientCallback("PacketError", packet.ToString());
+				return;
+            }
+
+			userObject.GetAccountImpl<GameBaseAccountClientImpl>().ClientCallback("CreatePlayer", packet.Player);
+        }
 
 		public void PlayerCreate_Complete(UserObject obj, string playerName, ulong playerDBKey, short playerLevel, long playerExp)
         {

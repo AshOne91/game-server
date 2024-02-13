@@ -91,6 +91,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 		public void ON_CG_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CG_CHECK_AUTH_RES packet)
 		{
+
 		}
 
 		public void Login_DBAuth_Complete(GameBaseAccountUserImpl Impl

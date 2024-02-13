@@ -36,6 +36,15 @@ namespace GameBase.Template.GameBase
         {
         }
 
+        public virtual void OnSetNewbie(ImplObject userObject)
+        {
+        }
+
+        public virtual bool OnPlayerSelectPrepare(ImplObject userObject)
+        {
+            return true;
+        }
+
         public virtual void OnTemplateUpdate(float dt)
         {
         }

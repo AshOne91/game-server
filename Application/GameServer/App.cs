@@ -171,7 +171,8 @@ namespace GameServer
 			{
 				ObjectType type = (ObjectType)userObj.ObjectID;
 				GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
-				userObj.OnClose();
+                AccountController.RemoveAccountController(userObj.GetSession().GetUid());
+                userObj.OnClose();
 				userObj.Dispose();
 				session.SetUserObject(null);
 				if (type == ObjectType.Master)

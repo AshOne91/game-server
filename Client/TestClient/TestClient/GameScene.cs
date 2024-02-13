@@ -1,4 +1,6 @@
 ﻿using GameBase.Template.Account.GameBaseAccount;
+using GameBase.Template.Account.GameBaseAccount.Common;
+using GameBase.Template.GameBase.Common;
 using Service.Net;
 using System;
 using System.Collections.Generic;
@@ -23,11 +25,16 @@ namespace TestClient.TestClient
         {
             ConnectGameServer,
             PlayerListRequest,
+            CreatePlayer,
+            SelectPlayer
         }
         private string _mainLogo = string.Empty;
         private GameSequence _gameStep = GameSequence.ConnectGameServer;
         private GamePage _gamePage = GamePage.Entry;
         private GameUserObject _userObject = null;
+        public List<PlayerInfo> _playerInfos = new List<PlayerInfo>();
+        private ulong _selectPlayerDBKey = 0;
+        private PlayerInfo _selectPlayerInfo = null;
         protected sealed override void PreInit()
         {
 
@@ -55,6 +62,9 @@ namespace TestClient.TestClient
             EventManager.Instance.AddEvent("Connection", this);
             EventManager.Instance.AddEvent("Disconnect", this);
             EventManager.Instance.AddEvent("AuthComplete", this);
+            EventManager.Instance.AddEvent("PlayerList", this);
+            EventManager.Instance.AddEvent("CreatePlayer", this);
+            EventManager.Instance.AddEvent("SelectPlayer", this);
         }
         protected sealed override void OnExit()
         {
@@ -63,6 +73,9 @@ namespace TestClient.TestClient
             EventManager.Instance.RemoveEvent("Connection", this);
             EventManager.Instance.RemoveEvent("Disconnect", this);
             EventManager.Instance.RemoveEvent("AuthComplete", this);
+            EventManager.Instance.RemoveEvent("PlayerList", this);
+            EventManager.Instance.RemoveEvent("CreatePlayer", this);
+            EventManager.Instance.RemoveEvent("SelectPlayer", this);
             _mainLogo = string.Empty;
             ConsoleManager.Instance.ConsoleClear();
         }
@@ -84,6 +97,15 @@ namespace TestClient.TestClient
                     break;
                 case "AuthComplete":
                     _gamePage = GamePage.AuthComplete;
+                    break;
+                case "PlayerList":
+                    _playerInfos = (List<PlayerInfo>)message.ExtraInfo;
+                    break;
+                case "CreatePlayer":
+                    _playerInfos.Add((PlayerInfo)message.ExtraInfo);
+                    break;
+                case "SelectPlayer":
+
                     break;
             }
             return true;
@@ -107,6 +129,24 @@ namespace TestClient.TestClient
                     }
                     break;
                 case GameSequence.PlayerListRequest:
+                    {
+                        PACKET_CG_PLAYERLIST_REQ sendData = new PACKET_CG_PLAYERLIST_REQ();
+                        _userObject.GetSession().SendPacket(sendData.Serialize());
+                    }
+                    break;
+                case GameSequence.CreatePlayer:
+                    {
+                        PACKET_CG_CREATE_PLAYER_REQ sendData = new PACKET_CG_CREATE_PLAYER_REQ();
+                        sendData.PlayerName = Guid.NewGuid().ToString();
+                        _userObject.GetSession().SendPacket(sendData.Serialize());
+                    }
+                    break;
+                case GameSequence.SelectPlayer:
+                    {
+                        PACKET_CG_PLAYER_SELECT_REQ sendData = new PACKET_CG_PLAYER_SELECT_REQ();
+                        sendData.PlayerDBKey = _selectPlayerDBKey;
+                        _userObject.GetSession().SendPacket(sendData.Serialize());
+                    }
                     break;
             }
         }

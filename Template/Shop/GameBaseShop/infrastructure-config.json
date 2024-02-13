@@ -1,1 +1,134 @@
-﻿
+﻿{
+	"templateType" : "Shop",
+	"templateName" : "GameBaseShop",
+	"templateVersion" : "1.0.0",
+	"databases" : [],
+	"protocols": [
+		{
+			"id": 1001,
+			"method": "react",
+			"name": "CG_SHOP_INFO",
+			"protocolType": "",
+			"reqMembers": [],
+			"resMembers": [
+				{
+					"type": "List<ShopInfo>",
+					"name": "listShopInfo",
+					"comment": "상점 정보"
+				}
+			]
+		},
+		{
+			"id": 1003,
+			"method": "ShopBuy",
+			"name": "CG_SHOP_BUY",
+			"protocolType": "",
+			"reqMembers": [
+				{
+					"type": "int",
+					"name": "shopId",
+					"comment": "상점 아이디"
+				},
+				{
+					"type": "int",
+					"name": "shopProductId",
+					"comment": "상품 아이디"
+				}
+			],
+			"resMembers": [
+				{
+					"type": "int",
+					"name": "shopId",
+					"comment": "상점 아이디"
+				},
+				{
+					"type": "ShopProductInfo",
+					"name": "shopProductInfo",
+					"comment": "상품 정보"
+				},
+				{
+					"type": "ShopProductInfo",
+					"name": "changeProductInfo",
+					"comment": "변경 상품 정보"
+				},
+				{
+					"type": "ItemBaseInfo",
+					"name": "deleteItemInfo",
+					"comment": "삭제 아이템 정보"
+				},
+				{
+					"type": "List<ItemBaseInfo>",
+					"name": "listRewardInfo",
+					"comment": "보상 아이템 정보"
+				},
+				{
+					"type": "List<QuestData>",
+					"name": "listQuestData",
+					"comment": "업데이트 퀘스트 데이터"
+				}
+			]
+		}
+	],
+	"models": [
+		{
+			"name": "ShopInfo",
+			"members": [
+				{
+					"type": "int",
+					"name": "shopId",
+					"comment": "ShopInfo 아이디"
+				},
+				{
+					"type": "int",
+					"name": "resetRemainType",
+					"comment": "갱신 남은 초"
+				},
+				{
+					"type": "List<ShopProductInfo>",
+					"name": "listProductInfo",
+					"comment": "상품 목록"
+				},
+				{
+					"type": "byte",
+					"name": "pointResetCount",
+					"comment": "재화 갱신 횟수"
+				},
+				{
+					"type": "List<ProductStatus>",
+					"name": "ProductStatusList",
+					"comment": "상품 상태 리스트"
+				}
+			]
+		},
+		{
+			"name": "ShopProductInfo",
+			"members": [
+				{
+					"type": "int",
+					"name": "shopProductId",
+					"comment": "상품 아이디"
+				},
+				{
+					"type": "byte",
+					"name": "buyCount",
+					"comment": "구매 횟수"
+				}
+			]
+		},
+		{
+			"name": "ProductStatus",
+			"members": [
+				{
+					"type": "int",
+					"name": "statusType",
+					"comment": "상태 타입"
+				},
+				{
+					"type": "int",
+					"name": "remainEndTime",
+					"comment": "상태 종료 남은시간(초단위)"
+				}
+			]
+		}
+	]
+}

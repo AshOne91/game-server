@@ -81,7 +81,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
-                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnClient = this.ClientAction;
+                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnCall = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);
@@ -105,7 +105,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
-                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnClient = this.ClientAction;
+                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnCall = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);
@@ -142,12 +142,31 @@ namespace TestClient.TestClient
             }
         }
 
-        public void ClientAction(ImplObject obj, string action)
+        public void ClientAction(ImplObject obj, string action, object extraInfo)
         {
-            if (action == "GameAuth")
+            switch (action)
             {
-                GameUserObject userObject = obj as GameUserObject;
-            }
+                case "GameAuth":
+                    {
+                        EventManager.Instance.PostNotifycation("AuthComplete", NotifyType.BroadCast, 0, 0, 0, false, obj);
+                    }
+                    break;
+                case "PacketError":
+                    {
+                        Logger.Default.Log(ELogLevel.Err, "packet error{0}", extraInfo.ToString());
+                    }
+                    break;
+                case "PlayerList":
+                    {
+                        EventManager.Instance.PostNotifycation("PlayerList", NotifyType.BroadCast, 0, 0, 0, false, extraInfo);
+                    }
+                    break;
+                case "CreatePlayer":
+                    {
+                        EventManager.Instance.PostNotifycation("CreatePlayer", NotifyType.BroadCast, 0, 0, 0, false, extraInfo);
+                    }
+                    break;
+            } 
         }
 
     }

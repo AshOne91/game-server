@@ -33,6 +33,21 @@
 			]
 		}
 	],
-	"protocols" : [],
+	"protocols": [
+		{
+			"id": 30001,
+			"method": "react",
+			"name": "CG_ITEM_INFO",
+			"protocolType": "",
+			"reqMembers": [],
+			"resMembers": [
+				{
+					"type": "List<ItemBaseInfo>",
+					"name": "listItemInfo",
+					"comment": "아이템 정보 리스트"
+				}
+			]
+		}
+	],
 	"models" : []
 }

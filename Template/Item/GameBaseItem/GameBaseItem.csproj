@@ -11,4 +11,8 @@
 		<ProjectReference Include="../../../Template/GameBase/GameBase.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Table\" />
+	</ItemGroup>
+
 </Project>

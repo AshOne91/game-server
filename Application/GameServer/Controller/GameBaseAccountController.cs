@@ -57,7 +57,19 @@ namespace GameServer
 			protocol.ON_CG_CHECK_AUTH_RES_CALLBACK = template.ON_CG_CHECK_AUTH_RES_CALLBACK;
 			protocol.ON_CG_CREATE_PLAYER_REQ_CALLBACK = template.ON_CG_CREATE_PLAYER_REQ_CALLBACK;
 			protocol.ON_CG_CREATE_PLAYER_RES_CALLBACK = template.ON_CG_CREATE_PLAYER_RES_CALLBACK;
+			protocol.ON_CG_PLAYERLIST_REQ_CALLBACK = template.ON_CG_PLAYERLIST_REQ_CALLBACK;
+			protocol.ON_CG_PLAYERLIST_RES_CALLBACK = template.ON_CG_PLAYERLIST_RES_CALLBACK;
+			protocol.ON_CG_PLAYER_SELECT_REQ_CALLBACK = template.ON_CG_PLAYER_SELECT_REQ_CALLBACK;
+			protocol.ON_CG_PLAYER_SELECT_RES_CALLBACK = template.ON_CG_PLAYER_SELECT_RES_CALLBACK;
 			_protocolByUid.Add(uid, protocol);
+		}
+
+		public static void RemoveAccountController(ulong uid)
+		{
+			if (_protocolByUid.ContainsKey(uid) == true)
+			{
+				_protocolByUid.Remove(uid);
+			}
 		}
 
 		public static bool OnPacket(ImplObject obj, ushort protocolId, Packet packet)
