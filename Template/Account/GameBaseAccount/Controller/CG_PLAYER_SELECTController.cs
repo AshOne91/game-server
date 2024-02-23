@@ -21,8 +21,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 			GameBaseAccountUserImpl Impl = userObject.GetAccountImpl<GameBaseAccountUserImpl>();
 			DBGameUserLoad query = new DBGameUserLoad(userObject);
-			query._partitionKey_1 = userObject.UserDBKey;
-			query._partitionKey_2 = userObject.PlayerDBKey;
+			query._user_db_key = userObject.UserDBKey;
+			query._player_db_key = userObject.PlayerDBKey;
 			query._encode_account_id = Impl._AuthInfo._encodeAccountId;
 			query._gm_level = Impl._AuthInfo._gm_level;
 			GameBaseTemplateContext.GetDBManager().PushQueryGame(userObject.UserDBKey, userObject.GameDBIdx, 0, query, () =>

@@ -51,9 +51,9 @@ namespace GameBase.Template.Item.GameBaseItem.Common
 				throw new Exception("[gp_player_dbitemtable_save]" + e.Message);
 			}
 		}
-		public override void SaveRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+		public override void SaveRun(AdoDB adoDB, UInt64 user_db_key, UInt64 player_db_key)
 		{
-			_Run_SaveUser_DBItemTable(adoDB, partitionKey_1, partitionKey_2);
+			_Run_SaveUser_DBItemTable(adoDB, user_db_key, player_db_key);
 		}
 	}
 }

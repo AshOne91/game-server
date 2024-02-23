@@ -9,8 +9,8 @@ namespace GameBase.Template.GameBase
     public partial class DBGameUserLoad : QueryBaseValidate
     {
         //IN
-        public UInt64 _partitionKey_1;
-        public UInt64 _partitionKey_2;
+        public UInt64 _user_db_key;
+        public UInt64 _player_db_key;
         public string _encode_account_id;
         public Byte _gm_level;
 
@@ -32,7 +32,7 @@ namespace GameBase.Template.GameBase
         {
             try
             {
-                _userDB.LoadRun(adoDB, _partitionKey_1, _partitionKey_2);
+                _userDB.LoadRun(adoDB, _user_db_key, _player_db_key);
             }
             catch (Exception Error)
             {

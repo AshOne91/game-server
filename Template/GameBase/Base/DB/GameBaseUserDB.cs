@@ -11,12 +11,12 @@ namespace GameBase.Template.GameBase
 
         }
 
-        virtual public void LoadRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+        virtual public void LoadRun(AdoDB adoDB, UInt64 user_db_key, UInt64 player_db_key)
         {
 
         }
 
-        virtual public void SaveRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+        virtual public void SaveRun(AdoDB adoDB, UInt64 user_db_key, UInt64 player_db_key)
         {
 
         }

@@ -37,19 +37,19 @@ namespace GameBase.Template.GameBase
             }
         }
 
-        public void LoadRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+        public void LoadRun(AdoDB adoDB, UInt64 user_db_key, UInt64 player_db_key)
         {
             foreach(var keyValue in _userDBs)
             {
-                keyValue.Value.LoadRun(adoDB, partitionKey_1, partitionKey_2);
+                keyValue.Value.LoadRun(adoDB, user_db_key, player_db_key);
             }
         }
 
-        public void SaveRun(AdoDB adoDB, UInt64 partitionKey_1, UInt64 partitionKey_2)
+        public void SaveRun(AdoDB adoDB, UInt64 user_db_key, UInt64 player_db_key)
         {
             foreach(var keyValue in _userDBs)
             {
-                keyValue.Value.SaveRun(adoDB, partitionKey_1, partitionKey_2);
+                keyValue.Value.SaveRun(adoDB, user_db_key, player_db_key);
             }
         }
     }
