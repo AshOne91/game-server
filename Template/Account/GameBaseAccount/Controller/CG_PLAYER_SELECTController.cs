@@ -68,7 +68,15 @@ namespace GameBase.Template.Account.GameBaseAccount
 				return false;
 			}*/
 
-			_obj.GetUserDB().
+			if (_obj.GetUserDB().GetUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetReadData()._DBData.newbie == true)
+			{
+				GameBaseTemplateContext.SetNewbie(impl._obj.GetSession().GetUid());
+			}
+
+			if (!GameBaseTemplateContext.PlayerSelectPrepare(impl._obj.GetSession().GetUid()))
+			{
+				return false;
+			}
 
 
 			DBGlobal_Player_Login query = new DBGlobal_Player_Login();
