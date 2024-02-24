@@ -20,7 +20,7 @@
 		},
 		{
 			"id": 1003,
-			"method": "ShopBuy",
+			"method": "react",
 			"name": "CG_SHOP_BUY",
 			"protocolType": "",
 			"reqMembers": [
