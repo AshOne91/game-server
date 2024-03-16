@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\Template\Account\GameBaseAccount\GameBaseAccount.csproj" />
     <ProjectReference Include="..\..\Template\GameBase\GameBase.csproj" />
     <ProjectReference Include="..\..\Template\Item\GameBaseItem\GameBaseItem.csproj" />
+    <ProjectReference Include="..\..\Template\Shop\GameBaseShop\GameBaseShop.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,6 +23,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 
 	public partial class GameBaseShopUserImpl : ShopImpl
 	{
+		public Dictionary<int, ShopInfo> ShopInfoList = new Dictionary<int, ShopInfo>();
 		public GameBaseShopUserImpl(ImplObject obj) : base(obj){}
 		// TODO : ImplObject에서 사용 될 변수 선언 및 함수 구현
 	}

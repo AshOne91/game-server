@@ -7,6 +7,8 @@
 		"../../Service/Service.DB"
 	],
 	"templates": [
-		"../../Template/Account/GameBaseAccount"
+		"../../Template/Account/GameBaseAccount",
+		"../../Template/Item/GameBaseItem",
+		"../../Template/Shop/GameBaseShop"
 	]
 }

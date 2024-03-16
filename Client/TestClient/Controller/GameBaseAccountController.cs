@@ -66,7 +66,7 @@ namespace TestClient
 
 		public static void RemoveAccountController(ulong uid)
 		{
-			if (_protocolByUid.ContainsKey(uid) == true) 
+			if (_protocolByUid.ContainsKey(uid) == true)
 			{
 				_protocolByUid.Remove(uid);
 			}

@@ -36,6 +36,7 @@ namespace GameBase.Template.GameBase
     public enum GServerCode : int
     {
         SUCCESS = 0,
+        Error,
         INVALID_GUID,
         PENDING_ERROR,
         DUPLICATED_LOGIN,
@@ -49,6 +50,7 @@ namespace GameBase.Template.GameBase
         LongTimeBlock,
         DuplicateName,
         DBNotFound,
+        TableNotFound,
         PlayerMaxCount,
         PlayerDBKeyInvalid,
         PlayerCreateFail
@@ -63,6 +65,22 @@ namespace GameBase.Template.GameBase
         TempBlock,
         ChattingBlock,
         Max
+    }
+
+    public enum ItemType
+    {
+        None = 0,
+        Resource = 1
+    }
+
+    public enum ItemSubType
+    {
+        Gold = 1001,
+        CashGold = 1002,
+        Diamond = 1003,
+        CashDiamond = 1004,
+        Stamina = 1005,
+        CashStamina = 1006
     }
 
     public class ConnectInfo

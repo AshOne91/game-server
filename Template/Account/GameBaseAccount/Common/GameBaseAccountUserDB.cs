@@ -13,7 +13,7 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 
 		public override void Copy(UserDB userSrc, bool isChanged)
 		{
-			GameBaseAccountUserDB userDB = userSrc.GetUserDB<GameBaseAccountUserDB>(ETemplateType.Account);
+			GameBaseAccountUserDB userDB = userSrc.GetReadUserDB<GameBaseAccountUserDB>(ETemplateType.Account);
 			_dbBaseContainer_player.Copy(userDB._dbBaseContainer_player, isChanged);
 		}
 	}

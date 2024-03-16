@@ -13,6 +13,7 @@ namespace GameBase.Template.Item.GameBaseItem
 	{
 		public void ON_CG_ITEM_INFO_REQ_CALLBACK(ImplObject userObject, PACKET_CG_ITEM_INFO_REQ packet)
 		{
+			
 		}
 		public void ON_CG_ITEM_INFO_RES_CALLBACK(ImplObject userObject, PACKET_CG_ITEM_INFO_RES packet)
 		{

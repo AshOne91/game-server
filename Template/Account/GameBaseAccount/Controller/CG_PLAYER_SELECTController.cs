@@ -68,9 +68,10 @@ namespace GameBase.Template.Account.GameBaseAccount
 				return false;
 			}*/
 
-			if (_obj.GetUserDB().GetUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetReadData()._DBData.newbie == true)
+			if (_obj.GetUserDB().GetReadUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetReadData()._DBData.newbie == true)
 			{
 				GameBaseTemplateContext.SetNewbie(impl._obj.GetSession().GetUid());
+				_obj.GetUserDB().GetWriteUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetWriteData()._DBData.newbie = false;
 			}
 
 			if (!GameBaseTemplateContext.PlayerSelectPrepare(impl._obj.GetSession().GetUid()))

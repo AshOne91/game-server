@@ -2,7 +2,32 @@
 	"templateType" : "Shop",
 	"templateName" : "GameBaseShop",
 	"templateVersion" : "1.0.0",
-	"databases" : [],
+	"databases": [
+		{
+			"databaseType": "game",
+			"tableType": "slot",
+			"tableName": "DBShopTable",
+			"partitionKey_1": "player_db_key",
+			"partitionKey_2": "",
+			"members": [
+				{
+					"type": "int",
+					"name": "shop_index",
+					"comment": "Shop인덱스"
+				},
+				{
+					"type": "int",
+					"name": "shop_product_index",
+					"comment": "ShopProductList인덱스"
+				},
+				{
+					"type": "int",
+					"name": "buy_count",
+					"comment": "구매횟수"
+				}
+			]
+		}
+	],
 	"protocols": [
 		{
 			"id": 1001,

@@ -1,6 +1,8 @@
 ﻿using GameBase.Template.Account.GameBaseAccount;
 using GameBase.Template.Account.GameBaseAccount.Common;
 using GameBase.Template.GameBase.Common;
+using GameBase.Template.Item.GameBaseItem.Common;
+using GameBase.Template.Shop.GameBaseShop.Common;
 using Service.Net;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,9 @@ namespace TestClient.TestClient
             ConnectGameServer,
             PlayerListRequest,
             CreatePlayer,
-            SelectPlayer
+            SelectPlayer,
+            ItemInfo,
+            ShopInfo
         }
         private string _mainLogo = string.Empty;
         private GameSequence _gameStep = GameSequence.ConnectGameServer;
@@ -65,6 +69,9 @@ namespace TestClient.TestClient
             EventManager.Instance.AddEvent("PlayerList", this);
             EventManager.Instance.AddEvent("CreatePlayer", this);
             EventManager.Instance.AddEvent("SelectPlayer", this);
+            EventManager.Instance.AddEvent("ItemInfo", this);
+            EventManager.Instance.AddEvent("ShopInfo", this);
+            EventManager.Instance.AddEvent("ShopBuy", this);
         }
         protected sealed override void OnExit()
         {
@@ -76,6 +83,9 @@ namespace TestClient.TestClient
             EventManager.Instance.RemoveEvent("PlayerList", this);
             EventManager.Instance.RemoveEvent("CreatePlayer", this);
             EventManager.Instance.RemoveEvent("SelectPlayer", this);
+            EventManager.Instance.RemoveEvent("ItemInfo", this);
+            EventManager.Instance.RemoveEvent("ShopInfo", this);
+            EventManager.Instance.RemoveEvent("ShopBuy", this);
             _mainLogo = string.Empty;
             ConsoleManager.Instance.ConsoleClear();
         }
@@ -105,7 +115,13 @@ namespace TestClient.TestClient
                     _playerInfos.Add((PlayerInfo)message.ExtraInfo);
                     break;
                 case "SelectPlayer":
-
+                    break;
+                case "ItemInfo":
+                    break;
+                case "ShopInfo":
+                    // 완료
+                    break;
+                case "ShopBuy":
                     break;
             }
             return true;
@@ -145,6 +161,19 @@ namespace TestClient.TestClient
                     {
                         PACKET_CG_PLAYER_SELECT_REQ sendData = new PACKET_CG_PLAYER_SELECT_REQ();
                         sendData.PlayerDBKey = _selectPlayerDBKey;
+                        _userObject.GetSession().SendPacket(sendData.Serialize());
+                    }
+                    break;
+                case GameSequence.ItemInfo:
+                    {
+                        PACKET_CG_ITEM_INFO_REQ sendData = new PACKET_CG_ITEM_INFO_REQ();
+                        _userObject.GetSession().SendPacket(sendData.Serialize());
+                        
+                    }
+                    break;
+                case GameSequence.ShopInfo:
+                    {
+                        PACKET_CG_SHOP_INFO_REQ sendData = new PACKET_CG_SHOP_INFO_REQ();
                         _userObject.GetSession().SendPacket(sendData.Serialize());
                     }
                     break;

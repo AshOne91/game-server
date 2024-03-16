@@ -13,7 +13,7 @@ namespace GameBase.Template.Item.GameBaseItem.Common
 
 		public override void Copy(UserDB userSrc, bool isChanged)
 		{
-			GameBaseItemUserDB userDB = userSrc.GetUserDB<GameBaseItemUserDB>(ETemplateType.Item);
+			GameBaseItemUserDB userDB = userSrc.GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item);
 			_dbSlotContainer_DBItemTable.Copy(userDB._dbSlotContainer_DBItemTable, isChanged);
 		}
 	}

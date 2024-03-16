@@ -6,6 +6,8 @@ using Service.Net;
 using GameBase.Template.GameBase;
 using GameBase.Template.GameBase.Common;
 using GameBase.Template.Shop.GameBaseShop.Common;
+using GameBase.Template.GameBase.Table;
+using System.Reflection.Metadata.Ecma335;
 
 namespace GameBase.Template.Shop.GameBaseShop
 {
@@ -30,8 +32,9 @@ namespace GameBase.Template.Shop.GameBaseShop
 		public override void OnLoadData(TemplateConfig config)
 		{
 			// TODO : 로드할 데이터를 연결
+			DataTable<int, ShopInfoTable>.Instance.Init(config.localPath + "/ShopInfo.csv");
+			DataTable<int, ShopProductListTable>.Instance.Init(config.localPath + "/ShopProductList.csv");
 		}
-
 		public override void OnClientCreate(ImplObject userObject)
 		{
 			_obj = userObject;
@@ -72,7 +75,32 @@ namespace GameBase.Template.Shop.GameBaseShop
 
 		public override bool OnPlayerSelectPrepare(ImplObject userObject)
 		{
-			return true;
+			Reset(userObject);
+            foreach(var shopInfo in DataTable<int, ShopInfoTable>.Instance.Values)
+			{
+				// db에 있는지 체크
+				var DBShopProductList = userObject.GetUserDB().GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.FindAll(slot => slot._DBData.shop_index == shopInfo.id);
+                var productListTable = DataTable<int, ShopProductListTable>.Instance.Values.FindAll(productList => productList.shopId == shopInfo.id);
+
+				foreach(var product in productListTable)
+				{
+                    var dbShopProductTable = DBShopProductList.Find(dbProduct => dbProduct._DBData.shop_product_index == product.id);
+					if (dbShopProductTable == null)
+					{
+                        dbShopProductTable = userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.Insert(userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.GetVacantSlot());
+
+                        dbShopProductTable._DBData.shop_index = shopInfo.id;
+                        dbShopProductTable._DBData.shop_product_index = product.id;
+                        dbShopProductTable._DBData.buy_count = 0;
+                    }
+					else
+					{
+						//현재 갱신은 없음
+					}
+                }
+            }
+
+            return true;
 		}
 
 		public T GetGameBaseShopImpl<T>() where T : ShopImpl
@@ -129,5 +157,75 @@ namespace GameBase.Template.Shop.GameBaseShop
 		{
 			return false;
 		}
-	}
+
+		private void Reset(ImplObject userObject) 
+		{
+            GameBaseShopUserImpl Impl = userObject.GetShopImpl<GameBaseShopUserImpl>();
+			Impl.ShopInfoList.Clear();
+		}
+
+        private (GServerCode, List<ItemBaseInfo>, List<QuestCompleteParam>) UpdateBuyItem(ImplObject userObject, ShopProductListTable shopProductListTable)
+		{
+			List<ItemBaseInfo> listUpdateItem = new List<ItemBaseInfo>();
+			List<QuestCompleteParam> listQUestCompleteParam = new List<QuestCompleteParam>();
+            ShopBuyType buyType = (ShopBuyType)shopProductListTable.buyType;
+			GServerCode error = GServerCode.SUCCESS;
+
+            switch (buyType)
+			{
+				case ShopBuyType.Cash:
+					error = GServerCode.Error;
+					break;
+				case ShopBuyType.Gold:
+				case ShopBuyType.Diamond:
+					var res = ConvertToItemId(buyType);
+					if (res.Item1 != GServerCode.SUCCESS)
+					{
+						error = res.Item1;
+						break;
+					}
+					var res2 = GameBaseTemplateContext.DeleteItem(userObject.GetSession().GetUid(), res.Item2, (int)shopProductListTable.buyPrice);
+					listUpdateItem = res2.listItemInfo;
+					listQUestCompleteParam = res2.listQuestCompleteParam;
+					break;
+				case ShopBuyType.Free:
+					break;
+			}
+
+			return (error, listUpdateItem, listQUestCompleteParam);
+        }
+
+        private void UpdateProduct(ImplObject userObject, ShopProductListTable shopProductListTable)
+		{
+			var dbShopProductList = userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable;
+			var dbProduct = dbShopProductList.Find(product => product._DBData.shop_product_index == shopProductListTable.id);
+            dbProduct.
+
+        }
+
+        private void CreateRewardItem(ImplObject userObject)
+		{
+
+		}
+
+		private (GServerCode, int) ConvertToItemId(ShopBuyType buyType)
+		{
+            switch (buyType)
+            {
+                case ShopBuyType.Gold:
+                case ShopBuyType.Diamond:
+                    var Item = DataTable<int, ItemListTable>.Instance.GetData(table => table.itemSubType == (int)ItemSubType.Gold);
+                    if (Item == null)
+					{
+						return (GServerCode.Error, -1);
+					}
+					return (GServerCode.SUCCESS, Item.id);
+                case ShopBuyType.Cash:
+				case ShopBuyType.Free:
+					return (GServerCode.Error, -1);
+				default:
+					return (GServerCode.Error, -1);
+            }
+        }
+    }
 }

@@ -8,6 +8,7 @@ namespace GameBase.Template.GameBase
     {
         Dictionary<ETemplateType, GameBaseUserDB> _userDBs = new Dictionary<ETemplateType, GameBaseUserDB>();
         public bool _IsLoaded = false;
+        public bool _IsDBChanged = false;
 
         public bool AddUserDB(ETemplateType key, GameBaseUserDB baseUserDB)
         {
@@ -19,13 +20,24 @@ namespace GameBase.Template.GameBase
             return true;
         }
 
-        public T GetUserDB<T>(ETemplateType key) where T : GameBaseUserDB
+        public T GetReadUserDB<T>(ETemplateType key) where T : GameBaseUserDB
         {
             GameBaseUserDB value;
             if (_userDBs.TryGetValue(key, out value) == false)
             {
                 return null;
             }
+            return value as T;
+        }
+
+        public T GetWriteUserDB<T>(ETemplateType key) where T : GameBaseUserDB
+        {
+            GameBaseUserDB value;
+            if (_userDBs.TryGetValue(key, out value) == false)
+            {
+                return null;
+            }
+            _IsDBChanged = true;
             return value as T;
         }
 
