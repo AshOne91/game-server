@@ -10,7 +10,7 @@ namespace Service.DB
         public BaseDBClass() { }
     }
 
-    public abstract class BaseDBSlot
+    /*public abstract class BaseDBSlot
     {
         public short _nSlot;
         public bool _isChanged;
@@ -19,19 +19,22 @@ namespace Service.DB
         public abstract void Copy(object srcData);
         public abstract object GetDBData();
         public BaseDBSlot() { }
-    }
+    }*/
 
-    public abstract class BaseDB
+    /*public abstract class BaseDB
     {
         public bool _isChanged;
         public abstract void Reset();
         public abstract void Copy(object srcData);
         public abstract object GetDBData();
         public BaseDB() { }
-    }
+    }*/
 
-    public class DBSlot<T> : BaseDBSlot where T : BaseDBClass
+    public class DBSlot<T> where T : BaseDBClass
     {
+        public short _nSlot;
+        public bool _isChanged;
+        public bool _isDeleted;
         public T _DBData;
 
         public DBSlot()
@@ -44,31 +47,27 @@ namespace Service.DB
             Reset();
         }
 
-        public override void Reset()
+        public void Reset()
         {
             _nSlot = 0;
             _isChanged = false;
             _isDeleted = false;
             _DBData.Reset();
         }
-        public override void Copy(object srcData)
+        public void Copy(T srcData)
         {
             _DBData = (T)srcData;
         }
-        public override object GetDBData()
-        {
-            return _DBData;
-        }
     }
 
-    public class DBSlotContainer<T> where T : BaseDBSlot, new()
+    public class DBSlotContainer<U, T> where U : DBSlot<T>, new() where T : BaseDBClass, new()
     {
-        private Dictionary<short, T> _DBSlotByIndex;
+        private Dictionary<short, U> _DBSlotByIndex;
         private bool _isChanged;
 
         public DBSlotContainer()
         {
-            _DBSlotByIndex = new Dictionary<short, T>();
+            _DBSlotByIndex = new Dictionary<short, U>();
             _isChanged = false;
         }
         ~DBSlotContainer()
@@ -99,7 +98,7 @@ namespace Service.DB
                 }
                 else if (IsReuse)
                 {
-                    T tempSlot = _DBSlotByIndex[slot];
+                    U tempSlot = _DBSlotByIndex[slot];
                     if (tempSlot._isDeleted)
                     {
                         return slot;
@@ -108,7 +107,7 @@ namespace Service.DB
             }
             return (short)_DBSlotByIndex.Count;
         }
-        public void Copy(DBSlotContainer<T> srcContainer, bool isChanged)
+        public void Copy(DBSlotContainer<U, T> srcContainer, bool isChanged)
         {
             Reset();
 
@@ -123,12 +122,12 @@ namespace Service.DB
             {
                 foreach (var pair in srcContainer._DBSlotByIndex)
                 {
-                    T srcSlot = pair.Value;
+                    U srcSlot = pair.Value;
 
                     if (!isChanged || srcSlot._isChanged)
                     {
-                        T newSlot = Insert(srcSlot._nSlot, srcSlot._isChanged, srcSlot._isDeleted);
-                        newSlot.Copy(srcSlot.GetDBData());
+                        U newSlot = Insert(srcSlot._nSlot, srcSlot._isChanged, srcSlot._isDeleted);
+                        newSlot.Copy(srcSlot._DBData);
 
                         srcSlot._isChanged = false;
                     }
@@ -136,9 +135,9 @@ namespace Service.DB
                 srcContainer.SetChanged(false);
             }
         }
-        public T Insert(short nSlot, bool isChanged = true, bool isDeleted = false)
+        public U Insert(short nSlot, bool isChanged = true, bool isDeleted = false)
         {
-            T newSlot = null;
+            U newSlot = null;
             if (_DBSlotByIndex.ContainsKey(nSlot) == true)
             {
                 newSlot = _DBSlotByIndex[nSlot];
@@ -146,7 +145,7 @@ namespace Service.DB
             }
             else
             {
-                newSlot = new T();
+                newSlot = new U();
                 newSlot._nSlot = nSlot;
                 _DBSlotByIndex.Add(nSlot, newSlot);
             }
@@ -163,21 +162,21 @@ namespace Service.DB
                 return false;
             }
 
-            T slot = _DBSlotByIndex[nSlot];
+            U slot = _DBSlotByIndex[nSlot];
             slot._isChanged = true;
             slot._isDeleted = true;
             SetChanged(true);
 
             return true;
         }
-        public T GetWriteData(short nSlot)
+        public U GetWriteData(short nSlot)
         {
             if (_DBSlotByIndex.ContainsKey(nSlot) == false)
             {
                 return null;
             }
 
-            T slot = _DBSlotByIndex[nSlot];
+            U slot = _DBSlotByIndex[nSlot];
             if (slot._isDeleted == true)
             {
                 return null;
@@ -187,14 +186,14 @@ namespace Service.DB
 
             return slot;
         }
-        public T GetReadData(short nSlot)
+        public U GetReadData(short nSlot)
         {
             if (_DBSlotByIndex.ContainsKey(nSlot) == false)
             {
                 return null;
             }
 
-            T slot = _DBSlotByIndex[nSlot];
+            U slot = _DBSlotByIndex[nSlot];
             if (slot._isDeleted == true)
             {
                 return null;
@@ -202,22 +201,22 @@ namespace Service.DB
 
             return slot;
         }
-        public void ForEach(Action<T> func, bool isAll = false)
+        public void ForEach(Action<U> func, bool isAll = false)
         {
             foreach (var pair in _DBSlotByIndex)
             {
-                T slot = pair.Value;
+                U slot = pair.Value;
                 if (!slot._isDeleted || isAll)
                 {
                     func(slot);
                 }
             }
         }
-        public void BreakableForEach(Func<T, bool> func)
+        public void BreakableForEach(Func<U, bool> func)
         {
             foreach (var pair in _DBSlotByIndex)
             {
-                T slot = pair.Value;
+                U slot = pair.Value;
                 if (!slot._isDeleted)
                 {
                     if (!func(slot))
@@ -227,11 +226,11 @@ namespace Service.DB
                 }
             }
         }
-        public T Find(Func<T, bool> func)
+        public U Find(Func<U, bool> func)
         {
             foreach (var pair in _DBSlotByIndex)
             {
-                T slot = pair.Value;
+                U slot = pair.Value;
                 if (!slot._isDeleted)
                 {
                     if (func(slot))
@@ -242,12 +241,12 @@ namespace Service.DB
             }
             return null;
         }
-        public List<T> FindAll(Func<T, bool> func)
+        public List<U> FindAll(Func<U, bool> func)
         {
-            List<T> slots = new List<T>();
+            List<U> slots = new List<U>();
             foreach (var pair in _DBSlotByIndex)
             {
-                T slot = pair.Value;
+                U slot = pair.Value;
                 if (!slot._isDeleted)
                 {
                     slots.Add(slot);
@@ -255,11 +254,11 @@ namespace Service.DB
             }
             return slots;
         }
-        public bool IsExist(Func<T, bool> func)
+        public bool IsExist(Func<U, bool> func)
         {
             foreach (var pair in _DBSlotByIndex)
             {
-                T slot = pair.Value;
+                U slot = pair.Value;
                 if (!slot._isDeleted)
                 {
                     if (func(slot))
@@ -275,7 +274,7 @@ namespace Service.DB
             int count = 0;
             foreach (var pair in _DBSlotByIndex)
             {
-                T slot = pair.Value;
+                U slot = pair.Value;
                 if (!slot._isDeleted)
                 {
                     ++count;
@@ -287,8 +286,9 @@ namespace Service.DB
         public void SetChanged(bool isChanged) { _isChanged = isChanged; }
     }
 
-    public class DBBase<T> : BaseDB where T : BaseDBClass
+    public class DBBase<T> where T : BaseDBClass
     {
+        public bool _isChanged;
         public T _DBData;
 
         public DBBase()
@@ -301,30 +301,20 @@ namespace Service.DB
             Reset();
         }
 
-        public override void Reset()
+        public void Reset()
         {
             _isChanged = false;
             _DBData.Reset();
         }
-
-        public override void Copy(object srcData)
-        {
-            _DBData = (T)srcData;
-        }
-
-        public override object GetDBData()
-        {
-            return _DBData;
-        }
     }
 
-    public class DBBaseContainer<T> where T : BaseDB, new()
+    public class DBBaseContainer<U, T> where U : DBBase<T>, new() where T : BaseDBClass, new()
     {
-        private T _DBBase;
+        private U _DBBase;
 
         public DBBaseContainer()
         {
-            _DBBase = new T();
+            _DBBase = new U();
         }
         ~DBBaseContainer()
         {
@@ -335,7 +325,7 @@ namespace Service.DB
             _DBBase.Reset();
         }
 
-        public void Copy(DBBaseContainer<T> srcContainer, bool isChanged)
+        public void Copy(DBBaseContainer<U, T> srcContainer, bool isChanged)
         {
             Reset();
 
@@ -343,17 +333,18 @@ namespace Service.DB
 
             if (!isChanged || srcContainer._DBBase._isChanged)
             {
-                _DBBase.Copy((object)_DBBase.GetDBData());
+                //_DBBase.Copy((object)_DBBase.GetDBData());
+                _DBBase._DBData = srcContainer._DBBase._DBData;
 
                 srcContainer._DBBase._isChanged = false;
             }
         }
-        public T GetWriteData(bool isChanged = true)
+        public U GetWriteData(bool isChanged = true)
         {
             _DBBase._isChanged = isChanged;
             return _DBBase;
         }
-        public T GetReadData()
+        public U GetReadData()
         {
             return _DBBase;
         }

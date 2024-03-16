@@ -56,5 +56,5 @@ namespace GameBase.Template.Item.GameBaseItem.Common
 		}
 	}
 	public class DBSlot_DBItemTable : DBSlot<DBItemTable>{}
-	public class DBSlotContainer_DBItemTable : DBSlotContainer<DBSlot_DBItemTable>{}
+	public class DBSlotContainer_DBItemTable : DBSlotContainer<DBSlot_DBItemTable, DBItemTable> {}
 }

@@ -71,5 +71,5 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		}
 	}
 	public class DBBase_player : DBBase<player>{}
-	public class DBBaseContainer_player : DBBaseContainer<DBBase_player>{}
+	public class DBBaseContainer_player : DBBaseContainer<DBBase_player, player> {}
 }
