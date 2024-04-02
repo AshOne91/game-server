@@ -115,13 +115,16 @@ namespace TestClient.TestClient
                     _playerInfos.Add((PlayerInfo)message.ExtraInfo);
                     break;
                 case "SelectPlayer":
+                    // 완료
                     break;
                 case "ItemInfo":
+                    // 완료
                     break;
                 case "ShopInfo":
                     // 완료
                     break;
                 case "ShopBuy":
+                    // 완료
                     break;
             }
             return true;

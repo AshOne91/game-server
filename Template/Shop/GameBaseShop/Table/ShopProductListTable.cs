@@ -13,6 +13,7 @@ namespace GameBase.Template.GameBase.Table
 		public int buyType = new int();
 		public int buyPrice = new int();
 		public int itemId = new int();
+		public int value = new int();
 
 		public void Serialize(Dictionary<string, string> data)
 		{
@@ -22,6 +23,7 @@ namespace GameBase.Template.GameBase.Table
 			if (data.ContainsKey("buyType") == true) { buyType = int.Parse(data["buyType"]); }
 			if (data.ContainsKey("buyPrice") == true) { buyPrice = int.Parse(data["buyPrice"]); }
 			if (data.ContainsKey("itemId") == true) { itemId = int.Parse(data["itemId"]); }
+			if (data.ContainsKey("value") == true) { value = int.Parse(data["value"]); }
 		}
 	}
 }

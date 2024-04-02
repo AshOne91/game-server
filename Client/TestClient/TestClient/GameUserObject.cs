@@ -6,6 +6,7 @@ using GameBase.Template.GameBase;
 using System.Net;
 using GameBase.Template.Account.GameBaseAccount;
 using GameBase.Template.Item.GameBaseItem;
+using GameBase.Template.Shop.GameBaseShop;
 
 namespace TestClient.TestClient
 {
@@ -100,13 +101,30 @@ namespace TestClient.TestClient
             }
         }
 
+        static private Action<ImplObject, string, object> _fnCall;
+        static public Action<ImplObject, string, object> FnCall
+        {
+            get { return _fnCall; }
+            set { _fnCall = value; }
+        }
+
+        public void ClientCallback(string action, object extraInfo = null)
+        {
+            if (_fnCall != null)
+            {
+                _fnCall(this, action, extraInfo);
+            }
+        }
+
         public sealed override void OnConnect(IPEndPoint ep)
         {
             _ServerState = ServerState.Connection;
             GameBaseTemplateContext.AddTemplate(this, ETemplateType.Account, new GameBaseAccountTemplate());
             GameBaseTemplateContext.AddTemplate(this, ETemplateType.Item, new GameBaseItemTemplate());
-            AccountController.AddAccountController(GetSession().GetUid()); //Controller 삭제 추가하기(common-tool)
-            // ItemController.AddItemController(session.GetUid());
+            GameBaseTemplateContext.AddTemplate(this, ETemplateType.Shop, new GameBaseShopTemplate());
+            AccountController.AddAccountController(GetSession().GetUid());
+            ItemController.AddItemController(GetSession().GetUid());
+            ShopController.AddShopController(GetSession().GetUid());
             GameBaseTemplateContext.CreateClient(GetSession().GetUid());
             ServerStateCallback(_ServerState);
         }
@@ -116,8 +134,10 @@ namespace TestClient.TestClient
             GameBaseTemplateContext.DeleteClient(GetSession().GetUid());
             GameBaseTemplateContext.RemoveTemplate(GetSession().GetUid(), ETemplateType.Account);
             GameBaseTemplateContext.RemoveTemplate(GetSession().GetUid(), ETemplateType.Item);
+            GameBaseTemplateContext.RemoveTemplate(GetSession().GetUid(), ETemplateType.Shop);
             AccountController.RemoveAccountController(GetSession().GetUid());
-            // ItemController.RemoveItemController(GetSession().GetUid());
+            ItemController.RemoveItemController(GetSession().GetUid());
+            ShopController.RemoveShopController(GetSession().GetUid());
             GetSession().SetUserObject(null);
             _ServerState = ServerState.Disconnect;
             ServerStateCallback(_ServerState);

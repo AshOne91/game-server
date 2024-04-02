@@ -46,5 +46,5 @@ namespace GameBase.Template.Shop.GameBaseShop.Common
 		}
 	}
 	public class DBSlot_DBShopTable : DBSlot<DBShopTable>{}
-	public class DBSlotContainer_DBShopTable : DBSlotContainer<DBSlot_DBShopTable>{}
+	public class DBSlotContainer_DBShopTable : DBSlotContainer<DBSlot_DBShopTable, DBShopTable> {}
 }

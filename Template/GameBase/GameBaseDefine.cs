@@ -83,6 +83,13 @@ namespace GameBase.Template.GameBase
         CashStamina = 1006
     }
 
+    public enum QuestType
+    {
+        None,
+        BuyShop,
+        UpdateItem
+    }
+
     public class ConnectInfo
     {
         public int ConnType = (int)ConnectType.Normal;

@@ -81,7 +81,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
-                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnCall = this.ClientAction;
+                    GameUserObject.FnCall = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);
@@ -105,7 +105,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
-                    gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>().FnCall = this.ClientAction;
+                    GameUserObject.FnCall = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);

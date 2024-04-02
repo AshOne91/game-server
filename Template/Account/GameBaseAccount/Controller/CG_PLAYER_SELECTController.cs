@@ -46,6 +46,14 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 		public void ON_CG_PLAYER_SELECT_RES_CALLBACK(ImplObject userObject, PACKET_CG_PLAYER_SELECT_RES packet)
 		{
+			GameBaseAccountClientImpl Impl = userObject.GetAccountImpl<GameBaseAccountClientImpl>();
+			if (packet.ErrorCode != (int)GServerCode.SUCCESS)
+			{
+				Impl.ClientCallback("PacketError", packet.ToString());
+				return;
+			}
+
+			Impl.ClientCallback("SelectPlayer", packet.Player);
 		}
 
 		public bool UserLoadComplete(GameBaseAccountUserImpl impl, UserDB srcDB)

@@ -15,7 +15,8 @@ namespace GameBase.Template.Shop.GameBaseShop
 		public void ON_CG_SHOP_BUY_REQ_CALLBACK(ImplObject userObject, PACKET_CG_SHOP_BUY_REQ packet)
 		{
 			PACKET_CG_SHOP_BUY_RES sendData = new PACKET_CG_SHOP_BUY_RES();
-			var shopProduct = userObject.GetUserDB().GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.Find(slot => slot._DBData.shop_index == packet.shopId && slot._DBData.shop_product_index == packet.shopProductId);
+            var listQuestCompleteParam = new List<QuestCompleteParam>();
+            var shopProduct = userObject.GetUserDB().GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.Find(slot => slot._DBData.shop_index == packet.shopId && slot._DBData.shop_product_index == packet.shopProductId);
 			if (shopProduct == null) 
 			{
 				sendData.ErrorCode = (int)GServerCode.DBNotFound;
@@ -37,14 +38,44 @@ namespace GameBase.Template.Shop.GameBaseShop
 				sendData.ErrorCode = (int)resBuyItem.Item1;
 				userObject.GetSession().SendPacket(sendData.Serialize());
 				return;
-
 			}
+			listQuestCompleteParam.AddRange(resBuyItem.Item3);
+			var resProduct = UpdateProduct(userObject, productList);
+			listQuestCompleteParam.AddRange(resProduct.listQuestCompleteParam);
+			var resRewardItem = CreateRewardItem(userObject, productList);
+			listQuestCompleteParam.AddRange(resRewardItem.listQuest);
 
-			var resProduct = UpdateProduct;
-			var resRewardItem = CreateRewardItem;
+			listQuestCompleteParam.Add(new QuestCompleteParam { QuestType = (int)QuestType.BuyShop, EndId = -1, Value = 1 });
+
+			if (GameBaseTemplateContext.Quest != null)
+			{
+				var listUpdateQuest = GameBaseTemplateContext.GetTemplate<QuestTemplate>(ETemplateType.Quest).UpdateQuest(userObject, listQuestCompleteParam);
+				if (listUpdateQuest != null)
+				{
+					sendData.listQuestData.AddRange(listUpdateQuest);
+				}
+            }
+
+			sendData.ErrorCode = (int)GServerCode.SUCCESS;
+			sendData.shopId = packet.shopId;
+			sendData.shopProductInfo = resProduct.productInfo;
+			sendData.changeProductInfo = resProduct.changeProductInfo;
+			if (resBuyItem.Item2 != null && resBuyItem.Item2.Count > 0)
+			{
+				sendData.deleteItemInfo = resBuyItem.Item2[0];
+            }
+			sendData.listRewardInfo = resRewardItem.listReward;
+			userObject.GetSession().SendPacket(sendData.Serialize());
         }
 		public void ON_CG_SHOP_BUY_RES_CALLBACK(ImplObject userObject, PACKET_CG_SHOP_BUY_RES packet)
 		{
+			GameBaseShopClientImpl Impl = userObject.GetShopImpl<GameBaseShopClientImpl>();
+			if (packet.ErrorCode != (int)GServerCode.SUCCESS)
+			{
+				Impl.ClientCallback("PacketError", packet.ToString());
+				return;
+			}
+			Impl.ClientCallback("ShopBuy", packet);
 		}
 	}
 }

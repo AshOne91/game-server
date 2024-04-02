@@ -38,4 +38,9 @@ namespace GameBase.Template.Item.GameBaseItem
 		public GameBaseItemGameImpl(ImplObject obj) : base(obj){}
 		// TODO : ImplObject에서 사용 될 변수 선언 및 함수 구현
 	}
+
+	public partial class GameBaseItemClientImpl : ItemImpl
+	{
+		public GameBaseItemClientImpl(ImplObject obj) : base(obj) { }
+	}
 }

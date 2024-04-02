@@ -44,6 +44,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 			if (packet.ErrorCode != (int)GServerCode.SUCCESS)
 			{
 				Impl.ClientCallback("PacketError", packet.ToString());
+				return;
 			}
 			Impl.ClientCallback("ShopInfo", packet.listShopInfo);
         }

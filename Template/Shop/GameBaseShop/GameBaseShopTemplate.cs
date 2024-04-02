@@ -195,17 +195,46 @@ namespace GameBase.Template.Shop.GameBaseShop
 			return (error, listUpdateItem, listQUestCompleteParam);
         }
 
-        private void UpdateProduct(ImplObject userObject, ShopProductListTable shopProductListTable)
+        private (ShopProductInfo productInfo, ShopProductInfo changeProductInfo, List<QuestCompleteParam> listQuestCompleteParam) UpdateProduct(ImplObject userObject, ShopProductListTable shopProductListTable)
 		{
 			var dbShopProductList = userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable;
-			var dbProduct = dbShopProductList.Find(product => product._DBData.shop_product_index == shopProductListTable.id);
-            dbProduct.
+			short dbSlot = 0;
+			dbShopProductList.BreakableForEach((DBSlot_DBShopTable table) =>
+			{
+				if (table._DBData.shop_index == shopProductListTable.shopId 
+				&& table._DBData.shop_product_index == shopProductListTable.id)
+				{
+					dbSlot = table._nSlot;
+                    return true;
+                }
+				return false;
+			});
 
+			var dbShopTable = userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.GetWriteData(dbSlot);
+			dbShopTable._DBData.buy_count++;
+
+			ShopProductInfo productInfo = new ShopProductInfo();
+			productInfo.shopProductId = shopProductListTable.id;
+			productInfo.buyCount = (byte)dbShopTable._DBData.buy_count;
+
+            ShopProductInfo changeProductInfo = new ShopProductInfo();
+			List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
+			
+			return (productInfo, changeProductInfo,  listQuestCompleteParam);
         }
 
-        private void CreateRewardItem(ImplObject userObject)
+        private (List<ItemBaseInfo> listReward, List<QuestCompleteParam> listQuest) CreateRewardItem(ImplObject userObject, ShopProductListTable shopProductList)
 		{
+			List<ItemBaseInfo> listRewardItemInfo = new List<ItemBaseInfo>();
+			List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
+			if (shopProductList.itemId > 0)
+			{
+				var result = GameBaseTemplateContext.AddItem(userObject.GetSession().GetUid(), shopProductList.itemId, shopProductList.value);
+				listRewardItemInfo.AddRange(result.listItemInfo);
+				listQuestCompleteParam.AddRange(result.listQuestCompleteParam);
+			}
 
+			return (listRewardItemInfo, listQuestCompleteParam);
 		}
 
 		private (GServerCode, int) ConvertToItemId(ShopBuyType buyType)

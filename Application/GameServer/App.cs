@@ -6,6 +6,8 @@ using Service.Core;
 using Service.Net;
 using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
+using GameBase.Template.Item.GameBaseItem;
+using GameBase.Template.Shop.GameBaseShop;
 using System.Diagnostics;
 using PerformanceCounter = Service.Core.PerformanceCounter;
 using Service.DB;
@@ -29,6 +31,7 @@ namespace GameServer
 
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Item, new GameBaseItemTemplate());
+			GameBaseTemplateContext.AddTemplate(ETemplateType.Shop, new GameBaseShopTemplate());
 			TemplateConfig templateConfig = new TemplateConfig();
 			GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Game);
 			GameBaseTemplateContext.LoadDataTable(templateConfig);
@@ -77,8 +80,11 @@ namespace GameServer
 
 				GameBaseTemplateContext.AddTemplate<GameUserObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
 				GameBaseTemplateContext.AddTemplate<GameUserObject>(obj, ETemplateType.Item, new GameBaseItemTemplate());
+				GameBaseTemplateContext.AddTemplate<GameUserObject>(obj, ETemplateType.Shop, new GameBaseShopTemplate());
 				AccountController.AddAccountController(session.GetUid());
-				
+				ItemController.AddItemController(session.GetUid());
+				ShopController.AddShopController(session.GetUid());
+
 				obj.OnAccept(localEP);
                 GameBaseTemplateContext.CreateClient(session.GetUid());
                 Logger.Default.Log(ELogLevel.Trace, "Client onaccept called, Address-{0}, Port-{1}", localEP.Address.ToString(), localEP.Port);
@@ -150,7 +156,11 @@ namespace GameServer
 				obj.SetSocketSession(session);
 
 				GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
+				GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Item, new GameBaseItemTemplate());
+				GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Shop, new GameBaseShopTemplate());
 				AccountController.AddAccountController(session.GetUid());
+				ItemController.AddItemController(session.GetUid());
+				ShopController.AddShopController(session.GetUid());
 				obj.OnConnect(ep);
 				GameBaseTemplateContext.CreateClient(session.GetUid());
 				ListenUsers(true);
@@ -172,6 +182,8 @@ namespace GameServer
 				ObjectType type = (ObjectType)userObj.ObjectID;
 				GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
                 AccountController.RemoveAccountController(userObj.GetSession().GetUid());
+				ItemController.RemoveItemController(userObj.GetSession().GetUid());
+				ShopController.RemoveShopController(userObj.GetSession().GetUid());
                 userObj.OnClose();
 				userObj.Dispose();
 				session.SetUserObject(null);
@@ -198,6 +210,9 @@ namespace GameServer
 				if (obj != null)
 				{
 					AccountController.OnPacket(obj, packet.GetId(), packet);
+					ItemController.OnPacket(obj, packet.GetId(), packet);
+					ShopController.OnPacket(obj, packet.GetId(), packet);
+
 				}
 				else
 				{

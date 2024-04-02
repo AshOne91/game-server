@@ -8,6 +8,7 @@ using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
 using GameBase.Template.Item.GameBaseItem;
 using Service.Core;
+using GameBase.Template.Shop.GameBaseShop;
 
 namespace TestClient.TestClient
 {
@@ -19,6 +20,7 @@ namespace TestClient.TestClient
 
             GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
             GameBaseTemplateContext.AddTemplate(ETemplateType.Item, new GameBaseItemTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Shop, new GameBaseShopTemplate());
 
 
             TemplateConfig templateConfig = new TemplateConfig();
@@ -67,8 +69,8 @@ namespace TestClient.TestClient
                 if (obj != null)
                 {
                     AccountController.OnPacket(obj, packet.GetId(), packet);
-                    //FIX ME
-                    //ItemController.OnPacket(obj, packet.GetId(), packet);
+                    ItemController.OnPacket(obj, packet.GetId(), packet);
+                    ShopController.OnPacket(obj, packet.GetId(), packet);
                 }
                 else
                 {
