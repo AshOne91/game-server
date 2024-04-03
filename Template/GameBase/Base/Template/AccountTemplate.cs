@@ -6,5 +6,9 @@ namespace GameBase.Template.GameBase
 {
     public class AccountTemplate : GameBaseTemplate
     {
+        public virtual void UpdateSessionInfo(ImplObject userObject)
+        {
+
+        }
     }
 }

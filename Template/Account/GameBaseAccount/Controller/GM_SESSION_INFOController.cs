@@ -13,7 +13,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 	{
 		public void ON_GM_SESSION_INFO_NOTI_CALLBACK(ImplObject userObject, PACKET_GM_SESSION_INFO_NOTI packet)
 		{
-			
+			UserSessionData sessionData = packet.
 		}
 	}
 }

@@ -146,5 +146,21 @@ namespace GameBase.Template.Account.GameBaseAccount
 			PACKET_GC_HELLO_NOTI packet = new PACKET_GC_HELLO_NOTI();
 			_obj.GetSession().SendPacket(packet.Serialize());
 		}
-	}
+
+        public override void UpdateSessionInfo(ImplObject userObject)
+        {
+            ImplObject masterObj = GameBaseTemplateContext.FindUserObjFromType<MasterClientObject>((ulong)ObjectType.Master);
+            if (masterObj == null)
+            {
+                Logger.Default.Log(ELogLevel.Always, "_MasterServer Down!");
+                userObject.GetSession().Disconnect();
+                return;
+            }
+            PACKET_GM_SESSION_INFO_NOTI sendData = new PACKET_GM_SESSION_INFO_NOTI();
+			var gameUserObject = userObject as GameUserObject;
+			gameUserObject.SessionData.LastUpdateTime = DateTime.UtcNow;
+            gameUserObject.SessionData = gameUserObject.SessionData;
+            masterObj.GetSession().SendPacket(sendData.Serialize());
+        }
+    }
 }
