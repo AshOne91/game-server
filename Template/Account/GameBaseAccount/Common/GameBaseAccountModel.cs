@@ -8,5 +8,4 @@ using Service.Core;
 
 namespace GameBase.Template.Account.GameBaseAccount.Common
 {
-
 }

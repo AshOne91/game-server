@@ -490,25 +490,19 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		public static readonly ushort ProtocolId = 27;
 		
 		/// <summary>
-		/// 
+		/// 세션 정보
 		/// </summary>
-		public int LogoutType = new int();
-		/// <summary>
-		/// 
-		/// </summary>
-		public Int64 PlayerIdx = new Int64();
+		public UserSessionData sessionData = new UserSessionData();
 		public PACKET_GM_SESSION_INFO_NOTI():base(ProtocolId){}
 		public override void Serialize(Packet packet)
 		{
 			base.Serialize(packet);
-			packet.Write(LogoutType);
-			packet.Write(PlayerIdx);
+			packet.Write(sessionData);
 		}
 		public override void Deserialize(Packet packet)
 		{
 			base.Deserialize(packet);
-			packet.Read(ref LogoutType);
-			packet.Read(ref PlayerIdx);
+			packet.Read(sessionData);
 		}
 	}
 #endif

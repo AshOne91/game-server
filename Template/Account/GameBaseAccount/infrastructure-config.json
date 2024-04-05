@@ -1,566 +1,563 @@
 ﻿{
-    "templateType": "Account",
-    "templateName": "GameBaseAccount",
-    "templateVersion": "1.0.0",
-    "databases": [
-      {
-        "databaseType": "game",
-        "tableType": "",
-        "tableName": "player",
-        "partitionKey_1": "player_db_key",
-        "members": [
-          {
-            "type": "DateTime",
-            "name": "login_time",
-            "comment": "로그인 시간"
-          },
-          {
-            "type": "DateTime",
-            "name": "logout_time",
-            "comment": "로그아웃 시간"
-          },
-          {
-            "type": "bool",
-            "name": "is_login",
-            "comment": "접속여부"
-          },
-          {
-            "type": "bool",
-            "name": "newbie",
-            "comment": "첫생성자 여부"
-          },
-          {
-            "type": "Int64",
-            "name": "serial_allocator",
-            "comment": "시리얼번호 생성기"
-          },
-          {
-            "type": "string",
-            "name": "player_name",
-            "comment": "플레이어 이름"
-          },
-          {
-            "type": "short",
-            "name": "level",
-            "comment": "레벨"
-          },
-          {
-            "type": "Int64",
-            "name": "exp",
-            "comment": "경험치"
-          }
-        ]
-      }
-    ],
-    "protocols": [
+  "templateType": "Account",
+  "templateName": "GameBaseAccount",
+  "templateVersion": "1.0.0",
+  "databases": [
+    {
+      "databaseType": "game",
+      "tableType": "",
+      "tableName": "player",
+      "partitionKey_1": "player_db_key",
+      "members": [
         {
-            "id": 1,
-            "method": "noti",
-            "name": "LC_HELLO",
-            "protocolType": "",
-            "notiMembers": [
-            ]
+          "type": "DateTime",
+          "name": "login_time",
+          "comment": "로그인 시간"
         },
         {
-            "id": 3,
-            "method": "react",
-            "name": "CL_CHECK_VERSION",
-            "protocolType": "",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "ProtocolGUID",
-                    "comment": "프로토콜 버전"
-                },
-                {
-                    "type": "string",
-                    "name": "Ver",
-                    "comment": "게임버전"
-                }
-            ],
-            "resMembers": [
-            ]
+          "type": "DateTime",
+          "name": "logout_time",
+          "comment": "로그아웃 시간"
         },
         {
-            "id": 5,
-            "method": "react",
-            "name": "CL_CHECK_AUTH",
-            "protocolType": "",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "SiteUserId",
-                    "comment": "유저 아이디"
-                },
-                {
-                    "type": "int",
-                    "name": "WantedServerId",
-                    "comment": "-1이 아닌 경우 원하는 서버로 이동할 수 있음(다이렉트로 이동 가능 한 지 서버에서 체크(재접, 게임매칭 등등)"
-                },
-                {
-                    "type": "int",
-                    "name": "PlatformType",
-                    "comment": "플랫폼 구분 타입"
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "string",
-                    "name": "Passport",
-                    "comment": "발급된 통행권"
-                },
-                {
-                    "type": "string",
-                    "name": "IP",
-                    "comment": "게임서버 아이피"
-                },
-                {
-                    "type": "ushort",
-                    "name": "Port",
-                    "comment": "게임서버 포트"
-                },
-                {
-                    "type": "int",
-                    "name": "ServerId",
-                    "comment": "게임서버 아이디"
-                }
-            ]
+          "type": "bool",
+          "name": "is_login",
+          "comment": "접속여부"
         },
         {
-            "id": 7,
-            "method": "react",
-            "name": "CL_GEN_GUEST_ID",
-            "protocolType": "",
-            "reqMembers": [
-            ],
-            "resMembers": [
-                {
-                    "type": "string",
-                    "name": "SiteUserId",
-                    "comment": "고유아이디"
-                }
-            ]
+          "type": "bool",
+          "name": "newbie",
+          "comment": "첫생성자 여부"
         },
         {
-            "id": 9,
-            "method": "noti",
-            "name": "LC_DUPLICATE_LOGIN",
-            "comment": "중복 로그인 알림",
-            "protocolType": "",
-            "notiMembers": [
-            ]
+          "type": "Int64",
+          "name": "serial_allocator",
+          "comment": "시리얼번호 생성기"
         },
         {
-            "id": 11,
-            "method": "react",
-            "name": "LM_CHECK_AUTH",
-            "comment": "마스터서버 로그인",
-            "protocolType": "admin",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "ServerGUID",
-                    "comment": "서버GUID"
-                },
-                {
-                    "type": "string",
-                    "name": "Ver",
-                    "comment": "버전"
-                },
-                {
-                    "type": "string",
-                    "name": "HostIP",
-                    "comment": "아이피"
-                },
-                {
-                    "type": "ushort",
-                    "name": "HostPort",
-                    "comment": "포트"
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "int",
-                    "name": "ServerId",
-                    "comment": "서버아이디"
-                }
-            ]
+          "type": "string",
+          "name": "player_name",
+          "comment": "플레이어 이름"
         },
         {
-            "id": 13,
-            "method": "react",
-            "name": "LM_SESSION_INFO",
-            "comment": "세션정보 요청",
-            "protocolType": "admin",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "SiteUserId",
-                    "comment": "유저 고유아이디"
-                },
-                {
-                    "type": "ulong",
-                    "name": "Uid",
-                    "comment": "세션아이디"
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "bool",
-                    "name": "Found",
-                    "comment": "존재여부"
-                },
-                {
-                    "type": "ulong",
-                    "name": "Uid",
-                    "comment": "세션아이디"
-                },
-                {
-                    "type": "int",
-                    "name": "State",
-                    "comment": "세션상태"
-                },
-                {
-                    "type": "int",
-                    "name": "ServerId",
-                    "comment": "서버아이디"
-                }
-            ]
+          "type": "short",
+          "name": "level",
+          "comment": "레벨"
         },
         {
-            "id": 15,
-            "method": "noti",
-            "name": "LM_DUPLICATE_LOGIN",
-            "comment": "중복로그인 알림",
-            "protocolType": "admin",
-            "notiMembers": [
-                {
-                    "type": "string",
-                    "name": "StieUserId",
-                    "comment": "유저 아이디"
-                }
-            ]
-        },
-        {
-            "id": 17,
-            "method": "noti",
-            "name": "ML_GAMESERVER_INFO",
-            "comment": "게임서버 정보",
-            "protocolType": "admin",
-            "notiMembers": [
-                {
-                    "type": "List<GameServerInfo>",
-                    "name": "GameServerInfoList",
-                    "comment": "서버 정보"
-                }
-            ]
-        },
-        {
-            "id": 19,
-            "method": "noti",
-            "name": "MG_HELLO",
-            "comment": "접속 확인",
-            "protocolType": "admin",
-            "notiMembers": [
-
-            ]
-
-        },
-        {
-            "id": 21,
-            "method": "react",
-            "name": "GM_HEART_BEAT",
-            "comment": "하트비트",
-            "protocolType": "admin",
-            "reqMembers": [
-
-            ],
-            "resMembers": [
-
-            ]
-        },
-        {
-            "id": 23,
-            "method": "react",
-            "name": "GM_CHECK_AUTH",
-            "comment": "인증 요청",
-            "protocolType": "admin",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "ServerGUID",
-                    "comment": ""
-                },
-                {
-                    "type": "string",
-                    "name": "Ver",
-                    "comment": ""
-                },
-                {
-                    "type": "string",
-                    "name": "IP",
-                    "comment": ""
-                },
-                {
-                    "type": "ushort",
-                    "name": "Port",
-                    "comment": ""
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "int",
-                    "name": "ServerId",
-                    "comment": ""
-                }
-            ]
-        },
-        {
-            "id": 25,
-            "method": "noti",
-            "name": "GM_STATE_INFO",
-            "comment": "서버 상태",
-            "protocolType": "admin",
-            "notiMembers": [
-                {
-                    "type": "int",
-                    "name": "CurrentUserCount",
-                    "comment": ""
-                }
-            ]
-        },
-        {
-            "id": 27,
-            "method": "noti",
-            "name": "GM_SESSION_INFO",
-            "comment": "세션 상태",
-            "protocolType": "admin",
-            "notiMembers": [
-                {
-                    "type": "int",
-                    "name": "LogoutType",
-                    "comment": ""
-                },
-                {
-                    "type": "Int64",
-                    "name": "PlayerIdx",
-                    "comment": ""
-                }
-            ]
-        },
-        {
-            "id": 29,
-            "method": "noti",
-            "name": "MG_FORCE_LOGOUT",
-            "comment": "강제 로그아웃",
-            "protocolType": "admin",
-            "notiMembers": [
-                {
-                    "type": "UserSessionData",
-                    "name": "Data",
-                    "comment": "세션 데이터"
-                }
-            ]
-        },
-        {
-            "id": 31,
-            "method": "noti",
-            "name": "ML_HELLO",
-            "comment": "",
-            "protocolType": "admin",
-            "notiMembers": [
-
-            ]
-        },
-        {
-            "id": 33,
-            "method": "react",
-            "name": "LM_HELLO_HEART_BEAT",
-            "comment": "",
-            "protocolType": "admin",
-            "reqMembers": [],
-            "resMembers": []
-        },
-        {
-            "id": 37,
-            "method": "react",
-            "name": "LM_STATE_INFO",
-            "comment": "",
-            "protocolType": "admin",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "SiteUserId",
-                    "comment": ""
-                },
-                {
-                    "type": "ulong",
-                    "name": "Uid",
-                    "comment": ""
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "bool",
-                    "name": "Found",
-                    "comment": ""
-                },
-                {
-                    "type": "ulong",
-                    "name": "Uid",
-                    "comment": ""
-                },
-                {
-                    "type": "int",
-                    "name": "State",
-                    "comment": ""
-                },
-                {
-                    "type": "int",
-                    "name": "ServerId",
-                    "comment": ""
-                }
-            ]
-        },
-        {
-            "id": 39,
-            "method": "react",
-            "name": "CL_HEART_BEAT",
-            "comment": "",
-            "protocolType": "",
-            "reqMembers": [
-            ],
-            "resMembers": [
-            ]
-        },
-        {
-            "id": 41,
-            "method": "noti",
-            "name": "GC_HELLO",
-            "protocolType": "",
-            "notiMembers": [
-
-            ]
-        },
-        {
-            "id": 43,
-            "method": "react",
-            "name": "CG_HEARTBEAT",
-            "protocolType": "",
-            "reqMembers": [
-
-            ],
-            "resMembers": [
-                {
-                    "type": "DateTime",
-                    "name": "Time",
-                    "comment": "시간 동기화 용"
-                }
-            ]
-        },
-        {
-            "id": 45,
-            "method": "noti",
-            "name": "GC_HEARTBEAT",
-            "protocolType": "",
-            "notiMembers": [
-
-            ]
-        },
-        {
-            "id": 47,
-            "method": "react",
-            "name": "CG_CHECK_AUTH",
-            "protocolType": "",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "ProtocolGUID",
-                    "comment": "프로토콜 GUID"
-                },
-                {
-                    "type": "string",
-                    "name": "Ver",
-                    "comment": "앱버전"
-                },
-                {
-                    "type": "string",
-                    "name": "Passport",
-                    "comment": "패스포트"
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "bool",
-                    "name": "IsGoogleLink",
-                    "comment": "구글 계정 연동여부"
-                },
-                {
-                    "type": "bool",
-                    "name": "IsAppleLink",
-                    "comment": "애플 계정 연동여부"
-                },
-                {
-                    "type": "bool",
-                    "name": "IsFacebookLink",
-                    "comment": "페이스북 계정 연동여부"
-                }
-            ]
-        },
-        {
-            "id": 49,
-            "method": "react",
-            "name": "CG_CREATE_PLAYER",
-            "protocolType": "",
-            "reqMembers": [
-                {
-                    "type": "string",
-                    "name": "PlayerName",
-                    "comment": "유저 닉네임"
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "PlayerInfo",
-                    "name": "Player",
-                    "comment": "생성 플레이어"
-                }
-            ]
-        },
-        {
-            "id": 51,
-            "method": "react",
-            "name": "CG_PLAYERLIST",
-            "protocolType": "",
-            "reqMembers": [
-            ],
-            "resMembers": [
-                {
-                    "type": "List<PlayerInfo>",
-                    "name": "PlayerInfoList",
-                    "comment": "유저의 플레이어 리스트"
-                }
-            ]
-        },
-        {
-            "id": 53,
-            "method": "react",
-            "name": "CG_PLAYER_SELECT",
-            "protocolType": "",
-            "reqMembers": [
-                {
-                    "type": "ulong",
-                    "name": "PlayerDBKey",
-                    "comment": "플레이어 고유값"
-                }
-            ],
-            "resMembers": [
-                {
-                    "type": "PlayerInfo",
-                    "name": "Player",
-                    "comment": "플레이어 정보"
-                }
-            ]
+          "type": "Int64",
+          "name": "exp",
+          "comment": "경험치"
         }
-    ]
+      ]
+    }
+  ],
+  "protocols": [
+    {
+      "id": 1,
+      "method": "noti",
+      "name": "LC_HELLO",
+      "protocolType": "",
+      "notiMembers": [
+      ]
+    },
+    {
+      "id": 3,
+      "method": "react",
+      "name": "CL_CHECK_VERSION",
+      "protocolType": "",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "ProtocolGUID",
+          "comment": "프로토콜 버전"
+        },
+        {
+          "type": "string",
+          "name": "Ver",
+          "comment": "게임버전"
+        }
+      ],
+      "resMembers": [
+      ]
+    },
+    {
+      "id": 5,
+      "method": "react",
+      "name": "CL_CHECK_AUTH",
+      "protocolType": "",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "SiteUserId",
+          "comment": "유저 아이디"
+        },
+        {
+          "type": "int",
+          "name": "WantedServerId",
+          "comment": "-1이 아닌 경우 원하는 서버로 이동할 수 있음(다이렉트로 이동 가능 한 지 서버에서 체크(재접, 게임매칭 등등)"
+        },
+        {
+          "type": "int",
+          "name": "PlatformType",
+          "comment": "플랫폼 구분 타입"
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "string",
+          "name": "Passport",
+          "comment": "발급된 통행권"
+        },
+        {
+          "type": "string",
+          "name": "IP",
+          "comment": "게임서버 아이피"
+        },
+        {
+          "type": "ushort",
+          "name": "Port",
+          "comment": "게임서버 포트"
+        },
+        {
+          "type": "int",
+          "name": "ServerId",
+          "comment": "게임서버 아이디"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "method": "react",
+      "name": "CL_GEN_GUEST_ID",
+      "protocolType": "",
+      "reqMembers": [
+      ],
+      "resMembers": [
+        {
+          "type": "string",
+          "name": "SiteUserId",
+          "comment": "고유아이디"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "method": "noti",
+      "name": "LC_DUPLICATE_LOGIN",
+      "comment": "중복 로그인 알림",
+      "protocolType": "",
+      "notiMembers": [
+      ]
+    },
+    {
+      "id": 11,
+      "method": "react",
+      "name": "LM_CHECK_AUTH",
+      "comment": "마스터서버 로그인",
+      "protocolType": "admin",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "ServerGUID",
+          "comment": "서버GUID"
+        },
+        {
+          "type": "string",
+          "name": "Ver",
+          "comment": "버전"
+        },
+        {
+          "type": "string",
+          "name": "HostIP",
+          "comment": "아이피"
+        },
+        {
+          "type": "ushort",
+          "name": "HostPort",
+          "comment": "포트"
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "int",
+          "name": "ServerId",
+          "comment": "서버아이디"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "method": "react",
+      "name": "LM_SESSION_INFO",
+      "comment": "세션정보 요청",
+      "protocolType": "admin",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "SiteUserId",
+          "comment": "유저 고유아이디"
+        },
+        {
+          "type": "ulong",
+          "name": "Uid",
+          "comment": "세션아이디"
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "bool",
+          "name": "Found",
+          "comment": "존재여부"
+        },
+        {
+          "type": "ulong",
+          "name": "Uid",
+          "comment": "세션아이디"
+        },
+        {
+          "type": "int",
+          "name": "State",
+          "comment": "세션상태"
+        },
+        {
+          "type": "int",
+          "name": "ServerId",
+          "comment": "서버아이디"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "method": "noti",
+      "name": "LM_DUPLICATE_LOGIN",
+      "comment": "중복로그인 알림",
+      "protocolType": "admin",
+      "notiMembers": [
+        {
+          "type": "string",
+          "name": "StieUserId",
+          "comment": "유저 아이디"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "method": "noti",
+      "name": "ML_GAMESERVER_INFO",
+      "comment": "게임서버 정보",
+      "protocolType": "admin",
+      "notiMembers": [
+        {
+          "type": "List<GameServerInfo>",
+          "name": "GameServerInfoList",
+          "comment": "서버 정보"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "method": "noti",
+      "name": "MG_HELLO",
+      "comment": "접속 확인",
+      "protocolType": "admin",
+      "notiMembers": [
+
+      ]
+
+    },
+    {
+      "id": 21,
+      "method": "react",
+      "name": "GM_HEART_BEAT",
+      "comment": "하트비트",
+      "protocolType": "admin",
+      "reqMembers": [
+
+      ],
+      "resMembers": [
+
+      ]
+    },
+    {
+      "id": 23,
+      "method": "react",
+      "name": "GM_CHECK_AUTH",
+      "comment": "인증 요청",
+      "protocolType": "admin",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "ServerGUID",
+          "comment": ""
+        },
+        {
+          "type": "string",
+          "name": "Ver",
+          "comment": ""
+        },
+        {
+          "type": "string",
+          "name": "IP",
+          "comment": ""
+        },
+        {
+          "type": "ushort",
+          "name": "Port",
+          "comment": ""
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "int",
+          "name": "ServerId",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "method": "noti",
+      "name": "GM_STATE_INFO",
+      "comment": "서버 상태",
+      "protocolType": "admin",
+      "notiMembers": [
+        {
+          "type": "int",
+          "name": "CurrentUserCount",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "method": "noti",
+      "name": "GM_SESSION_INFO",
+      "comment": "세션 상태",
+      "protocolType": "admin",
+      "notiMembers": [
+        {
+          "type": "UserSessionData",
+          "name": "sessionData",
+          "comment": "세션 정보"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "method": "noti",
+      "name": "MG_FORCE_LOGOUT",
+      "comment": "강제 로그아웃",
+      "protocolType": "admin",
+      "notiMembers": [
+        {
+          "type": "UserSessionData",
+          "name": "Data",
+          "comment": "세션 데이터"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "method": "noti",
+      "name": "ML_HELLO",
+      "comment": "",
+      "protocolType": "admin",
+      "notiMembers": [
+
+      ]
+    },
+    {
+      "id": 33,
+      "method": "react",
+      "name": "LM_HELLO_HEART_BEAT",
+      "comment": "",
+      "protocolType": "admin",
+      "reqMembers": [],
+      "resMembers": []
+    },
+    {
+      "id": 37,
+      "method": "react",
+      "name": "LM_STATE_INFO",
+      "comment": "",
+      "protocolType": "admin",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "SiteUserId",
+          "comment": ""
+        },
+        {
+          "type": "ulong",
+          "name": "Uid",
+          "comment": ""
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "bool",
+          "name": "Found",
+          "comment": ""
+        },
+        {
+          "type": "ulong",
+          "name": "Uid",
+          "comment": ""
+        },
+        {
+          "type": "int",
+          "name": "State",
+          "comment": ""
+        },
+        {
+          "type": "int",
+          "name": "ServerId",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "method": "react",
+      "name": "CL_HEART_BEAT",
+      "comment": "",
+      "protocolType": "",
+      "reqMembers": [
+      ],
+      "resMembers": [
+      ]
+    },
+    {
+      "id": 41,
+      "method": "noti",
+      "name": "GC_HELLO",
+      "protocolType": "",
+      "notiMembers": [
+
+      ]
+    },
+    {
+      "id": 43,
+      "method": "react",
+      "name": "CG_HEARTBEAT",
+      "protocolType": "",
+      "reqMembers": [
+
+      ],
+      "resMembers": [
+        {
+          "type": "DateTime",
+          "name": "Time",
+          "comment": "시간 동기화 용"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "method": "noti",
+      "name": "GC_HEARTBEAT",
+      "protocolType": "",
+      "notiMembers": [
+
+      ]
+    },
+    {
+      "id": 47,
+      "method": "react",
+      "name": "CG_CHECK_AUTH",
+      "protocolType": "",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "ProtocolGUID",
+          "comment": "프로토콜 GUID"
+        },
+        {
+          "type": "string",
+          "name": "Ver",
+          "comment": "앱버전"
+        },
+        {
+          "type": "string",
+          "name": "Passport",
+          "comment": "패스포트"
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "bool",
+          "name": "IsGoogleLink",
+          "comment": "구글 계정 연동여부"
+        },
+        {
+          "type": "bool",
+          "name": "IsAppleLink",
+          "comment": "애플 계정 연동여부"
+        },
+        {
+          "type": "bool",
+          "name": "IsFacebookLink",
+          "comment": "페이스북 계정 연동여부"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "method": "react",
+      "name": "CG_CREATE_PLAYER",
+      "protocolType": "",
+      "reqMembers": [
+        {
+          "type": "string",
+          "name": "PlayerName",
+          "comment": "유저 닉네임"
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "PlayerInfo",
+          "name": "Player",
+          "comment": "생성 플레이어"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "method": "react",
+      "name": "CG_PLAYERLIST",
+      "protocolType": "",
+      "reqMembers": [
+      ],
+      "resMembers": [
+        {
+          "type": "List<PlayerInfo>",
+          "name": "PlayerInfoList",
+          "comment": "유저의 플레이어 리스트"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "method": "react",
+      "name": "CG_PLAYER_SELECT",
+      "protocolType": "",
+      "reqMembers": [
+        {
+          "type": "ulong",
+          "name": "PlayerDBKey",
+          "comment": "플레이어 고유값"
+        }
+      ],
+      "resMembers": [
+        {
+          "type": "PlayerInfo",
+          "name": "Player",
+          "comment": "플레이어 정보"
+        }
+      ]
+    }
+  ],
+  "models": [
+  ]
 }

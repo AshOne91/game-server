@@ -111,4 +111,9 @@ namespace GameBase.Template.GameBase
         public byte _gm_level = 0;
         public bool _Auth = false;
     }
+
+    public enum LockPriority
+    {
+        SessionManager = 100
+    }
 }
