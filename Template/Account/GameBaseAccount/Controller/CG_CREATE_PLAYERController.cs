@@ -53,11 +53,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 		{
             if (packet.ErrorCode != (int)GServerCode.SUCCESS)
 			{
-				userObject.GetAccountImpl<GameBaseAccountClientImpl>().ClientCallback("PacketError", packet.ToString());
+				userObject.ClientCallback("PacketError", packet.ToString());
 				return;
             }
 
-			userObject.GetAccountImpl<GameBaseAccountClientImpl>().ClientCallback("CreatePlayer", packet.Player);
+            userObject.ClientCallback("CreatePlayer", packet.Player);
         }
 
 		public void PlayerCreate_Complete(UserObject obj, string playerName, ulong playerDBKey, short playerLevel, long playerExp)

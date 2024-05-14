@@ -49,7 +49,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP = packet.IP;
 			userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port = packet.Port;
 			userObject.GetAccountImpl<GameBaseAccountClientImpl>()._LoginAuth = true;
-			userObject.GetAccountImpl<GameBaseAccountClientImpl>().ClientCallback("GameAuth");
+			userObject.ClientCallback("GameAuth");
         }
 	}
 }

@@ -101,21 +101,6 @@ namespace TestClient.TestClient
             }
         }
 
-        static private Action<ImplObject, string, object> _fnCall;
-        static public Action<ImplObject, string, object> FnCall
-        {
-            get { return _fnCall; }
-            set { _fnCall = value; }
-        }
-
-        public void ClientCallback(string action, object extraInfo = null)
-        {
-            if (_fnCall != null)
-            {
-                _fnCall(this, action, extraInfo);
-            }
-        }
-
         public sealed override void OnConnect(IPEndPoint ep)
         {
             _ServerState = ServerState.Connection;

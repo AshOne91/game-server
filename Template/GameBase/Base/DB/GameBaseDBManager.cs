@@ -57,9 +57,9 @@ namespace GameBase.Template.GameBase
             });
         }
 
-        public void PushQueryGlobal(ulong playerDBKey, QueryBase query, Action completeCallback = null)
+        public void PushQueryGlobal(ulong userDBKey, QueryBase query, Action completeCallback = null)
         {
-            _PushQueryDB(EDBType.Global, 0, playerDBKey, query, completeCallback, MethodBase.GetCurrentMethod().Name);
+            _PushQueryDB(EDBType.Global, 0, userDBKey, query, completeCallback, MethodBase.GetCurrentMethod().Name);
         }
         public void PushQueryGlobal(string accountId, QueryBase query, Action completeCallback = null)
         {

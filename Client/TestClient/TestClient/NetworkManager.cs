@@ -81,7 +81,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
-                    GameUserObject.FnCall = this.ClientAction;
+                    gameUserObject.FnCall = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);
@@ -105,7 +105,7 @@ namespace TestClient.TestClient
                 {
                     gameUserObject = new GameUserObject();
                     gameUserObject.FnServerState = this.OnServerState;
-                    GameUserObject.FnCall = this.ClientAction;
+                    gameUserObject.FnCall = this.ClientAction;
                     _userObjectList.Add(gameUserObject.UId, gameUserObject);
                 }
                 session.SetUserObject(gameUserObject);
@@ -146,7 +146,7 @@ namespace TestClient.TestClient
         {
             switch (action)
             {
-                case "GameAuth":
+                case "AuthComplete":
                     {
                         EventManager.Instance.PostNotifycation("AuthComplete", NotifyType.BroadCast, 0, 0, 0, false, obj);
                     }
@@ -164,6 +164,26 @@ namespace TestClient.TestClient
                 case "CreatePlayer":
                     {
                         EventManager.Instance.PostNotifycation("CreatePlayer", NotifyType.BroadCast, 0, 0, 0, false, extraInfo);
+                    }
+                    break;
+                case "SelectPlayer":
+                    {
+                        EventManager.Instance.PostNotifycation("SelectPlayer", NotifyType.BroadCast, 0, 0, 0, false, extraInfo);
+                    }
+                    break;
+                case "ItemInfo":
+                    {
+                        EventManager.Instance.PostNotifycation("ItemInfo", NotifyType.BroadCast, 0, 0, 0, false, extraInfo);
+                    }
+                    break;
+                case "ShopInfo":
+                    {
+                        EventManager.Instance.PostNotifycation("ShopInfo", NotifyType.BroadCast, 0, 0, 0, false, extraInfo);
+                    }
+                    break;
+                case "ShopBuy":
+                    {
+                        EventManager.Instance.PostNotifycation("ShopBuy", NotifyType.BroadCast, 0, 0, 0, false, extraInfo);
                     }
                     break;
             } 

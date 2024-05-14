@@ -69,13 +69,12 @@ namespace GameBase.Template.Shop.GameBaseShop
         }
 		public void ON_CG_SHOP_BUY_RES_CALLBACK(ImplObject userObject, PACKET_CG_SHOP_BUY_RES packet)
 		{
-			GameBaseShopClientImpl Impl = userObject.GetShopImpl<GameBaseShopClientImpl>();
 			if (packet.ErrorCode != (int)GServerCode.SUCCESS)
 			{
-				Impl.ClientCallback("PacketError", packet.ToString());
+                userObject.ClientCallback("PacketError", packet.ToString());
 				return;
 			}
-			Impl.ClientCallback("ShopBuy", packet);
+            userObject.ClientCallback("ShopBuy", packet);
 		}
 	}
 }

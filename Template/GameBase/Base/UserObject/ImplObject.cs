@@ -29,6 +29,21 @@ namespace GameBase.Template.GameBase
 
         protected UserDB _userDB = null;
 
+        private Action<ImplObject, string, object> _fnCall;
+        public Action<ImplObject, string, object> FnCall
+        {
+            get { return _fnCall; }
+            set { _fnCall = value; }
+        }
+
+        public void ClientCallback(string action, object extraInfo = null)
+        {
+            if (_fnCall != null)
+            {
+                _fnCall(this, action, extraInfo);
+            }
+        }
+
         public ImplObject()
         {
             _userDB = GameBaseTemplateContext.CreateUserDB();

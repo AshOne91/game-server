@@ -8,8 +8,8 @@ namespace GameBase.Template.GameBase
     public partial class DBGameUserSave : QueryBase
     {
         public bool _isConnected;
-        public UInt64 _partitionKey_1;
-        public UInt64 _partitionKey_2;
+        public UInt64 _user_db_key;
+        public UInt64 _player_db_key;
         public UserDB _userDB;
 
         public DBGameUserSave()
@@ -26,7 +26,7 @@ namespace GameBase.Template.GameBase
         {
             try
             {
-                _userDB.SaveRun(adoDB, _partitionKey_1, _partitionKey_2);
+                _userDB.SaveRun(adoDB, _user_db_key, _player_db_key);
             }
             catch (Exception Error)
             {

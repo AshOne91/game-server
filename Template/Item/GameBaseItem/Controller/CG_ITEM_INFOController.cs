@@ -14,7 +14,6 @@ namespace GameBase.Template.Item.GameBaseItem
 		public void ON_CG_ITEM_INFO_REQ_CALLBACK(ImplObject userObject, PACKET_CG_ITEM_INFO_REQ packet)
 		{
 			PACKET_CG_ITEM_INFO_RES sendData = new PACKET_CG_ITEM_INFO_RES();
-			List<ItemBaseInfo> listItemBaseInfo = new List<ItemBaseInfo>();
 			var DBItemList = userObject.GetUserDB().GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 			DBItemList.ForEach(slot => 
 			{
@@ -29,13 +28,12 @@ namespace GameBase.Template.Item.GameBaseItem
 		}
 		public void ON_CG_ITEM_INFO_RES_CALLBACK(ImplObject userObject, PACKET_CG_ITEM_INFO_RES packet)
 		{
-			GameBaseItemClientImpl Impl = userObject.GetItemImpl<GameBaseItemClientImpl>();
 			if (packet.ErrorCode != (int)GServerCode.SUCCESS)
 			{
-				Impl.ClientCallback("PacketError", packet.ToString());
+                userObject.ClientCallback("PacketError", packet.ToString());
 				return;
 			}
-			Impl.ClientCallback("ItemInfo", packet.listItemInfo);
+            userObject.ClientCallback("ItemInfo", packet.listItemInfo);
 		}
 	}
 }

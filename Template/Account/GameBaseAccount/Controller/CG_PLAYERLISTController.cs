@@ -34,13 +34,12 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 		public void ON_CG_PLAYERLIST_RES_CALLBACK(ImplObject userObject, PACKET_CG_PLAYERLIST_RES packet)
 		{
-			GameBaseAccountClientImpl Impl = userObject.GetAccountImpl<GameBaseAccountClientImpl>();
 			if (packet.ErrorCode != (int)GServerCode.SUCCESS)
 			{
-				Impl.ClientCallback("PacketError", packet.ToString());
+                userObject.ClientCallback("PacketError", packet.ToString());
 				return;
             }
-			Impl.ClientCallback("PlayerList", packet.PlayerInfoList);
+            userObject.ClientCallback("PlayerList", packet.PlayerInfoList);
 		}
 	}
 }

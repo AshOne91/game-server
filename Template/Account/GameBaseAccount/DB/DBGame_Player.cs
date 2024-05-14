@@ -37,6 +37,8 @@ namespace GameBase.Template.GameBase
 
                     player.PlayerDBKey = adoDB.RecordGetValue("player_db_key");
                     player.PlayerName = adoDB.RecordGetStrValue("player_name");
+
+                    _playerInfos.Add(player);
                 }
                 else
                 {

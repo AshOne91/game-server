@@ -558,6 +558,11 @@ namespace GameBase.Template.GameBase
             foreach (var t in _templateByUid[uid].Values)
             {
                 var res = t.OnDeleteItem(obj, itemId, value, parentItemId, groupIndex);
+                if (res.listItemInfo != null)
+                {
+                    listItemInfo.AddRange(res.listItemInfo);
+                }
+
                 /*if (res.listItemInfo != null)
                 {
                     listItemInfo.AddRange(res.listItemInfo);

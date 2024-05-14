@@ -158,8 +158,8 @@ namespace GameBase.Template.Account.GameBaseAccount
             }
             PACKET_GM_SESSION_INFO_NOTI sendData = new PACKET_GM_SESSION_INFO_NOTI();
 			var gameUserObject = userObject as GameUserObject;
-			gameUserObject.SessionData.LastUpdateTime = DateTime.UtcNow;
-            gameUserObject.SessionData = gameUserObject.SessionData;
+            sendData.sessionData.LastUpdateTime = DateTime.UtcNow;
+            sendData.sessionData = gameUserObject.SessionData;
             masterObj.GetSession().SendPacket(sendData.Serialize());
         }
     }

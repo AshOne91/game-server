@@ -188,10 +188,12 @@ namespace GameBase.Template.GameBase
 
     public class DBGlobal_Get_PlayerDBKey : QueryBaseValidate
     {
+        // IN
         public ulong _user_db_key;
         public string _player_name;
         public int _server_id;
 
+        // Out
         public ulong _player_db_key;
 
         public DBGlobal_Get_PlayerDBKey(UserObject obj) : base(obj) { }
@@ -206,9 +208,20 @@ namespace GameBase.Template.GameBase
                 query.SetInputParam("@p_server_id", _server_id);
 
                 adoDB.Execute(query);
+
+                if (adoDB.RecordNotEOF())
+                {
+                    _player_db_key = adoDB.RecordGetValue("player_db_key");
+                }
+                else
+                {
+                    _strResult = "[gp_aplayer_get_playerdbkey] No Result!";
+                }
+                adoDB.RecordEnd();
             }
             catch (OdbcException e)
             {
+                adoDB.RecordEnd();
                 _strResult = "[gp_aplayer_get_playerdbkey] " + e.Message;
             }
         }

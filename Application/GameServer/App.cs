@@ -11,6 +11,7 @@ using GameBase.Template.Shop.GameBaseShop;
 using System.Diagnostics;
 using PerformanceCounter = Service.Core.PerformanceCounter;
 using Service.DB;
+using GameBase.Template.GameBase.Common;
 
 namespace GameServer
 {
@@ -179,6 +180,45 @@ namespace GameServer
 			UserObject userObj = session.GetUserObject();
 			if (userObj != null)
 			{
+				GameUserObject gameUserObject = userObj as GameUserObject;
+				if (gameUserObject != null)
+				{
+					if (gameUserObject.SessionData.SessionState != (int)SessionState.Logout
+						&& gameUserObject.SessionData.SessionState != (int)SessionState.PendingLogout)
+					{
+						gameUserObject.SessionData.SessionState = (int)SessionState.PendingDisconnect;
+						GameBaseTemplateContext.Account.UpdateSessionInfo(gameUserObject);
+
+						Logger.Default.Log(ELogLevel.Trace, "PendingDisconnect {0}", gameUserObject.UserDBKey);
+					}
+
+					//DBSaveAll()
+					DBGameUserSave query = new DBGameUserSave();
+					query._isConnected = gameUserObject.GetSession().IsConnected();
+					query._user_db_key = gameUserObject.UserDBKey;
+					query._player_db_key = gameUserObject.PlayerDBKey;
+					query._userDB.Copy(gameUserObject.GetUserDB(), true);
+					GameBaseTemplateContext.GetDBManager().PushQueryGame(gameUserObject.UserDBKey, gameUserObject.GameDBIdx, 0, query);
+
+					DBGlobal_User_Logout userLogoutQuery = new DBGlobal_User_Logout();
+                    userLogoutQuery._encode_account_id = gameUserObject.GetAccountImpl<GameBaseAccountUserImpl>()._SiteUserId;
+					userLogoutQuery._user_db_key = gameUserObject.UserDBKey;
+					GameBaseTemplateContext.GetDBManager().PushQueryGlobal(gameUserObject.UserDBKey, userLogoutQuery, () =>
+					{
+						if (gameUserObject.SessionData.SessionState == (int)SessionState.PendingDisconnect)
+						{
+							gameUserObject.SessionData.SessionState = (int)SessionState.Disconnect;
+                        }
+						else if (gameUserObject.SessionData.SessionState == (int)SessionState.PendingLogout)
+						{
+							gameUserObject.SessionData.SessionState = (int)SessionState.Logout;
+						}
+
+						Logger.Default.Log(ELogLevel.Trace, "Disconnect", gameUserObject.UserDBKey);
+						GameBaseTemplateContext.Account.UpdateSessionInfo(gameUserObject);
+					});
+				 }
+
 				ObjectType type = (ObjectType)userObj.ObjectID;
 				GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
                 AccountController.RemoveAccountController(userObj.GetSession().GetUid());

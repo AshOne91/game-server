@@ -91,8 +91,13 @@ namespace GameBase.Template.Account.GameBaseAccount
 		}
 		public void ON_CG_CHECK_AUTH_RES_CALLBACK(ImplObject userObject, PACKET_CG_CHECK_AUTH_RES packet)
 		{
-
-		}
+            if (packet.ErrorCode != (int)GServerCode.SUCCESS)
+            {
+                userObject.ClientCallback("PacketError", packet.ToString());
+                return;
+            }
+            userObject.ClientCallback("AuthComplete");
+        }
 
 		public void Login_DBAuth_Complete(GameBaseAccountUserImpl Impl
 			, ulong accountDBKey
@@ -168,8 +173,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 					}
 				});
 			}
-            Impl._AuthInfo._Auth = true;
-            Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
+            //Impl._AuthInfo._Auth = true;
+            //Impl._obj.GetSession().SendPacket(sendPacket.Serialize());
         }
 
 		public void Login_GetUser_Complete(PACKET_CG_CHECK_AUTH_RES resPacket
@@ -194,20 +199,37 @@ namespace GameBase.Template.Account.GameBaseAccount
 					return;
 				case EBlockStatus.EternalBlock:
 					resPacket.ErrorCode = (int)GServerCode.EternalBlock;
-					return;
+                    Impl._obj.GetSession().SendPacket(resPacket.Serialize());
+                    return;
 				case EBlockStatus.PeriodBlock:
 					resPacket.ErrorCode = (int)GServerCode.PeriodBlock;
-					return;
+                    Impl._obj.GetSession().SendPacket(resPacket.Serialize());
+                    return;
 				case EBlockStatus.TempBlock:
 					resPacket.ErrorCode = (int)GServerCode.TempBlock;
-					return;
+                    Impl._obj.GetSession().SendPacket(resPacket.Serialize());
+                    return;
             }
 			DBGlobal_User_Login query = new DBGlobal_User_Login();
 			query._platform_type = Impl._AuthInfo._platformType;
 			query._encode_account_id = Impl._AuthInfo._encodeAccountId;
 			query._user_db_key = Impl._AuthInfo._userDBKey;
-			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(Impl._AuthInfo._encodeAccountId, query);
-			Impl._AuthInfo._Auth = true;
+			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(Impl._AuthInfo._encodeAccountId, query, () =>
+			{
+                Impl._AuthInfo._Auth = true;
+                Impl._obj.GetSession().SendPacket(resPacket.Serialize());
+
+                GameUserObject gameUserObject = Impl._obj as GameUserObject;
+                gameUserObject.SessionData.PlayerIdx = Impl._AuthInfo._userDBKey;
+                gameUserObject.SessionData.PlayerName = string.Empty;
+                gameUserObject.SessionData.SiteUserId = Impl._SiteUserId;
+                gameUserObject.SessionData.ServerIdx = Impl._connInfo.ServerId;
+                gameUserObject.SessionData.SessionState = (int)SessionState.Login;
+                var remote = gameUserObject.GetSession().GetRemoteAddr();
+                gameUserObject.SessionData.RemoteIP = remote.ip;
+                gameUserObject.SessionData.RemotePort = (ushort)remote.port;
+                UpdateSessionInfo(gameUserObject);
+            });
         }
 	}
 }
