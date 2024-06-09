@@ -153,6 +153,9 @@ namespace GameBase.Template.GameBase
             return dividend % (divisor != 0 ? divisor : 1);
         }
 
+        void SetupDB(AppConfig config)
+        {
 
+        }
     }
 }

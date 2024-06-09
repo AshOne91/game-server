@@ -1,1 +1,58 @@
-﻿
+﻿{
+  "serverId": 1,
+  "serverConfig": {
+    "IP": "0.0.0.0",
+    "Port": 10000,
+    "MasterIP": "127.0.0.1",
+    "MasterPort": 11000,
+    "PeerConfig": {
+      "NoDelay": true,
+      "LingerState": false,
+      "KeepAlive": true,
+      "KeepAliveInterval": 5000,
+      "ReuseAddress": true,
+      "PendingConnectionBacklog": 200,
+      "ConnectTimeout": 15000,
+      "ReceiveBufferSize": 65536,
+      "SendBufferSize": 65536,
+      "ReceiveTimeout": 0,
+      "SendTimeout": 0,
+      "AllowNatTraversal": false,
+      "UseSessionEventQueue": true,
+      "SendQueueSize": 100,
+      "PacketPoolCount": 1000,
+      "EvtPoolCount": 2000,
+      "EvtQueueSize": 10000000,
+      "DBThreadCount": 6
+    }
+  },
+  "templateConfig": {
+    "gameId": "0",
+    "env": "dev",
+    "localPath": "../../../datas",
+    "bucketEnv": "",
+    "bucketUrl": "",
+    "bucketName": "",
+    "awsAccessKeyId": "",
+    "awsSecretAccessKey": "",
+    "allowApiForPlayState": {},
+    "updatePlayStateToApi": {}
+  },
+  "dbInfo": {
+    "dbReconnectTime": 5.0,
+    "dbTroubleWaitTime": 20.0,
+    "databaseConfig": [
+      {
+        "dbIndex": 0,
+        "dbType": 1,
+        "dbName": "globaldb",
+        "dbIP": "127.0.0.1",
+        "slavedbIP": "",
+        "dbPort": 3306,
+        "id": "ubf",
+        "pw": "qjxjvmffkdl!@#",
+        "threadCount": 2
+      }
+    ]
+  }
+}

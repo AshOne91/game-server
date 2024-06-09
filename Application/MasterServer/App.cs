@@ -6,11 +6,18 @@ using Service.Core;
 using Service.Net;
 using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
+using GameServer;
 
 namespace MasterServer
 {
 	public class MasterServerApp : ServerApp
 	{
+		private AppConfig _appConfig = null;
+		public AppConfig AppConfig
+		{
+			get { return _appConfig; }
+			set { _appConfig = value; }
+		}
 		public MasterServerApp()
 		{
 		}
@@ -20,7 +27,7 @@ namespace MasterServer
 			Destroy();
 		}
 
-		public override bool Create(ServerConfig config, int frame = 30)
+		/*public override bool Create(ServerConfig config, int frame = 30)
 		{
 			bool result = base.Create(config, frame);
 
@@ -32,7 +39,19 @@ namespace MasterServer
 
 			PerformanceCounter._WarningEvent += OnPerfWarning;
 			return result;
-		}
+		}*/
+
+		public bool Create(AppConfig config, int frame = 30)
+		{
+			bool result = Create(config.serverConfig, frame);
+
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
+            GameBaseTemplateContext.InitTemplate(config.templateConfig, ServerType.Master);
+            GameBaseTemplateContext.LoadDataTable(config.templateConfig);
+
+            PerformanceCounter._WarningEvent += OnPerfWarning;
+            return result;
+        }
 
 		public void OnPerfWarning(int tick)
 		{
@@ -51,14 +70,14 @@ namespace MasterServer
 		{
 			ImplObject obj = null;
 			int idx = 0;
-			//FIXME
-			if (localEP.Port == 30000)
+
+			if (localEP.Port == AppConfig.masterServerConfig.GamePort)
             {
 				idx = AllocServerIdx(ObjectType.Game);
 				obj = new GameServerObject();
 				GameBaseAccountTemplate.GetGameBaseAccountImpl()._GameServerObjMap.Add(idx, (GameServerObject)obj);
 			}
-			else if (localEP.Port == 40000)
+			else if (localEP.Port == AppConfig.masterServerConfig.LoginPort)
             {
 				idx = AllocServerIdx(ObjectType.Login);
 				obj = new LoginServerObject();
@@ -72,40 +91,15 @@ namespace MasterServer
 			GameBaseTemplateContext.CreateClient(session.GetUid());
 			obj.OnAccept(localEP);
 
-			if (localEP.Port == 30000)
+			if (localEP.Port == AppConfig.masterServerConfig.GamePort)
             {
 				obj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId = idx;
 				GetAccountTemplate(obj).MG_HELLO_NOTI();
 			}
-			else if (localEP.Port == 40000)
+			else if (localEP.Port == AppConfig.masterServerConfig.LoginPort)
             {
 				obj.GetAccountImpl<GameBaseAccountGameImpl>()._Info.ServerId = idx;
 				GetAccountTemplate(obj).ML_HELLO_NOTI();
-			}
-		}
-
-		private bool _bListenState = false;
-		private void ListenUsers(bool bNewState)
-		{
-			if (_bListenState == bNewState) return;
-
-			_bListenState = bNewState;
-			if (_bListenState)
-			{
-				Logger.Default.Log(ELogLevel.Always, "Start Listen {0} ", 10000/*TODO : 설정파일 읽는거로 변경하기*/);
-				IPEndPoint epClient = new IPEndPoint(IPAddress.Any, 10000);
-				BeginAcceptor(epClient);
-			}
-			else
-			{
-				if (_listeners != null)
-				{
-					foreach (TcpListener listener in _listeners)
-					{
-						listener.Stop();
-					}
-					_listeners.Clear();
-				}
 			}
 		}
 
@@ -128,6 +122,7 @@ namespace MasterServer
 					GameBaseAccountTemplate.GetGameBaseAccountImpl()._LoginServerObjMap.Remove(loginObj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId, out loginObj);
 				}
 				GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
+				AccountController.RemoveAccountController(userObj.GetSession().GetUid());
 				userObj.OnClose();
 				userObj.Dispose();
 				session.SetUserObject(null);

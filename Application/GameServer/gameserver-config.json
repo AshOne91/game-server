@@ -1,3 +1,66 @@
 {
-	//하면서 채워넣기
+	"serverId": 0,
+	"serverConfig": {
+		"Mode": 0,
+		"ShardDBConn": "",
+		"GlobalDBConn": "",
+		"IP": "",
+		"Port": 0,
+		"MasterIP": "",
+		"MasterPort": 0,
+		"CacheServerIP": "",
+		"CacheServerPort": 0,
+		"PeerConfig": {
+			"NoDelay": true,
+			"LingerState": false,
+			"KeepAlive": true,
+			"KeepAliveInterval": 5000,
+			"ReuseAddress": true,
+			"PendingConnectionBacklog": 200,
+			"ConnectTimeout": 15000,
+			"ReceiveBufferSize": 65536,
+			"SendBufferSize": 65536,
+			"ReceiveTimeout": 0,
+			"SendTimeout": 0,
+
+			"AllowNatTraversal": false,
+			"UseSessionEventQueue": true,
+
+			"SendQueueSize": 100,
+			"PacketPoolCount": 1000,
+			"EvtPoolCount": 2000,
+			"EvtQueueSize": 10000000,
+			"DBThreadCount": 6
+		}
+	},
+	"templateConfig": {
+		"gameId": "0",
+		"env": "dev",
+		"localPath": "./table",
+		"bucketEnv": "test1",
+		"bucketUrl": "test2",
+		"bucketName": "test3",
+		"awsAccessKeyId": "test4",
+		"awsSecretAccessKey": "test5",
+		"allowApiForPlayState": {
+			"1": [
+				"test"
+			]
+		},
+		"updatePlayStateToApi": {
+			"test": 1
+		}
+	},
+	"databaseConfig": [
+		{
+			"dbIndex": 0,
+			"dbType": 0,
+			"dbName": "",
+			"dbIP": "",
+			"slavedbIP": "",
+			"dbPort": 0,
+			"id": "",
+			"pw": ""
+		}
+	]
 }

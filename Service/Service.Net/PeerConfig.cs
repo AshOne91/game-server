@@ -18,7 +18,6 @@ namespace Service.Net
         public int SendTimeout = 0;
 
         public bool AllowNatTraversal = false;
-        //임시로 true해놓음 출시시 false 되도록 확인
         public bool UseSessionEventQueue = true;
 
         public int SendQueueSize = 100;

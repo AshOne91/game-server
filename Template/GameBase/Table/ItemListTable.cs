@@ -21,7 +21,7 @@ namespace GameBase.Template.GameBase.Table
 			if (data.ContainsKey("itemSubType") == true) { itemSubType = int.Parse(data["itemSubType"]); }
 			if (data.ContainsKey("name") == true) { name = data["name"].Replace("{$}", ","); }
 			if (data.ContainsKey("isUse") == true) { isUse = bool.Parse(data["isUse"]); }
-			if (data.ContainsKey("maxValue") == true) { maxValue = (long)Enum.Parse(typeof(long), data["maxValue"]); }
+			if (data.ContainsKey("maxValue") == true) { maxValue = long.Parse(data["maxValue"]); }
 		}
 	}
 }

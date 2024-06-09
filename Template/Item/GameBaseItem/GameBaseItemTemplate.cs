@@ -30,8 +30,8 @@ namespace GameBase.Template.Item.GameBaseItem
 
 		public override void OnLoadData(TemplateConfig config)
 		{
-			// TODO : 로드할 데이터를 연결
-		}
+            // TODO : 로드할 데이터를 연결
+        }
 
 		public override void OnClientCreate(ImplObject userObject)
 		{

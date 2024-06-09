@@ -5,10 +5,39 @@ using System.Text;
 
 namespace Service.DB
 {
+    public class DatabaseConfig
+    {
+        public int dbIndex = 0;
+        public int dbType = 0;
+        public string dbName = string.Empty;
+        public string dbIP = string.Empty;
+        public string slavedbIP = string.Empty;
+        public int dbPort = 0;
+        public string id = string.Empty;
+        public string pw = string.Empty;
+        public int threadCount = 0;
+    }
+    public class DBInfo
+    {
+        public float dbReconnectTime = 5.0f;
+        public float dbTroubleWaitTime = 2.0f;
+        public List<DatabaseConfig> databaseConfig = new List<DatabaseConfig>();
+    }
     public class DBConfig
     {
-        public double _dbReconnectTime;
-        public double _dbTroubleWaitTime;
+        private float _dbReconnectTime;
+        private float _dbTroubleWaitTime;
+        public float DBReconnectTime
+        {
+            get { return _dbReconnectTime; }
+            set { _dbReconnectTime = value; }
+        }
+        public float DBTroubleWaitTime
+        {
+            get { return _dbTroubleWaitTime; }
+            set { _dbTroubleWaitTime = value; }
+        }
+
 
         public Dictionary<EDBType, Dictionary<int/*dbIndex*/, DBSimpleInfo>> _dbSimpleInfoByDBType = new Dictionary<EDBType, Dictionary<int, DBSimpleInfo>>();
 
@@ -22,9 +51,37 @@ namespace Service.DB
 
         }
 
-        public void LoadConfig(string dbConfig)
+        public void LoadConfig(DBInfo dbInfo)
         {
-            //FIXMEFIXMEFIXME
+            DBReconnectTime = dbInfo.dbReconnectTime;
+            DBTroubleWaitTime = dbInfo.dbTroubleWaitTime;
+
+            foreach (var info in dbInfo.databaseConfig)
+            {
+                DBSimpleInfo dbSimpleInfo = new DBSimpleInfo();
+                if ( info.dbType > (int)EDBType.Max  
+                    ||info.dbType <= (int)EDBType.None)
+                {
+                    continue;
+                }
+                dbSimpleInfo._dbType = (EDBType)info.dbType;
+                dbSimpleInfo._dbName = info.dbName;
+                dbSimpleInfo._dbID = info.id;
+                dbSimpleInfo._dbPW = info.pw;
+                dbSimpleInfo._dbIP = info.dbIP;
+                dbSimpleInfo._dbPort = (short)info.dbPort;
+                dbSimpleInfo._threadCount = (Byte)info.threadCount;
+                if (dbSimpleInfo._threadCount == 0)
+                {
+                    throw new Exception("threadCount is Zero");
+                }
+
+                if (_dbSimpleInfoByDBType.ContainsKey(dbSimpleInfo._dbType) == false)
+                {
+                    _dbSimpleInfoByDBType.Add(dbSimpleInfo._dbType, new Dictionary<int, DBSimpleInfo>());
+                }
+                _dbSimpleInfoByDBType[dbSimpleInfo._dbType].Add(dbSimpleInfo._dbIndex, dbSimpleInfo);
+            }
         }
         public DBSimpleInfo GetDBSimpleInfo(EDBType type, int dbIndex)
         {
@@ -170,11 +227,11 @@ namespace Service.DB
             }
             return (_listEndDBThread.Count == 0);
         }
-        public void SetupDB(string dbConfig, bool firstSetting = false)
+        public void SetupDB(DBInfo dbInfo)
         {
             try
             {
-                _dbConfig.LoadConfig(dbConfig);
+                _dbConfig.LoadConfig(dbInfo);
 
                 List<DBSimpleInfo> listDBSimpleInfo = new List<DBSimpleInfo>();
                 foreach (var pair in _dbConfig._dbSimpleInfoByDBType)
@@ -185,7 +242,7 @@ namespace Service.DB
                         listDBSimpleInfo.Add(DBSimpleInfo);
                     }
                 }
-                SetDB(listDBSimpleInfo, firstSetting);
+                SetDB(listDBSimpleInfo, true);
             }
             catch (Exception Error)
             {
@@ -240,7 +297,7 @@ namespace Service.DB
                         }
                         _listEndDBThread.Add(dbThread);
 
-                        dbThread.GetDB().Open(_openDBInfo, _dbConfig._dbReconnectTime);
+                        dbThread.GetDB().Open(_openDBInfo, _dbConfig.DBReconnectTime);
                         if (_openDBInfo._dbType != EDBType.Redis1 && _openDBInfo._dbType != EDBType.Redis2)
                         {
                             dbThread.ConnectCheck();
@@ -251,7 +308,7 @@ namespace Service.DB
                         DBThread dbThread = _dbThreadByIndex[DBKey];
                         if (dbThread.GetDB().GetDBInfo()._dbIP != _openDBInfo._dbIP)
                         {
-                            dbThread.GetDB().Open(_openDBInfo, _dbConfig._dbReconnectTime);
+                            dbThread.GetDB().Open(_openDBInfo, _dbConfig.DBReconnectTime);
                             if (_openDBInfo._dbType != EDBType.Redis1 && _openDBInfo._dbType != EDBType.Redis2)
                             {
                                 dbThread.ConnectCheck();
@@ -307,7 +364,7 @@ namespace Service.DB
             {
                 if (!_serviceStopTimer.IsActive())
                 {
-                    _serviceStopTimer.Start((int)_dbConfig._dbTroubleWaitTime);
+                    _serviceStopTimer.Start((int)_dbConfig.DBTroubleWaitTime);
                 }
                 if (!_troubleDisplayTimer.IsActive())
                 {

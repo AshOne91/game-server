@@ -17,6 +17,12 @@ namespace GameServer
 {
 	public class GameServerApp : ServerApp
 	{
+		private AppConfig _appConfig = null;
+		public AppConfig AppConfig
+		{
+			get { return _appConfig; }
+			set { _appConfig = value; }
+		}
 		public GameServerApp()
 		{
 		}
@@ -26,27 +32,38 @@ namespace GameServer
 			Destroy();
 		}
 
-		public override bool Create(ServerConfig config, int frame = 30)
+		/*public override bool Create(ServerConfig config, int frame = 30)
 		{
 			bool result = base.Create(config, frame);
 
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Item, new GameBaseItemTemplate());
 			GameBaseTemplateContext.AddTemplate(ETemplateType.Shop, new GameBaseShopTemplate());
-			TemplateConfig templateConfig = new TemplateConfig();
 			GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Game);
 			GameBaseTemplateContext.LoadDataTable(templateConfig);
 
             Service.Core.PerformanceCounter._WarningEvent += OnPerfWarning;
 			return result;
+		}*/
+
+		public bool Create(AppConfig config, int frame = 30)
+		{
+			bool result = Create(config.serverConfig, frame);
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Item, new GameBaseItemTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Shop, new GameBaseShopTemplate());
+            GameBaseTemplateContext.InitTemplate(config.templateConfig, ServerType.Game);
+            GameBaseTemplateContext.LoadDataTable(config.templateConfig);
+
+            Service.Core.PerformanceCounter._WarningEvent += OnPerfWarning;
+            return result;
 		}
 
 		public bool ConnectToMaster()
         {
-			//FIXME
-			IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 20000);
+			IPEndPoint ep = new IPEndPoint(IPAddress.Parse(AppConfig.serverConfig.MasterIP), AppConfig.serverConfig.MasterPort);
 
-			Logger.Default.Log(ELogLevel.Always, "Try Connect to MasterServer {0}:{1}", "127.0.0.1", 20000);
+			Logger.Default.Log(ELogLevel.Always, "Try Connect to MasterServer {0}:{1}", AppConfig.serverConfig.MasterIP, AppConfig.serverConfig.MasterPort);
 
 			SocketSession ss = OpenConnection(ep);
 			if (ss != null)
@@ -72,8 +89,7 @@ namespace GameServer
 
 		public override void OnAccept(SocketSession session, IPEndPoint localEP, IPEndPoint remoteEP)
 		{
-			//FixMe
-			if (localEP.Port == 30000)
+			if (localEP.Port == AppConfig.serverConfig.Port)
 			{
 				GameUserObject obj = new GameUserObject();
 				session.SetUserObject(obj);
@@ -101,9 +117,8 @@ namespace GameServer
 			_bListenState = bNewState;
 			if (_bListenState)
 			{
-				//FIXME
-				Logger.Default.Log(ELogLevel.Always, "Start Listen {0} ", 30000/*TODO : 설정파일 읽는거로 변경하기*/);
-				IPEndPoint epClient = new IPEndPoint(IPAddress.Any, 30000);
+				Logger.Default.Log(ELogLevel.Always, "Start Listen {0} ", AppConfig.serverConfig.Port);
+				IPEndPoint epClient = new IPEndPoint(IPAddress.Any, AppConfig.serverConfig.Port);
 				BeginAcceptor(epClient);
 			}
 			else
@@ -148,10 +163,9 @@ namespace GameServer
 
         public override void OnConnect(SocketSession session, IPEndPoint ep)
         {
-			//FixMe
 			Logger.Default.Log(ELogLevel.Always, "OnConnect {0}", ep.ToString());
 
-			if (ep.Port == 20000)
+			if (ep.Port == AppConfig.serverConfig.MasterPort)
 			{
 				ImplObject obj = new MasterClientObject();
 				obj.SetSocketSession(session);

@@ -7,11 +7,18 @@ using Service.Net;
 using GameBase;
 using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
+using GameServer;
 
 namespace LoginServer
 {
     public class LoginServerApp : ServerApp
     {
+        private AppConfig _appConfig = null;
+        public AppConfig AppConfig
+        {
+            get { return _appConfig; }
+            set { _appConfig = value; }
+        }
         public LoginServerApp()
         {
 
@@ -22,7 +29,7 @@ namespace LoginServer
             Destroy();
         }
 
-        public override bool Create(ServerConfig config, int frame = 30)
+        /*public override bool Create(ServerConfig config, int frame = 30)
         {
             bool result = base.Create(config, frame);
 
@@ -35,13 +42,25 @@ namespace LoginServer
             PerformanceCounter._WarningEvent += OnPerfWarning;
             ConnectToMaster();
             return result;
+        }*/
+
+        public bool Create(AppConfig config, int frame = 30)
+        {
+            bool result = Create(config.serverConfig, frame);
+
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
+            GameBaseTemplateContext.InitTemplate(config.templateConfig, ServerType.Login);
+            GameBaseTemplateContext.LoadDataTable(config.templateConfig);
+
+            PerformanceCounter._WarningEvent += OnPerfWarning;
+            return result;
         }
 
         public bool ConnectToMaster()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 20000);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(AppConfig.serverConfig.MasterIP), AppConfig.serverConfig.MasterPort);
 
-            Logger.Default.Log(ELogLevel.Always, "Try Connect to MasterServer {0}:{1}", "127.0.0.1", 20000);
+            Logger.Default.Log(ELogLevel.Always, "Try Connect to MasterServer {0}:{1}", AppConfig.serverConfig.MasterIP, AppConfig.serverConfig.MasterPort);
             SocketSession ss = OpenConnection(ep);
             if (ss != null)
             {
@@ -66,7 +85,7 @@ namespace LoginServer
 
         public override void OnAccept(SocketSession session, IPEndPoint localEP, IPEndPoint remoteEP)
         {
-            if (localEP.Port == 10000)
+            if (localEP.Port == AppConfig.serverConfig.Port)
             {
                 LoginUserObject obj = new LoginUserObject();
                 session.SetUserObject(obj);
@@ -89,8 +108,8 @@ namespace LoginServer
             _bListenState = bNewState;
             if (_bListenState)
             {
-                Logger.Default.Log(ELogLevel.Always, "Start Listen {0} ", 10000);
-                IPEndPoint epClient = new IPEndPoint(IPAddress.Any, 10000);
+                Logger.Default.Log(ELogLevel.Always, "Start Listen {0} ", AppConfig.serverConfig.Port);
+                IPEndPoint epClient = new IPEndPoint(IPAddress.Any, AppConfig.serverConfig.Port);
                 BeginAcceptor(epClient);
             }
             else
@@ -110,7 +129,7 @@ namespace LoginServer
         {
             Logger.Default.Log(ELogLevel.Always, "OnConnect {0}", ep.ToString());
 
-            if (ep.Port == 20000)
+            if (ep.Port == AppConfig.serverConfig.MasterPort)
             {
                 ImplObject obj = new MasterClientObject();
                 obj.SetSocketSession(session);
@@ -137,14 +156,15 @@ namespace LoginServer
             UserObject userObj = session.GetUserObject();
             if (userObj != null)
             {
+                GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
+                AccountController.RemoveAccountController(userObj.GetSession().GetUid());
+                userObj.OnClose();
+                userObj.Dispose();
+                session.SetUserObject(null);
                 if (userObj.ObjectID == (ulong)ObjectType.Master)
                 {
                     ConnectToMaster();
                 }
-                GameBaseTemplateContext.DeleteClient(userObj.GetSession().GetUid());
-                userObj.OnClose();
-                userObj.Dispose();
-                session.SetUserObject(null);
             }
         }
 

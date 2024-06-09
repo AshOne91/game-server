@@ -1,5 +1,7 @@
 ﻿using GameBase.Template.GameBase;
 using GameBase.Template.GameBase.Common;
+using GameBase.Template.GameBase.Table;
+using Service.Core;
 using Service.Net;
 using System;
 using System.Collections.Generic;
@@ -399,9 +401,8 @@ namespace GameBase.Template.GameBase
 
         public static void LoadDataTable(TemplateConfig config)
         {
-            //DataTable<string, TDataCommonGameData>.Instance.Init(config.localPath + "/CommonGameData.csv", false);
-            //DataTable<int, TDataItemList>.Instance.Init(config.localPath + "/ItemList.csv", false);
-
+            DataTable<string, CommonDataTable>.Instance.Init(config.localPath + "/CommonData.csv");
+            DataTable<int, ItemListTable>.Instance.Init(config.localPath + "/ItemList.csv");
             foreach (var t in _templates.Values)
             {
                 t.OnLoadData(config);
