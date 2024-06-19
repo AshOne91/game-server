@@ -17,7 +17,11 @@ namespace LoginServer
         public AppConfig AppConfig
         {
             get { return _appConfig; }
-            set { _appConfig = value; }
+            set 
+            { 
+                _appConfig = value; 
+                GameBaseTemplateContext.AppConfig = value;
+            }
         }
         public LoginServerApp()
         {
@@ -132,6 +136,7 @@ namespace LoginServer
             if (ep.Port == AppConfig.serverConfig.MasterPort)
             {
                 ImplObject obj = new MasterClientObject();
+                session.SetUserObject(obj);
                 obj.SetSocketSession(session);
 
                 GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());

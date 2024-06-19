@@ -43,10 +43,6 @@ namespace TestClient.TestClient
                 {
                     _serverData.ServerState = ServerState.Disconnect;
                 }
-                if(GetSession() != null)
-                {
-                    GetSession().Disconnect();
-                }
                 _serverData = null;
                 if (_connectDatas.TryGetValue(value, out _serverData) == true)
                 {

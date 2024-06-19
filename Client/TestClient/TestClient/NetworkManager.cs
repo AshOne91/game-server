@@ -10,15 +10,17 @@ using Service.Net;
 using Service.Core;
 using GameBase.Template.GameBase;
 using GameBase.Template.Account.GameBaseAccount;
+using System.Reflection;
 
 namespace TestClient.TestClient
 {
     public partial class NetworkManager : SceneSubSystem<NetworkManager>
     {
-        private AppConfig _config = null;
-        public AppConfig Config
+        private AppConfig _appConfig = null;
+        public AppConfig AppConfig
         {
-            get { return _config; }
+            get { return _appConfig; }
+            set { _appConfig = value; }
         }
         private AgentApp _agentApp = null;
         private ulong _authUID = 0;
@@ -51,19 +53,35 @@ namespace TestClient.TestClient
         {
             Console.Title = "TestClient : " + System.Diagnostics.Process.GetCurrentProcess().Id;
 
-            ServerConfig AppConfig = new ServerConfig();
-            AppConfig.PeerConfig.UseSessionEventQueue = true;
-
             Logger.Default = new Logger();
-            Logger.Default.Create(true, "TestClient");
+            Logger.Default.Create(false, "TestClient");
+            Logger.Default.Log(ELogLevel.Always, "Start TestClient...");
+
+            string solutionPath = "../../../Client/TestClient/";
+            string projectDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+            var configPath = Path.Combine(projectDirectory, "AppConfig.json");
+            var solutionConfigPath = Path.Combine(solutionPath, "AppConfig.json");
+
+            if (File.Exists(configPath) == false)
+            {
+                AppConfig appConfig = new AppConfig();
+                string jsonConfig = JsonConvert.SerializeObject(appConfig);
+                File.WriteAllText(configPath, jsonConfig);
+            }
+
+            if (File.Exists(solutionConfigPath) == true)
+            {
+                File.Copy(solutionConfigPath, configPath, true);
+            }
+
+            using (StreamReader reader = new StreamReader(configPath))
+            {
+                AppConfig = JsonConvert.DeserializeObject<AppConfig>(reader.ReadToEnd());
+            }
 
             _agentApp = new AgentApp();
             _agentApp.Create(AppConfig);
-            string defaultPath = "../../../";
-            using (StreamReader reader = new StreamReader(defaultPath + "AppConfig.json"))
-            {
-                AppConfig config = JsonConvert.DeserializeObject<AppConfig>(reader.ReadToEnd());
-            }
         }
 
         public sealed override void OnRelease()

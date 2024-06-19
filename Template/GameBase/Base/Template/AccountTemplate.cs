@@ -10,5 +10,10 @@ namespace GameBase.Template.GameBase
         {
 
         }
+        
+        public virtual void SendStateInfo(ImplObject userObject) 
+        { 
+        
+        }
     }
 }

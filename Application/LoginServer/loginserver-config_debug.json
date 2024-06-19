@@ -1,7 +1,7 @@
 ﻿{
   "serverId": 1,
   "serverConfig": {
-    "IP": "0.0.0.0",
+    "IP": "127.0.0.1",
     "Port": 10000,
     "MasterIP": "127.0.0.1",
     "MasterPort": 11000,

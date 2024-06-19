@@ -9,7 +9,7 @@ namespace TestClient.FrameWork
 {
     public abstract class Component  : BaseObject
     {
-        private Dictionary<Type, Component> _componentList;
+        private Dictionary<Type, Component> _componentList = new Dictionary<Type, Component>();
 
         public virtual void Update()
         {

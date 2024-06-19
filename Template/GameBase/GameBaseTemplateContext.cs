@@ -47,6 +47,13 @@ namespace GameBase.Template.GameBase
             }
         }
 
+        static AppConfig _appConfig = null;
+        public static AppConfig AppConfig
+        {
+            get { return _appConfig; }
+            set { _appConfig = value; }
+        }
+
         static AccountTemplate _account = null;
         public static AccountTemplate Account
         {

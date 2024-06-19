@@ -85,8 +85,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 
         public override void OnClientUpdate(float dt)
 		{
-			// TODO : 유저의 로그인시 필요한 DB관련 로직을 작성
-		}
+			_obj.OnUpdate(dt);
+        }
 
 		public override void OnClientDelete(ImplObject userObject)
 		{
@@ -160,6 +160,14 @@ namespace GameBase.Template.Account.GameBaseAccount
 			var gameUserObject = userObject as GameUserObject;
             sendData.sessionData.LastUpdateTime = DateTime.UtcNow;
             sendData.sessionData = gameUserObject.SessionData;
+            masterObj.GetSession().SendPacket(sendData.Serialize());
+        }
+
+        public override void SendStateInfo(ImplObject userObject)
+        {
+			var masterObj = userObject as MasterClientObject;
+			PACKET_GM_STATE_INFO_NOTI sendData = new PACKET_GM_STATE_INFO_NOTI();
+			sendData.CurrentUserCount = GameBaseTemplateContext.GetObjectCount((ulong)ObjectType.User);
             masterObj.GetSession().SendPacket(sendData.Serialize());
         }
     }

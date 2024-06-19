@@ -25,7 +25,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 			PACKET_GM_CHECK_AUTH_RES sendData = new PACKET_GM_CHECK_AUTH_RES();
 			sendData.ServerId = gameServerImpl._Info.ServerId;
-			userObject.GetSession().SendPacket(packet.Serialize());
+			userObject.GetSession().SendPacket(sendData.Serialize());
 
 			gameServerImpl._Info.Ip = packet.IP;
 			gameServerImpl._Info.Port = packet.Port;

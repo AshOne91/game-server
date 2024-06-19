@@ -21,7 +21,11 @@ namespace GameServer
 		public AppConfig AppConfig
 		{
 			get { return _appConfig; }
-			set { _appConfig = value; }
+			set 
+			{
+				_appConfig = value;
+				GameBaseTemplateContext.AppConfig = _appConfig;
+            }
 		}
 		public GameServerApp()
 		{
@@ -168,7 +172,8 @@ namespace GameServer
 			if (ep.Port == AppConfig.serverConfig.MasterPort)
 			{
 				ImplObject obj = new MasterClientObject();
-				obj.SetSocketSession(session);
+                session.SetUserObject(obj);
+                obj.SetSocketSession(session);
 
 				GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Account, new GameBaseAccountTemplate());
 				GameBaseTemplateContext.AddTemplate<ImplObject>(obj, ETemplateType.Item, new GameBaseItemTemplate());

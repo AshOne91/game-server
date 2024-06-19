@@ -36,6 +36,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 				PACKET_CL_CHECK_AUTH_REQ sendData = new PACKET_CL_CHECK_AUTH_REQ();
 				userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId = userObject.UId.ToString();
                 sendData.SiteUserId = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId;
+				sendData.WantedServerId = -1;
+                sendData.PlatformType = 0;
 				userObject.GetSession().SendPacket(sendData.Serialize());
             }
 			else

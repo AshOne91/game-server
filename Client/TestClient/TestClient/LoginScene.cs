@@ -10,24 +10,63 @@ namespace TestClient.TestClient
 {
     public class LoginScene : AppBaseScene<LoginScene>
     {
-        enum LoginSequence
-        {
-            ConnectLoginServerReady,
-            ConnectLoginServer,
-            AuthReady,
-            AuthComplete
-        }
         enum LoginPageSequnce
         {
+            None,
             Entry,
             Connecting,
             ConnectError,
+            Connection,
             Disconnect,
-            Main
+            AuthComplete
         }
+
         private string _mainLogo = string.Empty;
-        private LoginSequence _loginStep = LoginSequence.ConnectLoginServerReady;
-        private LoginPageSequnce _loginPage = LoginPageSequnce.Entry;
+        private LoginPageSequnce _loginPage = LoginPageSequnce.None;
+        private LoginPageSequnce LoginPage
+        {
+            get 
+            {
+                return _loginPage;
+            }
+            set
+            {
+                if (_loginPage == value) return;
+                OnLeaveUI(_loginPage);
+                _loginPage = value;
+                OnEnterUI(_loginPage);
+            }
+        }
+
+        private void OnLeaveUI(LoginPageSequnce loginPage)
+        {
+            InputManager.Instance.Clear();
+        }
+
+        private void OnEnterUI(LoginPageSequnce loginPage)
+        {
+            switch (loginPage) 
+            {
+                case LoginPageSequnce.Entry:
+                {
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
+                        {
+                            NetworkManager.Instance.LoginConnect(NetworkManager.Instance.AppConfig.clientConfig.loginServerIP
+    , NetworkManager.Instance.AppConfig.clientConfig.loginServerPort);
+                        });
+                }
+                break;
+                case LoginPageSequnce.AuthComplete:
+                {
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
+                        {
+                            TestApp.Instance.LoadScene<GameScene>();
+                        });
+                }
+                break;
+            }
+        }
+
         protected sealed override void PreInit()
         {
 
@@ -42,49 +81,7 @@ namespace TestClient.TestClient
         }
         protected sealed override void Update()
         {
-            if (Console.KeyAvailable)
-            {
-                var key = Console.ReadKey(true);
-                switch (key.Key)
-                {
-                    case ConsoleKey.D1:
-                        {
-                            LoginStep(LoginSequence.ConnectLoginServer);
-                        }
-                        break;
-                }
-            }
-
             LoginUI();
-        }
-
-        private void LoginStep(LoginSequence step)
-        {
-            if (_loginStep == step)
-            {
-                return;
-            }
-
-            _loginStep = step;
-
-            switch (_loginStep)
-            {
-                case LoginSequence.ConnectLoginServer:
-                    {
-                        NetworkManager.Instance.LoginConnect("127.0.0.1", 10000);
-                    }
-                    break;
-                case LoginSequence.AuthReady:
-                    {
-
-                    }
-                    break;
-                case LoginSequence.AuthComplete:
-                    {
-                        TestApp.Instance.LoadScene<GameScene>();
-                    }
-                    break;
-            }
         }
 
         protected sealed override void OnEnter()
@@ -93,6 +90,8 @@ namespace TestClient.TestClient
             EventManager.Instance.AddEvent("ConnectionError", this);
             EventManager.Instance.AddEvent("Connection", this);
             EventManager.Instance.AddEvent("Disconnect", this);
+            EventManager.Instance.AddEvent("AuthComplete", this);
+            LoginPage = LoginPageSequnce.Entry;
         }
         protected sealed override void OnExit()
         {
@@ -100,30 +99,36 @@ namespace TestClient.TestClient
             EventManager.Instance.RemoveEvent("ConnectionError", this);
             EventManager.Instance.RemoveEvent("Connection", this);
             EventManager.Instance.RemoveEvent("Disconnect", this);
+            EventManager.Instance.RemoveEvent("AuthComplete", this);
             _mainLogo = string.Empty;
             ConsoleManager.Instance.ConsoleClear();
+            InputManager.Instance.Clear();
         }
         protected sealed override bool ReciveMessage(Message message)
         {
             switch (message.EventType)
             {
                 case "Connecting":
-                    _loginPage = LoginPageSequnce.Connecting;
+                    LoginPage = LoginPageSequnce.Connecting;
                     break;
                 case "ConnectionError":
-                    _loginPage = LoginPageSequnce.ConnectError;
+                    LoginPage = LoginPageSequnce.ConnectError;
                     break;
                 case "Connection":
-                    _loginPage = LoginPageSequnce.Main;
+                    LoginPage = LoginPageSequnce.Connection;
                     break;
                 case "Disconnect":
-                    _loginPage = LoginPageSequnce.Disconnect;
+                    LoginPage = LoginPageSequnce.Disconnect;
                     GameUserObject userObject = (GameUserObject)message.ExtraInfo;
                     if (userObject.GetAccountImpl<GameBaseAccountClientImpl>()._LoginAuth == true)
                     {
-                        _loginStep = LoginSequence.AuthComplete;
+                        LoginPage = LoginPageSequnce.AuthComplete;
                     }
                     break;
+                case "AuthComplete":
+                    LoginPage = LoginPageSequnce.AuthComplete;
+                    break;
+
             }
             return true;
         }
@@ -148,8 +153,9 @@ namespace TestClient.TestClient
                 case LoginPageSequnce.Disconnect:
                     _mainLogo += "접 속 종 료                                                           \n";
                     break;
-                case LoginPageSequnce.Main:
+                case LoginPageSequnce.AuthComplete:
                     _mainLogo += "인증 완료                                                             \n";
+                    _mainLogo += "1. 게임씬 이동하기                                                    \n";
                     break;
             }
             ConsoleManager.Instance.SetBuffer(_mainLogo);

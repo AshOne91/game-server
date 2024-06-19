@@ -14,7 +14,7 @@ namespace TestClient.TestClient
 {
     public class AgentApp : ServerApp
     {
-        public sealed override bool Create(ServerConfig config, int frame = 30)
+        /*public sealed override bool Create(ServerConfig config, int frame = 30)
         {
             bool result = base.Create(config, frame);
 
@@ -27,7 +27,22 @@ namespace TestClient.TestClient
             GameBaseTemplateContext.InitTemplate(templateConfig, ServerType.Client);
             GameBaseTemplateContext.LoadDataTable(templateConfig);
             return result;
+        }*/
+
+        public bool Create(AppConfig config, int frame = 30)
+        {
+            bool result = Create(config.serverConfig, frame);
+
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Account, new GameBaseAccountTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Item, new GameBaseItemTemplate());
+            GameBaseTemplateContext.AddTemplate(ETemplateType.Shop, new GameBaseShopTemplate());
+
+            GameBaseTemplateContext.InitTemplate(config.templateConfig, ServerType.Client);
+            GameBaseTemplateContext.LoadDataTable(config.templateConfig);
+
+            return result;
         }
+
         public sealed override void OnConnect(SocketSession session, IPEndPoint ep)
         {
             GameUserObject userObject = (GameUserObject)session.GetUserObject();

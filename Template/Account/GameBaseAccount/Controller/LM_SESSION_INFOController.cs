@@ -19,8 +19,10 @@ namespace GameBase.Template.Account.GameBaseAccount
 			PACKET_LM_SESSION_INFO_RES sendData = new PACKET_LM_SESSION_INFO_RES();
 			sendData.Found = result;
 			sendData.Uid = packet.Uid;
+			sendData.ServerId = -1;
 			if (result && session != null)
             {
+				// 나중에 재접속 구현시
 				sendData.State = (int)session.SessionState;
 				sendData.ServerId = session.ServerIdx;
 				//sendData.RoomIdx = session.RoomIdx; //FIXME!
