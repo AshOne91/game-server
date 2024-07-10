@@ -217,6 +217,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 			productInfo.shopProductId = shopProductListTable.id;
 			productInfo.buyCount = (byte)dbShopTable._DBData.buy_count;
 
+			// 구입에 따른 연관 상품 생성
             ShopProductInfo changeProductInfo = new ShopProductInfo();
 			List<QuestCompleteParam> listQuestCompleteParam = new List<QuestCompleteParam>();
 			

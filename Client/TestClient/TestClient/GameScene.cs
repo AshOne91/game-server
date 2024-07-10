@@ -1,26 +1,48 @@
 ﻿using GameBase.Template.Account.GameBaseAccount;
 using GameBase.Template.Account.GameBaseAccount.Common;
+using GameBase.Template.GameBase;
 using GameBase.Template.GameBase.Common;
+using GameBase.Template.GameBase.Table;
 using GameBase.Template.Item.GameBaseItem.Common;
+using GameBase.Template.Shop.GameBaseShop;
 using GameBase.Template.Shop.GameBaseShop.Common;
+using Service.Core;
 using Service.Net;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using TestClient.FrameWork;
+using TestClient.TestClient.Player;
+using TestClient.TestClient.Shop;
 
 namespace TestClient.TestClient
 {
     public class GameScene : AppBaseScene<GameScene>
     {
-        enum GamePage
+        enum GameMainPage
         {
+            None,
             Entry,
             Connecting,
             ConnectError,
             Disconnect,
-            Connection,
             AuthComplete,
+            Player,
+            Item
+        }
+
+        enum GameSubPage
+        {
+            None,
+            PlayerList,
+            PlayerCreate,
+            PlayerSelect,
+            ItemList,
+            ShopInfo,
+            ItemBuy
         }
 
         enum GameSequence
@@ -32,13 +54,144 @@ namespace TestClient.TestClient
             ItemInfo,
             ShopInfo
         }
+
+
+        private GameMainPage _mainPage = GameMainPage.None;
+        private GameMainPage MainPage
+        {
+            get
+            {
+                return MainPage;
+            }
+            set
+            {
+                if (_mainPage == value) return;
+                OnLeaveUI(_mainPage);
+                _mainPage = value;
+                OnEnterUI(_mainPage);
+            }
+        }
+
+        private GameSubPage _subPage = GameSubPage.None;
+        private GameSubPage SubPage
+        {
+            get 
+            {
+                return _subPage;
+            }
+            set
+            {
+                _subPage = value;
+            }
+        }
+
+        private void OnLeaveUI(GameMainPage gameMainPage)
+        {
+            InputManager.Instance.Clear();
+        }
+
+        private void OnEnterUI(GameMainPage gameMainPage)
+        {
+            switch (_mainPage) 
+            {
+                case GameMainPage.Entry:
+                    {
+                        InputManager.Instance.Clear();
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
+                        {
+                            _userObject = NetworkManager.Instance.GetUserObject(NetworkManager.Instance.AuthUID);
+                            NetworkManager.Instance.GameConnect(_userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP
+                                , _userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port
+                                , NetworkManager.Instance.AuthUID);
+                        });
+                    }
+                    break;
+                case GameMainPage.AuthComplete:
+                    {
+                        InputManager.Instance.Clear();
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
+                        {
+                            MainPage = GameMainPage.Player;
+                        });
+                    }
+                    break;
+                case GameMainPage.Player:
+                    {
+                        InputManager.Instance.Clear();
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
+                        {
+                            PACKET_CG_PLAYERLIST_REQ sendData = new PACKET_CG_PLAYERLIST_REQ();
+                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D2, () =>
+                        {
+                            PACKET_CG_CREATE_PLAYER_REQ sendData = new PACKET_CG_CREATE_PLAYER_REQ();
+                            sendData.PlayerName = Guid.NewGuid().ToString();
+                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D3, () =>
+                        {
+                            var player = PlayerManager.Instance.GetSeekPlayer();
+                            if (player == null)
+                            {
+                                return;
+                            }
+                            PACKET_CG_PLAYER_SELECT_REQ sendData = new PACKET_CG_PLAYER_SELECT_REQ();
+                            sendData.PlayerDBKey = player.PlayerDBKey;
+                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.UpArrow, () =>
+                        {
+                            PlayerManager.Instance.Seek(-1);
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.DownArrow, () =>
+                        {
+                            PlayerManager.Instance.Seek(1);
+                        });
+                    }
+                    break;
+                case GameMainPage.Item:
+                    {
+                        InputManager.Instance.Clear();
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
+                        {
+                            PACKET_CG_ITEM_INFO_REQ sendData = new PACKET_CG_ITEM_INFO_REQ();
+                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D2, () =>
+                        {
+                            PACKET_CG_SHOP_INFO_REQ sendData = new PACKET_CG_SHOP_INFO_REQ();
+                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.D3, () =>
+                        {
+                            var shopProduct = PlayerManager.Instance.GetSelectPlayer().ShopManager.GetSeekProduct();
+                            var shop = PlayerManager.Instance.GetSelectPlayer().ShopManager.GetSeekShop();
+                            if (shopProduct == null)
+                            {
+                                return;
+                            }
+                            PACKET_CG_SHOP_BUY_REQ sendData = new PACKET_CG_SHOP_BUY_REQ();
+                            sendData.shopProductId = shopProduct.ShopProductId;
+                            sendData.shopId = shop.ShopId;
+                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.UpArrow, () =>
+                        {
+                            PlayerManager.Instance.GetSelectPlayer().ShopManager.Seek(-1);
+                        });
+                        InputManager.Instance.AddInputMap(0, ConsoleKey.DownArrow, () =>
+                        {
+                            PlayerManager.Instance.GetSelectPlayer().ShopManager.Seek(1);
+                        });
+                    }
+                    break;
+            }
+        }
+
         private string _mainLogo = string.Empty;
-        private GameSequence _gameStep = GameSequence.ConnectGameServer;
-        private GamePage _gamePage = GamePage.Entry;
         private GameUserObject _userObject = null;
-        public List<PlayerInfo> _playerInfos = new List<PlayerInfo>();
-        private ulong _selectPlayerDBKey = 0;
-        private PlayerInfo _selectPlayerInfo = null;
+
         protected sealed override void PreInit()
         {
 
@@ -53,10 +206,6 @@ namespace TestClient.TestClient
         }
         protected sealed override void Update()
         {
-            if (Console.KeyAvailable)
-            {
-
-            }
             GameUI();
         }
         protected sealed override void OnEnter()
@@ -72,6 +221,7 @@ namespace TestClient.TestClient
             EventManager.Instance.AddEvent("ItemInfo", this);
             EventManager.Instance.AddEvent("ShopInfo", this);
             EventManager.Instance.AddEvent("ShopBuy", this);
+            MainPage = GameMainPage.Entry;
         }
         protected sealed override void OnExit()
         {
@@ -88,99 +238,99 @@ namespace TestClient.TestClient
             EventManager.Instance.RemoveEvent("ShopBuy", this);
             _mainLogo = string.Empty;
             ConsoleManager.Instance.ConsoleClear();
+            InputManager.Instance.Clear();
         }
         protected sealed override bool ReciveMessage(Message message)
         {
             switch (message.EventType)
             {
                 case "Connectting":
-                    _gamePage = GamePage.Connecting;
+                    MainPage = GameMainPage.Connecting;
                     break;
                 case "ConnectionError":
-                    _gamePage = GamePage.ConnectError;
+                    MainPage = GameMainPage.ConnectError;
                     break;
                 case "Connection":
-                    _gamePage = GamePage.Connection;
+                    MainPage = GameMainPage.Connecting;
                     break;
                 case "Disconnect":
-                    _gamePage = GamePage.Disconnect;
+                    MainPage = GameMainPage.Disconnect;
                     break;
                 case "AuthComplete":
-                    _gamePage = GamePage.AuthComplete;
+                    MainPage = GameMainPage.AuthComplete;
                     break;
                 case "PlayerList":
-                    _playerInfos = (List<PlayerInfo>)message.ExtraInfo;
+                    {
+                        var playerInfos = (List<PlayerInfo>)message.ExtraInfo;
+                        PlayerManager.Instance.Clear();
+                        foreach (var playerInfo in playerInfos)
+                        {
+                            PlayerManager.Instance.CreatePlayer(playerInfo.PlayerDBKey
+                                , playerInfo.SiteUserId
+                                , playerInfo.PlayerName
+                                , playerInfo.Version
+                                , playerInfo.MatchToken);
+                        }
+                    }
                     break;
                 case "CreatePlayer":
-                    _playerInfos.Add((PlayerInfo)message.ExtraInfo);
+                    {
+                        var playerInfo = (PlayerInfo)message.ExtraInfo;
+                        PlayerManager.Instance.CreatePlayer(playerInfo.PlayerDBKey
+                                , playerInfo.SiteUserId
+                                , playerInfo.PlayerName
+                                , playerInfo.Version
+                                , playerInfo.MatchToken);
+                    }
                     break;
                 case "SelectPlayer":
-                    // 완료
+                    {
+                        var playerInfo = (PlayerInfo)message.ExtraInfo;
+                        PlayerManager.Instance.SelectPlayer(playerInfo.PlayerDBKey);
+                    }
                     break;
                 case "ItemInfo":
-                    // 완료
+                    {
+                        var itemInfos = (List<ItemBaseInfo>)message.ExtraInfo;
+                        PlayerManager.Instance.GetSelectPlayer().ItemManager.Clear();
+                        foreach (var itemInfo in itemInfos)
+                        {
+                            PlayerManager.Instance.GetSelectPlayer().ItemManager.CreateItem(itemInfo.ParentItemId
+                                , itemInfo.GroupIndex
+                                , itemInfo.ItemType
+                                , itemInfo.ItemId
+                                , itemInfo.ItemLevel
+                                , itemInfo.TotalValue
+                                , itemInfo.RemainTime);
+                        }
+                    }
                     break;
                 case "ShopInfo":
-                    // 완료
+                    {
+                        var shopInfos = (List<ShopInfo>)message.ExtraInfo;
+                        PlayerManager.Instance.GetSelectPlayer().ShopManager.Clear();
+                        foreach (var shopInfo in shopInfos)
+                        {
+                            PlayerManager.Instance.GetSelectPlayer().ShopManager.CreateShop(shopInfo);
+                        }
+                    }
                     break;
                 case "ShopBuy":
-                    // 완료
+                    {
+                        PACKET_CG_SHOP_BUY_RES response = (PACKET_CG_SHOP_BUY_RES)message.ExtraInfo;
+                        PlayerManager.Instance.GetSelectPlayer().ShopManager.UpdateShop(response.shopId, response.shopProductInfo.shopProductId, response.shopProductInfo.buyCount);
+                        PlayerManager.Instance.GetSelectPlayer().ShopManager.UpdateShop(response.shopId, response.changeProductInfo.shopProductId, response.shopProductInfo.buyCount);
+                        PlayerManager.Instance.GetSelectPlayer().ItemManager.UpdateItem(response.deleteItemInfo.ItemId, response.deleteItemInfo.Value, response.deleteItemInfo.TotalValue);
+                        foreach(var rewardItem in response.listRewardInfo)
+                        {
+                            PlayerManager.Instance.GetSelectPlayer().ItemManager.UpdateItem(rewardItem.ItemId, rewardItem.Value, rewardItem.TotalValue);
+                        }
+                        //퀘스트 업데이트
+                        //response.listQuestData;
+                    }
                     break;
             }
             return true;
-        }
-
-        private void GameStep(GameSequence step)
-        {
-            if (_gameStep == step)
-            {
-                return;
-            }
-            _gameStep = step;
-            switch (_gameStep) 
-            {
-                case GameSequence.ConnectGameServer:
-                    {
-                        _userObject = NetworkManager.Instance.GetUserObject(NetworkManager.Instance.AuthUID);
-                        NetworkManager.Instance.GameConnect(_userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP
-                            , _userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port
-                            , NetworkManager.Instance.AuthUID);
-                    }
-                    break;
-                case GameSequence.PlayerListRequest:
-                    {
-                        PACKET_CG_PLAYERLIST_REQ sendData = new PACKET_CG_PLAYERLIST_REQ();
-                        _userObject.GetSession().SendPacket(sendData.Serialize());
-                    }
-                    break;
-                case GameSequence.CreatePlayer:
-                    {
-                        PACKET_CG_CREATE_PLAYER_REQ sendData = new PACKET_CG_CREATE_PLAYER_REQ();
-                        sendData.PlayerName = Guid.NewGuid().ToString();
-                        _userObject.GetSession().SendPacket(sendData.Serialize());
-                    }
-                    break;
-                case GameSequence.SelectPlayer:
-                    {
-                        PACKET_CG_PLAYER_SELECT_REQ sendData = new PACKET_CG_PLAYER_SELECT_REQ();
-                        sendData.PlayerDBKey = _selectPlayerDBKey;
-                        _userObject.GetSession().SendPacket(sendData.Serialize());
-                    }
-                    break;
-                case GameSequence.ItemInfo:
-                    {
-                        PACKET_CG_ITEM_INFO_REQ sendData = new PACKET_CG_ITEM_INFO_REQ();
-                        _userObject.GetSession().SendPacket(sendData.Serialize());
-                        
-                    }
-                    break;
-                case GameSequence.ShopInfo:
-                    {
-                        PACKET_CG_SHOP_INFO_REQ sendData = new PACKET_CG_SHOP_INFO_REQ();
-                        _userObject.GetSession().SendPacket(sendData.Serialize());
-                    }
-                    break;
-            }
         }
 
         private void GameUI()
@@ -190,28 +340,112 @@ namespace TestClient.TestClient
             _mainLogo += "======================          게임 서버        =====================\n";
             _mainLogo += "======================================================================\n";
             _mainLogo += "                                                                      \n";
-            switch (_gamePage)
+
+            switch (_mainPage)
             {
-                case GamePage.Entry:
-                    _mainLogo += "1. 게임 서버 접속하기                                               \n";
+                case GameMainPage.Entry:
+                    _mainLogo += "1. 게임 서버 접속하기\n";
                     break;
-                case GamePage.Connecting:
-                    _mainLogo += "접 속 중 ...                                                          \n";
+                case GameMainPage.Connecting:
+                    _mainLogo += "접 속 중 ...\n";
                     break;
-                case GamePage.ConnectError:
-                    _mainLogo += "접 속 실 패                                                           \n";
+                case GameMainPage.ConnectError:
+                    _mainLogo += "접 속 실 패\n";
                     break;
-                case GamePage.Disconnect:
-                    _mainLogo += "접 속 종 료                                                           \n";
+                case GameMainPage.Disconnect:
+                    _mainLogo += "접 속 종 료\n";
                     break;
-                case GamePage.Connection:
-                    _mainLogo += "접 속 완 료                                                             \n";
+                case GameMainPage.AuthComplete:
+                    _mainLogo += "인증 완료\n";
+                    _mainLogo += "1. 로비 이동\n";
                     break;
-                case GamePage.AuthComplete:
-                    _mainLogo += "인 증 완 료                                                          \n";
+                case GameMainPage.Player:
+                    _mainLogo += "1. 플레이어 리스트 2. 플레이어 생성  3. 플레이어 선택\n";
+                    break;
+                case GameMainPage.Item:
+                    _mainLogo += "1. 아이템 정보 2. 상점 정보 3. 아이템 구매\n";
                     break;
             }
+
             ConsoleManager.Instance.SetBuffer(_mainLogo);
+        }
+
+        private string GameSubUI()
+        {
+            string _subUI = string.Empty;
+            switch (SubPage)
+            {
+                case GameSubPage.PlayerList:
+                case GameSubPage.PlayerCreate:
+                case GameSubPage.PlayerSelect:
+                    {
+                        _subUI += "플레이어 리스트\n";
+                        if (PlayerManager.Instance.PlayerByDBKey.Count == 0)
+                        {
+                            _subUI += " no player data\n";
+                            break;
+                        }
+
+                        _subUI += "PlayerDBKey\t\tSiteUserId\t\tPlayerName\t\tIsCur\n";
+                        foreach(var player in PlayerManager.Instance.PlayerByDBKey)
+                        {
+                            _subUI += $"{player.Value.PlayerDBKey}\t{player.Value.SiteUserId}\t{player.Value.PlayerName}";
+                            var curPlayer = PlayerManager.Instance.GetSeekPlayer();
+                            if (player.Value == curPlayer)
+                            {
+                                _subUI += $"\t<<";
+                            }
+                            _subUI += "\n";
+                        }
+                    }
+                    break;
+                case GameSubPage.ItemList:
+                case GameSubPage.ShopInfo:
+                case GameSubPage.ItemBuy:
+                    {
+                        _subUI += "아이템 리스트\n";
+                        if (PlayerManager.Instance.GetSelectPlayer().ItemManager.ItemById.Count == 0)
+                        {
+                            _subUI += "no item data\n";
+                            break;
+                        }
+                        _subUI += "ItemId\t\tName\t\tTotalValue\n";
+                        foreach(var item in PlayerManager.Instance.GetSelectPlayer().ItemManager.ItemById)
+                        {
+                            var itemData = DataTable<int, ItemListTable>.Instance.GetData(item.Value.ItemId);
+                            _subUI += $"{item.Value.ItemId}\t\t{itemData.name}\t\t{item.Value.TotalValue}\n";
+                        }
+                    }
+                    _subUI += "--------------------------------------------------------------------------------------\n";
+                    {
+                        _subUI += "샵 정보 \n";
+                        if (PlayerManager.Instance.GetSelectPlayer().ShopManager.ShopByShopId.Count == 0)
+                        {
+                            _subUI += "no shop data\n";
+                            break;
+                        }
+                        _subUI += $"ProductId\t\tName\t\tShopId\t\tBuyType\t\tBuyPrice\t\tItemId\t\tItemName\t\tValue\t\tIsCur\n";
+                        ShopProduct shopProduct = PlayerManager.Instance.GetSelectPlayer().ShopManager.GetSeekProduct();
+                        foreach(var shop in PlayerManager.Instance.GetSelectPlayer().ShopManager.ShopByShopId)
+                        {
+                            foreach (var product in shop.Value.Products)
+                            {
+                                var productTable = DataTable<int, ShopProductListTable>.Instance.GetData(product.ShopProductId);
+                                var itemData = DataTable<int, ItemListTable>.Instance.GetData(productTable.itemId);
+                                _subUI += $"{productTable.id}\t\t{productTable.name}\t\t{productTable.shopId}\t\t{(ShopBuyType)productTable.buyType}\t\t{productTable.buyPrice}\t\t{itemData.id}\t\t{itemData.name}\t\t{productTable.value}";
+                                if (shopProduct == product)
+                                {
+                                    _subUI += $"\t<<";
+                                }
+                                _subUI += "\n";
+                            }
+                        }
+                    }
+                    break;
+            }
+
+
+            return _subUI;
         }
     }
 }
