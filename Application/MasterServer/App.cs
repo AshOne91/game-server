@@ -93,12 +93,12 @@ namespace MasterServer
 
 			if (localEP.Port == AppConfig.masterServerConfig.GamePort)
             {
-				obj.GetAccountImpl<GameBaseAccountGameImpl>()._Info.ServerId = idx;
+				obj.GetAccountImpl<GameBaseAccountGameImpl>()._Info.ServerId = 1;
 				GetAccountTemplate(obj).MG_HELLO_NOTI();
 			}
 			else if (localEP.Port == AppConfig.masterServerConfig.LoginPort)
             {
-				obj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId = idx;
+				obj.GetAccountImpl<GameBaseAccountLoginImpl>()._ServerId = 1;
 				GetAccountTemplate(obj).ML_HELLO_NOTI();
 			}
 		}

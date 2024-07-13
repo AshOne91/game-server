@@ -56,6 +56,7 @@ namespace TestClient.TestClient
         }
 
 
+        private GameMainPage _prebiousMainPage = GameMainPage.None;
         private GameMainPage _mainPage = GameMainPage.None;
         private GameMainPage MainPage
         {
@@ -72,17 +73,11 @@ namespace TestClient.TestClient
             }
         }
 
-        private GameSubPage _subPage = GameSubPage.None;
-        private GameSubPage SubPage
+        private GameUserObject _gameUser = null;
+        public GameUserObject GameUser
         {
-            get 
-            {
-                return _subPage;
-            }
-            set
-            {
-                _subPage = value;
-            }
+            get { return _gameUser; }
+            private set { _gameUser = value; }
         }
 
         private void OnLeaveUI(GameMainPage gameMainPage)
@@ -99,10 +94,8 @@ namespace TestClient.TestClient
                         InputManager.Instance.Clear();
                         InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
                         {
-                            _userObject = NetworkManager.Instance.GetUserObject(NetworkManager.Instance.AuthUID);
-                            NetworkManager.Instance.GameConnect(_userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP
-                                , _userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port
-                                , NetworkManager.Instance.AuthUID);
+                            NetworkManager.Instance.GameConnect(NetworkManager.Instance.LoginAuthInfo.IP
+                                , NetworkManager.Instance.LoginAuthInfo.Port);
                         });
                     }
                     break;
@@ -121,13 +114,13 @@ namespace TestClient.TestClient
                         InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
                         {
                             PACKET_CG_PLAYERLIST_REQ sendData = new PACKET_CG_PLAYERLIST_REQ();
-                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                            GameUser.GetSession().SendPacket(sendData.Serialize());
                         });
                         InputManager.Instance.AddInputMap(0, ConsoleKey.D2, () =>
                         {
                             PACKET_CG_CREATE_PLAYER_REQ sendData = new PACKET_CG_CREATE_PLAYER_REQ();
                             sendData.PlayerName = Guid.NewGuid().ToString();
-                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                            GameUser.GetSession().SendPacket(sendData.Serialize());
                         });
                         InputManager.Instance.AddInputMap(0, ConsoleKey.D3, () =>
                         {
@@ -138,7 +131,7 @@ namespace TestClient.TestClient
                             }
                             PACKET_CG_PLAYER_SELECT_REQ sendData = new PACKET_CG_PLAYER_SELECT_REQ();
                             sendData.PlayerDBKey = player.PlayerDBKey;
-                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                            GameUser.GetSession().SendPacket(sendData.Serialize());
                         });
                         InputManager.Instance.AddInputMap(0, ConsoleKey.UpArrow, () =>
                         {
@@ -156,12 +149,12 @@ namespace TestClient.TestClient
                         InputManager.Instance.AddInputMap(0, ConsoleKey.D1, () =>
                         {
                             PACKET_CG_ITEM_INFO_REQ sendData = new PACKET_CG_ITEM_INFO_REQ();
-                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                            GameUser.GetSession().SendPacket(sendData.Serialize());
                         });
                         InputManager.Instance.AddInputMap(0, ConsoleKey.D2, () =>
                         {
                             PACKET_CG_SHOP_INFO_REQ sendData = new PACKET_CG_SHOP_INFO_REQ();
-                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                            GameUser.GetSession().SendPacket(sendData.Serialize());
                         });
                         InputManager.Instance.AddInputMap(0, ConsoleKey.D3, () =>
                         {
@@ -174,7 +167,7 @@ namespace TestClient.TestClient
                             PACKET_CG_SHOP_BUY_REQ sendData = new PACKET_CG_SHOP_BUY_REQ();
                             sendData.shopProductId = shopProduct.ShopProductId;
                             sendData.shopId = shop.ShopId;
-                            _userObject.GetSession().SendPacket(sendData.Serialize());
+                            GameUser.GetSession().SendPacket(sendData.Serialize());
                         });
                         InputManager.Instance.AddInputMap(0, ConsoleKey.UpArrow, () =>
                         {
@@ -190,7 +183,7 @@ namespace TestClient.TestClient
         }
 
         private string _mainLogo = string.Empty;
-        private GameUserObject _userObject = null;
+        public string MainLogo { get => _mainLogo; set => _mainLogo = value; }
 
         protected sealed override void PreInit()
         {
@@ -236,7 +229,7 @@ namespace TestClient.TestClient
             EventManager.Instance.RemoveEvent("ItemInfo", this);
             EventManager.Instance.RemoveEvent("ShopInfo", this);
             EventManager.Instance.RemoveEvent("ShopBuy", this);
-            _mainLogo = string.Empty;
+            MainLogo = string.Empty;
             ConsoleManager.Instance.ConsoleClear();
             InputManager.Instance.Clear();
         }
@@ -252,6 +245,12 @@ namespace TestClient.TestClient
                     break;
                 case "Connection":
                     MainPage = GameMainPage.Connecting;
+                    GameUser = (GameUserObject)message.ExtraInfo;
+                    GameUser.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId = NetworkManager.Instance.LoginAuthInfo.SiteUserId;
+                    GameUser.GetAccountImpl<GameBaseAccountClientImpl>()._Passport = NetworkManager.Instance.LoginAuthInfo.Passport;
+                    GameUser.GetAccountImpl<GameBaseAccountClientImpl>()._IP = NetworkManager.Instance.LoginAuthInfo.IP;
+                    GameUser.GetAccountImpl<GameBaseAccountClientImpl>()._Port = NetworkManager.Instance.LoginAuthInfo.Port;
+                    GameUser.GetAccountImpl<GameBaseAccountClientImpl>()._PlatformType = NetworkManager.Instance.LoginAuthInfo.PlatformType;
                     break;
                 case "Disconnect":
                     MainPage = GameMainPage.Disconnect;
@@ -335,49 +334,47 @@ namespace TestClient.TestClient
 
         private void GameUI()
         {
-            _mainLogo = string.Empty;
-            _mainLogo += "======================================================================\n";
-            _mainLogo += "======================          게임 서버        =====================\n";
-            _mainLogo += "======================================================================\n";
-            _mainLogo += "                                                                      \n";
+            MainLogo = string.Empty;
+            MainLogo += "======================================================================\n";
+            MainLogo += "======================          게임 서버        =====================\n";
+            MainLogo += "======================================================================\n";
+            MainLogo += "                                                                      \n";
 
             switch (_mainPage)
             {
                 case GameMainPage.Entry:
-                    _mainLogo += "1. 게임 서버 접속하기\n";
+                    MainLogo += "1. 게임 서버 접속하기\n";
                     break;
                 case GameMainPage.Connecting:
-                    _mainLogo += "접 속 중 ...\n";
+                    MainLogo += "접 속 중 ...\n";
                     break;
                 case GameMainPage.ConnectError:
-                    _mainLogo += "접 속 실 패\n";
+                    MainLogo += "접 속 실 패\n";
                     break;
                 case GameMainPage.Disconnect:
-                    _mainLogo += "접 속 종 료\n";
+                    MainLogo += "접 속 종 료\n";
                     break;
                 case GameMainPage.AuthComplete:
-                    _mainLogo += "인증 완료\n";
-                    _mainLogo += "1. 로비 이동\n";
+                    MainLogo += "인증 완료\n";
+                    MainLogo += "1. 로비 이동\n";
                     break;
                 case GameMainPage.Player:
-                    _mainLogo += "1. 플레이어 리스트 2. 플레이어 생성  3. 플레이어 선택\n";
+                    MainLogo += "1. 플레이어 리스트 2. 플레이어 생성  3. 플레이어 선택\n";
                     break;
                 case GameMainPage.Item:
-                    _mainLogo += "1. 아이템 정보 2. 상점 정보 3. 아이템 구매\n";
+                    MainLogo += "1. 아이템 정보 2. 상점 정보 3. 아이템 구매\n";
                     break;
             }
-
-            ConsoleManager.Instance.SetBuffer(_mainLogo);
+            MainLogo += GameSubUI();
+            ConsoleManager.Instance.SetBuffer(MainLogo);
         }
 
         private string GameSubUI()
         {
             string _subUI = string.Empty;
-            switch (SubPage)
+            switch (_mainPage)
             {
-                case GameSubPage.PlayerList:
-                case GameSubPage.PlayerCreate:
-                case GameSubPage.PlayerSelect:
+                case GameMainPage.Player:
                     {
                         _subUI += "플레이어 리스트\n";
                         if (PlayerManager.Instance.PlayerByDBKey.Count == 0)
@@ -399,10 +396,8 @@ namespace TestClient.TestClient
                         }
                     }
                     break;
-                case GameSubPage.ItemList:
-                case GameSubPage.ShopInfo:
-                case GameSubPage.ItemBuy:
-                    {
+                case GameMainPage.Item:
+                {
                         _subUI += "아이템 리스트\n";
                         if (PlayerManager.Instance.GetSelectPlayer().ItemManager.ItemById.Count == 0)
                         {

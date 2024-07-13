@@ -22,6 +22,7 @@ namespace TestClient.TestClient
         }
 
         private string _mainLogo = string.Empty;
+        private LoginPageSequnce _previousLoginPage = LoginPageSequnce.None;
         private LoginPageSequnce _loginPage = LoginPageSequnce.None;
         private LoginPageSequnce LoginPage
         {
@@ -122,11 +123,16 @@ namespace TestClient.TestClient
                     GameUserObject userObject = (GameUserObject)message.ExtraInfo;
                     if (userObject.GetAccountImpl<GameBaseAccountClientImpl>()._LoginAuth == true)
                     {
+                        NetworkManager.Instance.LoginAuthInfo.SiteUserId = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId;
+                        NetworkManager.Instance.LoginAuthInfo.Passport = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Passport;
+                        NetworkManager.Instance.LoginAuthInfo.IP = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._IP;
+                        NetworkManager.Instance.LoginAuthInfo.Port = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port;
+                        NetworkManager.Instance.LoginAuthInfo.PlatformType = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._PlatformType;
                         LoginPage = LoginPageSequnce.AuthComplete;
                     }
                     break;
                 case "AuthComplete":
-                    LoginPage = LoginPageSequnce.AuthComplete;
+                    //LoginPage = LoginPageSequnce.AuthComplete;
                     break;
 
             }
@@ -134,6 +140,12 @@ namespace TestClient.TestClient
         }
         private void LoginUI()
         {
+            if (_previousLoginPage == _loginPage)
+            {
+                return;
+            }
+            _previousLoginPage = _loginPage;
+            ConsoleManager.Instance.ConsoleClear();
             _mainLogo = string.Empty;
             _mainLogo += "======================================================================\n";
             _mainLogo += "======================          로그인 서버      =====================\n";

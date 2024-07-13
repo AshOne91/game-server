@@ -99,7 +99,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 			string id;
 			string extra;
 
-			GameBaseAccountUserImpl loginUserImpl = loginUserObject.GetAccountImpl<GameBaseAccountUserImpl>();
+			 GameBaseAccountUserImpl loginUserImpl = loginUserObject.GetAccountImpl<GameBaseAccountUserImpl>();
 			id = loginUserImpl._SiteUserId;
 			DateTime now = DateTime.UtcNow;
 			extra = String.Format("{0}{1}{2}{3}{4}{5};{6};{7};{8};{9}", now.Year - 2000, now.Month, now.Hour, now.Minute, now.Second, now.Millisecond,

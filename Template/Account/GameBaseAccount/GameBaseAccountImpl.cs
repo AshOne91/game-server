@@ -194,6 +194,7 @@ namespace GameBase.Template.Account.GameBaseAccount
         public string _Passport = string.Empty;
         public string _IP = string.Empty;
         public ushort _Port = 0;
+        public int _PlatformType = -1;
 
         public GameBaseAccountClientImpl(ImplObject obj) : base(obj)
         {

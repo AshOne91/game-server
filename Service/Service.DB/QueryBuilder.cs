@@ -33,7 +33,9 @@ namespace Service.DB
         }
         public void SetInputParam(string szParamName, UInt64 value)
         {
-            _SetParam(szParamName, DbType.UInt64, ParameterDirection.Input, value, 8, value.ToString());
+            // UInt64 맵핑 에러
+            //_SetParam(szParamName, DbType.UInt64, ParameterDirection.Input, value, 8, value.ToString());
+            SetInputParam(szParamName, (Int64)value);
         }
         public void SetInputParam(string szParamName, Int64 value)
         {

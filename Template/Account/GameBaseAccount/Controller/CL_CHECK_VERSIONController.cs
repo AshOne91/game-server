@@ -35,10 +35,11 @@ namespace GameBase.Template.Account.GameBaseAccount
 			{
 				PACKET_CL_CHECK_AUTH_REQ sendData = new PACKET_CL_CHECK_AUTH_REQ();
 				userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId = userObject.UId.ToString();
+				userObject.GetAccountImpl<GameBaseAccountClientImpl>()._PlatformType = (int)EPlatformType.Guest;
                 sendData.SiteUserId = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._SiteUserId;
 				sendData.WantedServerId = -1;
-                sendData.PlatformType = 0;
-				userObject.GetSession().SendPacket(sendData.Serialize());
+				sendData.PlatformType = userObject.GetAccountImpl<GameBaseAccountClientImpl>()._PlatformType;
+                userObject.GetSession().SendPacket(sendData.Serialize());
             }
 			else
 			{

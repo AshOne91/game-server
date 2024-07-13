@@ -16,6 +16,41 @@ namespace TestClient.TestClient
 {
     public partial class NetworkManager : SceneSubSystem<NetworkManager>
     {
+        public class AuthInfo
+        {
+            private string _siteUserId;
+            public string SiteUserId
+            {
+                get { return _siteUserId; }
+                set { _siteUserId = value; }
+            }
+
+            private string _passport;
+            public string Passport
+            {
+                get { return _passport; }
+                set { _passport = value; }
+            }
+            private string _ip;
+            public string IP
+            {
+                get { return _ip; }
+                set { _ip = value; }
+            }
+            private ushort _port;
+            public ushort Port
+            {
+                get { return _port; }
+                set { _port = value; }
+            }
+            private int _platformType;
+            public int PlatformType
+            {
+                get { return _platformType; }
+                set { _platformType = value; }
+            }
+        }
+
         private AppConfig _appConfig = null;
         public AppConfig AppConfig
         {
@@ -23,12 +58,16 @@ namespace TestClient.TestClient
             set { _appConfig = value; }
         }
         private AgentApp _agentApp = null;
-        private ulong _authUID = 0;
-        public ulong AuthUID
+
+        private AuthInfo _authInfo = new AuthInfo();
+        public AuthInfo LoginAuthInfo
         {
-            get { return _authUID; }
-            private set { _authUID = value; }
+            get { return _authInfo; }
+            private set { _authInfo = value; }
         }
+        //캐릭터 리스트에서 삭제하기
+        //userObject.GetAccountImpl<GameBaseAccountClientImpl>()._Port = packet.Port;
+        //네트워크에 저장해놓기
         private Dictionary<ulong, GameUserObject> _userObjectList = new Dictionary<ulong, GameUserObject>();
         public GameUserObject GetUserObject(ulong uid)
         {
@@ -136,6 +175,11 @@ namespace TestClient.TestClient
             return true;
         }
 
+        public void OnClose(ulong uid)
+        {
+            _userObjectList.Remove(uid);
+        }
+
         public void OnServerState(GameUserObject gameUserObject, ConnectType connectType, ServerState serverState)
         {
             switch (serverState)
@@ -146,10 +190,6 @@ namespace TestClient.TestClient
                     break;
                 case ServerState.Disconnect:
                     EventManager.Instance.PostNotifycation("Disconnect", NotifyType.BroadCast, 0, 0, 0, false, gameUserObject);
-                    if (gameUserObject.GetAccountImpl<GameBaseAccountClientImpl>()._LoginAuth == true)
-                    {
-                        AuthUID = gameUserObject.UId;
-                    }
                     break;
                 case ServerState.Connecting:
                     EventManager.Instance.PostNotifycation("Connecting", NotifyType.BroadCast, 0, 0, 0, false, gameUserObject);

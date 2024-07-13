@@ -44,7 +44,8 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}
 
 			GameBaseAccountUserImpl userImpl = userObject.GetAccountImpl<GameBaseAccountUserImpl>();
-			userImpl._PassportExtra = extra.Split(";");
+            userImpl._SiteUserId = id;
+            userImpl._PassportExtra = extra.Split(";");
 
 			if (userImpl._PassportExtra.Length != 5)
             {
@@ -62,7 +63,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 				return;
 			}
 
-			DBGlobal_PlatformAuth query = new DBGlobal_PlatformAuth(userObject);
+            DBGlobal_PlatformAuth query = new DBGlobal_PlatformAuth(userObject);
 			query._platform_type = userImpl._AuthInfo._platformType = platformType;
 			query._site_user_id = id;
 			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(id, query, () => {
@@ -196,7 +197,7 @@ namespace GameBase.Template.Account.GameBaseAccount
             {
 				case EBlockStatus.None:
 				case EBlockStatus.ChattingBlock:
-					return;
+					break;
 				case EBlockStatus.EternalBlock:
 					resPacket.ErrorCode = (int)GServerCode.EternalBlock;
                     Impl._obj.GetSession().SendPacket(resPacket.Serialize());
@@ -223,7 +224,7 @@ namespace GameBase.Template.Account.GameBaseAccount
                 gameUserObject.SessionData.PlayerIdx = Impl._AuthInfo._userDBKey;
                 gameUserObject.SessionData.PlayerName = string.Empty;
                 gameUserObject.SessionData.SiteUserId = Impl._SiteUserId;
-                gameUserObject.SessionData.ServerIdx = Impl._connInfo.ServerId;
+                //gameUserObject.SessionData.ServerIdx = Impl._connInfo.ServerId; //犁立加 备泅矫 备泅
                 gameUserObject.SessionData.SessionState = (int)SessionState.Login;
                 var remote = gameUserObject.GetSession().GetRemoteAddr();
                 gameUserObject.SessionData.RemoteIP = remote.ip;

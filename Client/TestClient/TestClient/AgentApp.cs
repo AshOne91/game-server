@@ -61,7 +61,7 @@ namespace TestClient.TestClient
         {
             UserObject userObject = session.GetUserObject();
             userObject.OnClose();
-
+            NetworkManager.Instance.OnClose(userObject.UId);
             /*UserObject obj = session.GetUserObject();
             if (obj != null)
             {
