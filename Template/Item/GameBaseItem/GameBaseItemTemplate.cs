@@ -82,7 +82,7 @@ namespace GameBase.Template.Item.GameBaseItem
 						throw new Exception("OnSetNewbie Not Found Item");
 					}
 
-					var writeItemDB = userObject.GetUserDB().GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
+					var writeItemDB = userObject.UserDB.GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 					short writeSlot = writeItemDB.GetVacantSlot();
 					var newItem = writeItemDB.Insert(writeSlot);
 					newItem._DBData.item_type = (int)itemTable.itemType;
@@ -215,7 +215,7 @@ namespace GameBase.Template.Item.GameBaseItem
 
 		List<ItemBaseInfo> UpdateItemCount(ImplObject userObject, ItemType itemType, int itemId, long value, long maxValue)
 		{
-			var readItemDB = userObject.GetUserDB().GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
+			var readItemDB = userObject.UserDB.GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 			var readItem = readItemDB.Find(slot => slot._DBData.item_id == itemId);
 			List<ItemBaseInfo> listItemBaseInfo = new List<ItemBaseInfo>();
 			if (readItem == null)
@@ -224,7 +224,7 @@ namespace GameBase.Template.Item.GameBaseItem
 				{
 					throw new Exception("Not Found Item");
 				}
-				var writeItemDBTable = userObject.GetUserDB().GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
+				var writeItemDBTable = userObject.UserDB.GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 				short vacantSlot = writeItemDBTable.GetVacantSlot();
 				var writeItemDB = writeItemDBTable.Insert(vacantSlot);
 				writeItemDB._DBData.item_id = itemId;
@@ -245,7 +245,7 @@ namespace GameBase.Template.Item.GameBaseItem
 					throw new Exception("Wrong Item Count");
 				}
 				short writeSlot = readItem._nSlot;
-				var writeItemDB = userObject.GetUserDB().GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.GetWriteData(writeSlot);
+				var writeItemDB = userObject.UserDB.GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.GetWriteData(writeSlot);
 				writeItemDB._DBData.item_count = (int)Math.Min(count, maxValue);
 				ItemBaseInfo itemInfo = new ItemBaseInfo();
 				itemInfo.ItemId = itemId;
@@ -262,7 +262,7 @@ namespace GameBase.Template.Item.GameBaseItem
         private List<ItemBaseInfo> DeleteResource(ImplObject userObject, ItemSubType itemSubType, int itemId, long value) 
 		{
 			List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
-			var dbItem = userObject.GetUserDB().GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.Find(slot => slot._DBData.item_id == itemId);
+			var dbItem = userObject.UserDB.GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.Find(slot => slot._DBData.item_id == itemId);
 			if (dbItem == null)
 			{
 				throw new Exception("DeleteResource Not FInd DB Table");
@@ -297,7 +297,7 @@ namespace GameBase.Template.Item.GameBaseItem
 			var itemTable = DataTable<int, ItemListTable>.Instance.GetData(table => table.itemSubType == cashResourceSubType);
             if (itemTable != null)
 			{
-				var readData = userObject.GetUserDB().GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
+				var readData = userObject.UserDB.GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 				int nSlot = 0;
 				readData.BreakableForEach(slot =>
 				{
@@ -308,7 +308,7 @@ namespace GameBase.Template.Item.GameBaseItem
 					}
 					return false;
 				});
-				var dbCashResource = userObject.GetUserDB().GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
+				var dbCashResource = userObject.UserDB.GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 				var cashItemDB = dbCashResource.GetWriteData((short)nSlot);
                 if (cashItemDB != null)
 				{
@@ -342,7 +342,7 @@ namespace GameBase.Template.Item.GameBaseItem
 
 			if (remainValue > 0)
 			{
-				var dbFreeResource = userObject.GetUserDB().GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.GetWriteData(dbItem._nSlot);
+				var dbFreeResource = userObject.UserDB.GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.GetWriteData(dbItem._nSlot);
 				if (dbFreeResource._DBData.item_count < remainValue)
 				{
 					throw new Exception("Not Enough Resource");

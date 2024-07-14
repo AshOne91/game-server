@@ -15,7 +15,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 		{
 			PACKET_CG_SHOP_INFO_RES sendData = new PACKET_CG_SHOP_INFO_RES();
 			Dictionary<int/*shop_index*/, ShopInfo> shopInfoList = new Dictionary<int , ShopInfo>();
-			userObject.GetUserDB().GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.ForEach(slot =>
+			userObject.UserDB.GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.ForEach(slot =>
 			{
 				ShopInfo shopInfo = null;
 				if (shopInfoList.TryGetValue(slot._DBData.shop_index, out shopInfo) == false)

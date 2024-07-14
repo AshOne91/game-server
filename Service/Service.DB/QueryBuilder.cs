@@ -63,7 +63,7 @@ namespace Service.DB
         }
         public void SetInputParam(string szParamName, SByte value)
         {
-            _SetParam(szParamName, DbType.SByte, ParameterDirection.Input, value, 1, value.ToString());
+            _SetParam(szParamName, DbType.Byte, ParameterDirection.Input, value, 1, value.ToString());
         }
         public void SetInputParam(string szParamName, bool value)
         {

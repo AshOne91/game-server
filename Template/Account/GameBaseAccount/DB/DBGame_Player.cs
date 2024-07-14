@@ -24,14 +24,14 @@ namespace GameBase.Template.GameBase
         {
             try
             {
-                QueryBuilder query = new QueryBuilder("call gp_user_player_list_load(?,?)");
+                QueryBuilder query = new QueryBuilder("call gp_user_player_list_load(?,?,?)");
                 query.SetInputParam("@p_user_db_key", GetCallerUserDBKey());
                 query.SetInputParam("@p_encode_account_id", _encode_account_id);
                 query.SetInputParam("@p_gm_level", _gm_level);
 
                 adoDB.Execute(query);
 
-                if (adoDB.RecordNotEOF())
+                while (adoDB.RecordWhileNotEOF())
                 {
                     PlayerInfo player = new PlayerInfo();
 
@@ -40,10 +40,12 @@ namespace GameBase.Template.GameBase
 
                     _playerInfos.Add(player);
                 }
-                else
+                // 2024.07.14
+                // 리스트가 없다고 해서 에러가 아님
+                /*else
                 {
                     _strResult = "[gp_user_player_list_load] No Result!";
-                }
+                }*/
                 adoDB.RecordEnd();
             }
             catch (OdbcException e)
@@ -76,7 +78,7 @@ namespace GameBase.Template.GameBase
         {
             try
             {
-                QueryBuilder query = new QueryBuilder("call gp_user_player_create(?,?,?,?)");
+                QueryBuilder query = new QueryBuilder("call gp_user_player_create(?,?,?,?,?,?)");
                 query.SetInputParam("@p_user_db_key", GetCallerUserDBKey());
                 query.SetInputParam("@p_max_player_count", _max_player_count);
                 query.SetInputParam("@p_player_db_key", _player_db_key);

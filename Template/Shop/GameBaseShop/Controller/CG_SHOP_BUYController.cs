@@ -16,7 +16,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 		{
 			PACKET_CG_SHOP_BUY_RES sendData = new PACKET_CG_SHOP_BUY_RES();
             var listQuestCompleteParam = new List<QuestCompleteParam>();
-            var shopProduct = userObject.GetUserDB().GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.Find(slot => slot._DBData.shop_index == packet.shopId && slot._DBData.shop_product_index == packet.shopProductId);
+            var shopProduct = userObject.UserDB.GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.Find(slot => slot._DBData.shop_index == packet.shopId && slot._DBData.shop_product_index == packet.shopProductId);
 			if (shopProduct == null) 
 			{
 				sendData.ErrorCode = (int)GServerCode.DBNotFound;

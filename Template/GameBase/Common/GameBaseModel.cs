@@ -769,7 +769,7 @@ namespace GameBase.Template.GameBase.Common
 			FieldInfo[] fields = this.GetType().GetFields();
 			foreach (FieldInfo field in fields)
 			{
-				log += string.Format("{{0}}={{1}}\r\n", field.Name, field.GetValue(this).ToString());
+				log += string.Format("{0}={1}\r\n", field.Name, field.GetValue(this).ToString());
 			}
 			return log;
 		}

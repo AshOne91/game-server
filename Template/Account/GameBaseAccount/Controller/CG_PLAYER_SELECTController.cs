@@ -13,12 +13,13 @@ namespace GameBase.Template.Account.GameBaseAccount
 	{
 		public void ON_CG_PLAYER_SELECT_REQ_CALLBACK(ImplObject userObject, PACKET_CG_PLAYER_SELECT_REQ packet)
 		{
-			//상태체크 로비인지 등등
+            //상태체크 로비인지 등등
 
-			//환불유저인지 체크
+            //환불유저인지 체크
 
-			//이제 전체 유저 로딩 들어감!!! FIXME
+            //이제 전체 유저 로딩 들어감!!! FIXME
 
+            userObject.PlayerDBKey = packet.PlayerDBKey;
 			GameBaseAccountUserImpl Impl = userObject.GetAccountImpl<GameBaseAccountUserImpl>();
 			DBGameUserLoad query = new DBGameUserLoad(userObject);
 			query._user_db_key = userObject.UserDBKey;
@@ -57,7 +58,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 
 		public bool UserLoadComplete(GameBaseAccountUserImpl impl, UserDB srcDB)
         {
-			_obj.GetUserDB().Copy(srcDB, false);
+			_obj.UserDB.Copy(srcDB, false);
 
 
 			/*
@@ -75,10 +76,10 @@ namespace GameBase.Template.Account.GameBaseAccount
 				return false;
 			}*/
 
-			if (_obj.GetUserDB().GetReadUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetReadData()._DBData.newbie == true)
+			if (_obj.UserDB.GetReadUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetReadData()._DBData.newbie == true)
 			{
 				GameBaseTemplateContext.SetNewbie(impl._obj.GetSession().GetUid());
-				_obj.GetUserDB().GetWriteUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetWriteData()._DBData.newbie = false;
+				_obj.UserDB.GetWriteUserDB<GameBaseAccountUserDB>(ETemplateType.Account)._dbBaseContainer_player.GetWriteData()._DBData.newbie = false;
 			}
 
 			if (!GameBaseTemplateContext.PlayerSelectPrepare(impl._obj.GetSession().GetUid()))

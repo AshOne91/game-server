@@ -20,8 +20,9 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 
 				player rplayer = _dbBaseContainer_player.GetReadData()._DBData;
 
-				QueryBuilder query = new QueryBuilder("call gp_player_player_save(?,?,?,?,?,?,?,?,?,?,?)");
+				QueryBuilder query = new QueryBuilder("call gp_player_player_save(?,?,?,?,?,?,?,?,?,?,?,?)");
 				query.SetInputParam("@p_player_db_key", player_db_key);
+				query.SetInputParam("@p_user_db_key", user_db_key);
 				query.SetInputParam("@p_create_time", rplayer.create_time);
 				query.SetInputParam("@p_update_time", rplayer.update_time);
 

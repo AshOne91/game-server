@@ -55,8 +55,6 @@ namespace TestClient.TestClient
             ShopInfo
         }
 
-
-        private GameMainPage _prebiousMainPage = GameMainPage.None;
         private GameMainPage _mainPage = GameMainPage.None;
         private GameMainPage MainPage
         {
@@ -334,6 +332,7 @@ namespace TestClient.TestClient
 
         private void GameUI()
         {
+            //ConsoleManager.Instance.ConsoleClear();
             MainLogo = string.Empty;
             MainLogo += "======================================================================\n";
             MainLogo += "======================          게임 서버        =====================\n";
@@ -383,14 +382,18 @@ namespace TestClient.TestClient
                             break;
                         }
 
-                        _subUI += "PlayerDBKey\t\tSiteUserId\t\tPlayerName\t\tIsCur\n";
+                        _subUI += "PlayerDBKey\t\tPlayerName\t\tIsCur\n";
                         foreach(var player in PlayerManager.Instance.PlayerByDBKey)
                         {
-                            _subUI += $"{player.Value.PlayerDBKey}\t{player.Value.SiteUserId}\t{player.Value.PlayerName}";
+                            _subUI += $"{player.Value.PlayerDBKey}\t{player.Value.PlayerName}";
                             var curPlayer = PlayerManager.Instance.GetSeekPlayer();
                             if (player.Value == curPlayer)
                             {
                                 _subUI += $"\t<<";
+                            }
+                            else
+                            {
+                                _subUI += "\t    ";
                             }
                             _subUI += "\n";
                         }

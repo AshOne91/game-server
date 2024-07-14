@@ -216,7 +216,7 @@ namespace GameServer
 					query._isConnected = gameUserObject.GetSession().IsConnected();
 					query._user_db_key = gameUserObject.UserDBKey;
 					query._player_db_key = gameUserObject.PlayerDBKey;
-					query._userDB.Copy(gameUserObject.GetUserDB(), true);
+					query._userDB.Copy(gameUserObject.UserDB, true);
 					GameBaseTemplateContext.GetDBManager().PushQueryGame(gameUserObject.UserDBKey, gameUserObject.GameDBIdx, 0, query);
 
 					DBGlobal_User_Logout userLogoutQuery = new DBGlobal_User_Logout();

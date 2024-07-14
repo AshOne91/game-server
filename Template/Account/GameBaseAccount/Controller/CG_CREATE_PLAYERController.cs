@@ -63,7 +63,7 @@ namespace GameBase.Template.Account.GameBaseAccount
 		public void PlayerCreate_Complete(UserObject obj, string playerName, ulong playerDBKey, short playerLevel, long playerExp)
         {
 			DBGame_Player_Create query = new DBGame_Player_Create(_obj);
-			query._max_player_count = 1;//일단 한명으로
+			query._max_player_count = 100;//일단 백명으로
 			query._player_db_key = playerDBKey;
 			query._player_name = playerName;
 			query._player_level = playerLevel;

@@ -14,7 +14,7 @@ namespace GameBase.Template.Item.GameBaseItem
 		public void ON_CG_ITEM_INFO_REQ_CALLBACK(ImplObject userObject, PACKET_CG_ITEM_INFO_REQ packet)
 		{
 			PACKET_CG_ITEM_INFO_RES sendData = new PACKET_CG_ITEM_INFO_RES();
-			var DBItemList = userObject.GetUserDB().GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
+			var DBItemList = userObject.UserDB.GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 			DBItemList.ForEach(slot => 
 			{
 				ItemBaseInfo itemInfo = new ItemBaseInfo();

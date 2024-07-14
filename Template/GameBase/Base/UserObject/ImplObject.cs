@@ -28,6 +28,17 @@ namespace GameBase.Template.GameBase
         public UserImpl UserImpl = null;
 
         protected UserDB _userDB = null;
+        public UserDB UserDB
+        {
+            get 
+            {
+                if (_userDB == null) 
+                {
+                    _userDB = GameBaseTemplateContext.CreateUserDB();
+                }
+                return _userDB;
+            }
+        }
 
         private Action<ImplObject, string, object> _fnCall;
         public Action<ImplObject, string, object> FnCall
@@ -42,15 +53,6 @@ namespace GameBase.Template.GameBase
             {
                 _fnCall(this, action, extraInfo);
             }
-        }
-
-        public ImplObject()
-        {
-            _userDB = GameBaseTemplateContext.CreateUserDB();
-        }
-        public UserDB GetUserDB()
-        {
-            return _userDB;
         }
 
         public T GetGameBaseImpl<T>() where T : BaseImpl

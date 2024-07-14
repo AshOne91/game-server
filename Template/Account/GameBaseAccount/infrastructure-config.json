@@ -8,6 +8,7 @@
       "tableType": "",
       "tableName": "player",
       "partitionKey_1": "player_db_key",
+      "partitionKey_2": "user_db_key",
       "members": [
         {
           "type": "DateTime",

@@ -11,8 +11,14 @@ namespace GameBase.Template.Account.GameBaseAccount
 	public partial class GameBaseAccountTemplate : AccountTemplate
 	{
 		ImplObject _obj = null;
-		static GameBaseAccountImpl _accountImpl = null; 
-		public override void Init(TemplateConfig config, ServerType type)
+		static GameBaseAccountImpl _accountImpl = null;
+
+        public override GameBaseUserDB CreateUserDB()
+        {
+            return new GameBaseAccountUserDB();
+        }
+
+        public override void Init(TemplateConfig config, ServerType type)
 		{
 			base.Init(config, type);
 			_accountImpl = new GameBaseAccountImpl(type);

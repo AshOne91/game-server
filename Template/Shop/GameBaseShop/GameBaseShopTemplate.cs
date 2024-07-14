@@ -18,7 +18,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 
 		public override GameBaseUserDB CreateUserDB()
 		{
-			return base.CreateUserDB();
+			return new GameBaseShopUserDB();
 		}
 
 		public override void Init(TemplateConfig config, ServerType type)
@@ -79,7 +79,7 @@ namespace GameBase.Template.Shop.GameBaseShop
             foreach(var shopInfo in DataTable<int, ShopInfoTable>.Instance.Values)
 			{
 				// db에 있는지 체크
-				var DBShopProductList = userObject.GetUserDB().GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.FindAll(slot => slot._DBData.shop_index == shopInfo.id);
+				var DBShopProductList = userObject.UserDB.GetReadUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.FindAll(slot => slot._DBData.shop_index == shopInfo.id);
                 var productListTable = DataTable<int, ShopProductListTable>.Instance.Values.FindAll(productList => productList.shopId == shopInfo.id);
 
 				foreach(var product in productListTable)
@@ -87,7 +87,7 @@ namespace GameBase.Template.Shop.GameBaseShop
                     var dbShopProductTable = DBShopProductList.Find(dbProduct => dbProduct._DBData.shop_product_index == product.id);
 					if (dbShopProductTable == null)
 					{
-                        dbShopProductTable = userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.Insert(userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.GetVacantSlot());
+                        dbShopProductTable = userObject.UserDB.GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.Insert(userObject.UserDB.GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.GetVacantSlot());
 
                         dbShopProductTable._DBData.shop_index = shopInfo.id;
                         dbShopProductTable._DBData.shop_product_index = product.id;
@@ -197,7 +197,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 
         private (ShopProductInfo productInfo, ShopProductInfo changeProductInfo, List<QuestCompleteParam> listQuestCompleteParam) UpdateProduct(ImplObject userObject, ShopProductListTable shopProductListTable)
 		{
-			var dbShopProductList = userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable;
+			var dbShopProductList = userObject.UserDB.GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable;
 			short dbSlot = 0;
 			dbShopProductList.BreakableForEach((DBSlot_DBShopTable table) =>
 			{
@@ -210,7 +210,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 				return false;
 			});
 
-			var dbShopTable = userObject.GetUserDB().GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.GetWriteData(dbSlot);
+			var dbShopTable = userObject.UserDB.GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.GetWriteData(dbSlot);
 			dbShopTable._DBData.buy_count++;
 
 			ShopProductInfo productInfo = new ShopProductInfo();

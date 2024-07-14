@@ -14,8 +14,9 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			try
 			{
 				string strResult;
-				QueryBuilder query = new QueryBuilder("call gp_player_player_load(?)");
+				QueryBuilder query = new QueryBuilder("call gp_player_player_load(?,?)");
 				query.SetInputParam("@p_player_db_key", player_db_key);
+				query.SetInputParam("@p_user_db_key", user_db_key);
 
 				adoDB.Execute(query);
 
@@ -24,6 +25,7 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 					player rplayer = _dbBaseContainer_player.GetWriteData(false)._DBData;
 
 					rplayer.player_db_key = adoDB.RecordGetValue("player_db_key");
+					rplayer.user_db_key = adoDB.RecordGetValue("user_db_key");
 					rplayer.create_time = adoDB.RecordGetTimeValue("create_time");
 					rplayer.update_time = adoDB.RecordGetTimeValue("update_time");
 

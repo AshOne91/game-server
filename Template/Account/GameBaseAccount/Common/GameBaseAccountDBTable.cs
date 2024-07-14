@@ -14,6 +14,10 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		/// <sumary>
 		public UInt64 player_db_key;
 		/// <sumary>
+		/// 파티션키_2
+		/// <sumary>
+		public UInt64 user_db_key;
+		/// <sumary>
 		/// 생성시간
 		/// <sumary>
 		public DateTime create_time;
@@ -58,6 +62,7 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		public override void Reset()
 		{
 			player_db_key = default(UInt64);
+			user_db_key = default(UInt64);
 			create_time = DateTime.UtcNow;
 			update_time = DateTime.UtcNow;
 			login_time = default(DateTime);
@@ -71,5 +76,5 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 		}
 	}
 	public class DBBase_player : DBBase<player>{}
-	public class DBBaseContainer_player : DBBaseContainer<DBBase_player, player> {}
+	public class DBBaseContainer_player : DBBaseContainer<DBBase_player, player>{}
 }

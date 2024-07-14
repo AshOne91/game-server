@@ -30,7 +30,7 @@ namespace Service.DB
         public BaseDB() { }
     }*/
 
-    public class DBSlot<T> where T : BaseDBClass
+    public class DBSlot<T> where T : BaseDBClass, new()
     {
         public short _nSlot;
         public bool _isChanged;
@@ -39,6 +39,7 @@ namespace Service.DB
 
         public DBSlot()
         {
+            _DBData = new T();
             Reset();
         }
 
@@ -286,13 +287,14 @@ namespace Service.DB
         public void SetChanged(bool isChanged) { _isChanged = isChanged; }
     }
 
-    public class DBBase<T> where T : BaseDBClass
+    public class DBBase<T> where T : BaseDBClass, new()
     {
         public bool _isChanged;
         public T _DBData;
 
         public DBBase()
         {
+            _DBData = new T();
             Reset();
         }
 
