@@ -20,6 +20,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 				ShopInfo shopInfo = null;
 				if (shopInfoList.TryGetValue(slot._DBData.shop_index, out shopInfo) == false)
 				{
+                    shopInfo = new ShopInfo();
                     shopInfo.shopId = slot._DBData.shop_index;
                     shopInfo.resetRemainType = 0;
                     shopInfo.listProductInfo = new List<ShopProductInfo>();

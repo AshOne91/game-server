@@ -95,7 +95,7 @@ namespace GameBase.Template.Shop.GameBaseShop.Common
 		/// <summary>
 		/// 삭제 아이템 정보
 		/// </summary>
-		public ItemBaseInfo deleteItemInfo = new ItemBaseInfo();
+		public List<ItemBaseInfo> deleteItemInfo = new List<ItemBaseInfo>();
 		/// <summary>
 		/// 보상 아이템 정보
 		/// </summary>
@@ -111,7 +111,12 @@ namespace GameBase.Template.Shop.GameBaseShop.Common
 			packet.Write(shopId);
 			packet.Write(shopProductInfo);
 			packet.Write(changeProductInfo);
-			packet.Write(deleteItemInfo);
+			int lengthdeleteItemInfo = (deleteItemInfo == null) ? 0 : deleteItemInfo.Count;
+			packet.Write(lengthdeleteItemInfo);
+			for (int i = 0; i < lengthdeleteItemInfo; ++i)
+			{
+				packet.Write(deleteItemInfo[i]);
+			}
 			int lengthlistRewardInfo = (listRewardInfo == null) ? 0 : listRewardInfo.Count;
 			packet.Write(lengthlistRewardInfo);
 			for (int i = 0; i < lengthlistRewardInfo; ++i)
@@ -131,8 +136,15 @@ namespace GameBase.Template.Shop.GameBaseShop.Common
 			packet.Read(ref shopId);
 			packet.Read(shopProductInfo);
 			packet.Read(changeProductInfo);
-			packet.Read(deleteItemInfo);
-			int lengthlistRewardInfo = (listRewardInfo == null) ? 0 : listRewardInfo.Count;
+            int lengthdeleteItemInfo = (deleteItemInfo == null) ? 0 : deleteItemInfo.Count;
+            packet.Read(ref lengthdeleteItemInfo);
+            for (int i = 0; i < lengthdeleteItemInfo; ++i)
+            {
+                ItemBaseInfo element = new ItemBaseInfo();
+                packet.Read(element);
+                deleteItemInfo.Add(element);
+            }
+            int lengthlistRewardInfo = (listRewardInfo == null) ? 0 : listRewardInfo.Count;
 			packet.Read(ref lengthlistRewardInfo);
 			for (int i = 0; i < lengthlistRewardInfo; ++i)
 			{

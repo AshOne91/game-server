@@ -44,7 +44,17 @@ namespace GameBase.Template.Shop.GameBaseShop.Common
 			shop_product_index = default(int);
 			buy_count = default(int);
 		}
+		public override void Copy(BaseDBClass srcDBData)
+		{
+			DBShopTable srcDBShopTable = (DBShopTable)srcDBData;
+			player_db_key = srcDBShopTable.player_db_key;
+			create_time = srcDBShopTable.create_time;
+			update_time = srcDBShopTable.update_time;
+			shop_index = srcDBShopTable.shop_index;
+			shop_product_index = srcDBShopTable.shop_product_index;
+			buy_count = srcDBShopTable.buy_count;
+		}
 	}
 	public class DBSlot_DBShopTable : DBSlot<DBShopTable>{}
-	public class DBSlotContainer_DBShopTable : DBSlotContainer<DBSlot_DBShopTable, DBShopTable> {}
+	public class DBSlotContainer_DBShopTable : DBSlotContainer<DBSlot_DBShopTable, DBShopTable>{}
 }

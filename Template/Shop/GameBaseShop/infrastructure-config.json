@@ -77,7 +77,7 @@
 					"comment": "변경 상품 정보"
 				},
 				{
-					"type": "ItemBaseInfo",
+					"type": "List<ItemBaseInfo>",
 					"name": "deleteItemInfo",
 					"comment": "삭제 아이템 정보"
 				},

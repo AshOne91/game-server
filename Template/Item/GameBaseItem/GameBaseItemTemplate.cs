@@ -203,7 +203,7 @@ namespace GameBase.Template.Item.GameBaseItem
 			if (value < 0
 				&& (itemSubType == ItemSubType.Gold || itemSubType == ItemSubType.Diamond || itemSubType == ItemSubType.Stamina))
 			{
-				itemInfo = DeleteResource(userObject, itemSubType, itemId, value);
+				itemInfo = DeleteResource(userObject, itemSubType, itemId, value * -1);
             }
 			else
 			{
@@ -262,7 +262,7 @@ namespace GameBase.Template.Item.GameBaseItem
         private List<ItemBaseInfo> DeleteResource(ImplObject userObject, ItemSubType itemSubType, int itemId, long value) 
 		{
 			List<ItemBaseInfo> listItemInfo = new List<ItemBaseInfo>();
-			var dbItem = userObject.UserDB.GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.Find(slot => slot._DBData.item_id == itemId);
+			 var dbItem = userObject.UserDB.GetReadUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable.Find(slot => slot._DBData.item_id == itemId);
 			if (dbItem == null)
 			{
 				throw new Exception("DeleteResource Not FInd DB Table");
@@ -304,9 +304,9 @@ namespace GameBase.Template.Item.GameBaseItem
 					if (slot._DBData.item_id == itemTable.id)
 					{
 						nSlot = slot._nSlot;
-						return true;
+						return false;
 					}
-					return false;
+					return true;
 				});
 				var dbCashResource = userObject.UserDB.GetWriteUserDB<GameBaseItemUserDB>(ETemplateType.Item)._dbSlotContainer_DBItemTable;
 				var cashItemDB = dbCashResource.GetWriteData((short)nSlot);

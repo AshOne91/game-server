@@ -233,6 +233,7 @@ namespace TestClient.TestClient
         }
         protected sealed override bool ReciveMessage(Message message)
         {
+            ConsoleManager.Instance.ConsoleClear();
             switch (message.EventType)
             {
                 case "Connectting":
@@ -284,6 +285,7 @@ namespace TestClient.TestClient
                     {
                         var playerInfo = (PlayerInfo)message.ExtraInfo;
                         PlayerManager.Instance.SelectPlayer(playerInfo.PlayerDBKey);
+                        MainPage = GameMainPage.Item;
                     }
                     break;
                 case "ItemInfo":
@@ -314,10 +316,17 @@ namespace TestClient.TestClient
                     break;
                 case "ShopBuy":
                     {
+                        ConsoleManager.Instance.ConsoleClear();
                         PACKET_CG_SHOP_BUY_RES response = (PACKET_CG_SHOP_BUY_RES)message.ExtraInfo;
                         PlayerManager.Instance.GetSelectPlayer().ShopManager.UpdateShop(response.shopId, response.shopProductInfo.shopProductId, response.shopProductInfo.buyCount);
-                        PlayerManager.Instance.GetSelectPlayer().ShopManager.UpdateShop(response.shopId, response.changeProductInfo.shopProductId, response.shopProductInfo.buyCount);
-                        PlayerManager.Instance.GetSelectPlayer().ItemManager.UpdateItem(response.deleteItemInfo.ItemId, response.deleteItemInfo.Value, response.deleteItemInfo.TotalValue);
+                        if (response.changeProductInfo.shopProductId != 0)
+                        {
+                            PlayerManager.Instance.GetSelectPlayer().ShopManager.UpdateShop(response.shopId, response.changeProductInfo.shopProductId, response.changeProductInfo.buyCount);
+                        }
+                        foreach(var deleteItem in response.deleteItemInfo)
+                        {
+                            PlayerManager.Instance.GetSelectPlayer().ItemManager.UpdateItem(deleteItem.ItemId, deleteItem.Value, deleteItem.TotalValue);
+                        }
                         foreach(var rewardItem in response.listRewardInfo)
                         {
                             PlayerManager.Instance.GetSelectPlayer().ItemManager.UpdateItem(rewardItem.ItemId, rewardItem.Value, rewardItem.TotalValue);
@@ -422,7 +431,7 @@ namespace TestClient.TestClient
                             _subUI += "no shop data\n";
                             break;
                         }
-                        _subUI += $"ProductId\t\tName\t\tShopId\t\tBuyType\t\tBuyPrice\t\tItemId\t\tItemName\t\tValue\t\tIsCur\n";
+                        _subUI += $"ProductId\tName\t\tShopId\tBuyType\tBuyPrice\tItemId\tItemName\tValue\tIsCur\n";
                         ShopProduct shopProduct = PlayerManager.Instance.GetSelectPlayer().ShopManager.GetSeekProduct();
                         foreach(var shop in PlayerManager.Instance.GetSelectPlayer().ShopManager.ShopByShopId)
                         {
@@ -430,10 +439,14 @@ namespace TestClient.TestClient
                             {
                                 var productTable = DataTable<int, ShopProductListTable>.Instance.GetData(product.ShopProductId);
                                 var itemData = DataTable<int, ItemListTable>.Instance.GetData(productTable.itemId);
-                                _subUI += $"{productTable.id}\t\t{productTable.name}\t\t{productTable.shopId}\t\t{(ShopBuyType)productTable.buyType}\t\t{productTable.buyPrice}\t\t{itemData.id}\t\t{itemData.name}\t\t{productTable.value}";
+                                _subUI += $"{productTable.id}\t\t{productTable.name}\t\t{productTable.shopId}\t{(ShopBuyType)productTable.buyType}\t{productTable.buyPrice}\t{itemData.id}\t{itemData.name}\t{productTable.value}";
                                 if (shopProduct == product)
                                 {
                                     _subUI += $"\t<<";
+                                }
+                                else
+                                {
+                                    _subUI += $"\t  ";
                                 }
                                 _subUI += "\n";
                             }

@@ -32,7 +32,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 				return;
             }
 
-			var resBuyItem = UpdateBuyItem(userObject, productList);
+			 var resBuyItem = UpdateBuyItem(userObject, productList);
 			if (resBuyItem.Item1 != GServerCode.SUCCESS)
 			{
 				sendData.ErrorCode = (int)resBuyItem.Item1;
@@ -62,7 +62,7 @@ namespace GameBase.Template.Shop.GameBaseShop
 			sendData.changeProductInfo = resProduct.changeProductInfo;
 			if (resBuyItem.Item2 != null && resBuyItem.Item2.Count > 0)
 			{
-				sendData.deleteItemInfo = resBuyItem.Item2[0];
+				sendData.deleteItemInfo = resBuyItem.Item2;
             }
 			sendData.listRewardInfo = resRewardItem.listReward;
 			userObject.GetSession().SendPacket(sendData.Serialize());

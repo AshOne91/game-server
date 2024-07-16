@@ -74,6 +74,22 @@ namespace GameBase.Template.Account.GameBaseAccount.Common
 			level = default(short);
 			exp = default(Int64);
 		}
+		public override void Copy(BaseDBClass srcDBData)
+		{
+			player srcplayer = (player)srcDBData;
+			player_db_key = srcplayer.player_db_key;
+			user_db_key = srcplayer.user_db_key;
+			create_time = srcplayer.create_time;
+			update_time = srcplayer.update_time;
+			login_time = srcplayer.login_time;
+			logout_time = srcplayer.logout_time;
+			is_login = srcplayer.is_login;
+			newbie = srcplayer.newbie;
+			serial_allocator = srcplayer.serial_allocator;
+			player_name = srcplayer.player_name;
+			level = srcplayer.level;
+			exp = srcplayer.exp;
+		}
 	}
 	public class DBBase_player : DBBase<player>{}
 	public class DBBaseContainer_player : DBBaseContainer<DBBase_player, player>{}

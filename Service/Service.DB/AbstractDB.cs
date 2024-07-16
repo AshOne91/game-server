@@ -7,6 +7,7 @@ namespace Service.DB
     public abstract class BaseDBClass
     {
         public abstract void Reset();
+        public abstract void Copy(BaseDBClass srcDBData);
         public BaseDBClass() { }
     }
 
@@ -57,7 +58,7 @@ namespace Service.DB
         }
         public void Copy(T srcData)
         {
-            _DBData = (T)srcData;
+            _DBData.Copy(srcData);
         }
     }
 
@@ -335,8 +336,7 @@ namespace Service.DB
 
             if (!isChanged || srcContainer._DBBase._isChanged)
             {
-                //_DBBase.Copy((object)_DBBase.GetDBData());
-                _DBBase._DBData = srcContainer._DBBase._DBData;
+                _DBBase._DBData.Copy(srcContainer._DBBase._DBData);
 
                 srcContainer._DBBase._isChanged = false;
             }

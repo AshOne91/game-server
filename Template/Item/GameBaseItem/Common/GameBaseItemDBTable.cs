@@ -54,7 +54,19 @@ namespace GameBase.Template.Item.GameBaseItem.Common
 			item_count = default(long);
 			remain_charge_time = default(DateTime);
 		}
+		public override void Copy(BaseDBClass srcDBData)
+		{
+			DBItemTable srcDBItemTable = (DBItemTable)srcDBData;
+			user_db_key = srcDBItemTable.user_db_key;
+			player_db_key = srcDBItemTable.player_db_key;
+			create_time = srcDBItemTable.create_time;
+			update_time = srcDBItemTable.update_time;
+			item_type = srcDBItemTable.item_type;
+			item_id = srcDBItemTable.item_id;
+			item_count = srcDBItemTable.item_count;
+			remain_charge_time = srcDBItemTable.remain_charge_time;
+		}
 	}
 	public class DBSlot_DBItemTable : DBSlot<DBItemTable>{}
-	public class DBSlotContainer_DBItemTable : DBSlotContainer<DBSlot_DBItemTable, DBItemTable> {}
+	public class DBSlotContainer_DBItemTable : DBSlotContainer<DBSlot_DBItemTable, DBItemTable>{}
 }

@@ -205,9 +205,9 @@ namespace GameBase.Template.Shop.GameBaseShop
 				&& table._DBData.shop_product_index == shopProductListTable.id)
 				{
 					dbSlot = table._nSlot;
-                    return true;
+                    return false;
                 }
-				return false;
+				return true;
 			});
 
 			var dbShopTable = userObject.UserDB.GetWriteUserDB<GameBaseShopUserDB>(ETemplateType.Shop)._dbSlotContainer_DBShopTable.GetWriteData(dbSlot);
