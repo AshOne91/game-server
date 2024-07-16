@@ -11,7 +11,7 @@ namespace GameBase.Template.GameBase
     {
         private Dictionary<string, UserSessionData> _SessionMap = new Dictionary<string, UserSessionData>();
         private PriorityLock _sessionManagerLock = new PriorityLock((int)LockPriority.SessionManager);
-        private double _SessionTimeout = 60 * 7;
+        private double _SessionTimeout = 6000 * 7;
 
         public bool AddSession(UserSessionData s)
         {

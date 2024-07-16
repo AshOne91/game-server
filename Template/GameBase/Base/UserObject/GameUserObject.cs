@@ -31,7 +31,11 @@ namespace GameBase.Template.GameBase
             get => _sessionData; 
             set => _sessionData = value;
         }
-
+        private int _saveDBWaitCount = 0;
+        public int SaveDBWaitCount
+        {
+            get { return _saveDBWaitCount; }
+        }
 
 
         public GameUserObject()
@@ -53,11 +57,37 @@ namespace GameBase.Template.GameBase
                 return;
             }
 
+            UserDB._IsDBChanged = false;
+            _saveDBWaitCount++;
+
             DBGameUserSave query = new DBGameUserSave();
             query._isConnected = this.GetSession().IsConnected();
             query._user_db_key = this.UserDBKey;
             query._player_db_key = this.PlayerDBKey;
+            query._uid = GetSession().GetUid();
             query._userDB.Copy(UserDB, true);
+            GameBaseTemplateContext.GetDBManager().PushQueryGame(UserDBKey, GameDBIdx, query, () =>
+            {
+                GameUserObject user = GameBaseTemplateContext.FindUserObj<GameUserObject>(query._uid);
+                if (user != null)
+                {
+                    OnDBSaveComplete();
+                }
+                else
+                {
+                    Logger.Default.Log(ELogLevel.Err, "Not Found User {0}", query._uid);
+                }
+
+                if (completeCallback != null)
+                {
+                    completeCallback();
+                }
+            });
+        }
+
+        public void OnDBSaveComplete()
+        {
+            _saveDBWaitCount--;
         }
 
         public override void OnUpdate(float dt)

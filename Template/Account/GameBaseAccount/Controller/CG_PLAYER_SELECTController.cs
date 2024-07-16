@@ -88,14 +88,28 @@ namespace GameBase.Template.Account.GameBaseAccount
 			}
 
 			DBGlobal_Player_Login query = new DBGlobal_Player_Login();
-			query._account_db_key = impl._obj.AccountDBKey;
+			query._uid = impl._obj.GetSession().GetUid();
+
+            query._account_db_key = impl._obj.AccountDBKey;
 			query._user_db_key = impl._obj.UserDBKey;
 			query._player_db_key = impl._obj.PlayerDBKey;
 			query._server_id = GetGameBaseAccountImpl()._ServerId;
 			query._player_name = impl._PlayerInfo.PlayerName;
 			query._player_level = 1;
 			query._player_class_type = 0;
-			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(impl._obj.UserDBKey, query);
+			GameBaseTemplateContext.GetDBManager().PushQueryGlobal(impl._obj.UserDBKey, query,()=>
+			{
+				GameUserObject user = GameBaseTemplateContext.FindUserObj<GameUserObject>(query._uid);
+                if (user != null)
+				{
+					user.IsLogin = true;
+					user.IsDBLoaded = true;
+				}
+				else
+				{
+					Logger.Default.Log(ELogLevel.Err, "Not Found Use Player_Login");
+				}
+            });
 
 			impl._PlayerInfo.PlayerDBKey = impl._obj.PlayerDBKey;
             PACKET_CG_PLAYER_SELECT_RES sendPacket = new PACKET_CG_PLAYER_SELECT_RES();

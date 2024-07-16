@@ -23,6 +23,7 @@ namespace GameBase.Template.GameBase
 
         public void DBLoad_Request(int ServerID, Action complateCallback = null)
         {
+            _ServerId = ServerID;
             DBGlobal_DBList_LoadAll query = new DBGlobal_DBList_LoadAll();
             PushQueryGlobal(0, query, () => {
                 bool IsSuccess = false;

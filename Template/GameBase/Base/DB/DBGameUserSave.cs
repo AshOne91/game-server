@@ -12,6 +12,8 @@ namespace GameBase.Template.GameBase
         public UInt64 _player_db_key;
         public UserDB _userDB;
 
+        public UInt64 _uid;
+
         public DBGameUserSave()
         {
             _userDB = GameBaseTemplateContext.CreateUserDB();

@@ -501,7 +501,7 @@ namespace Service.DB
         {
             int DBIndexKey = serverID * 10000 + (int)type * 100 + sharding_key;
 
-            if (!_dbIndexByMakeKey.ContainsKey(DBIndexKey))
+            if (_dbIndexByMakeKey.ContainsKey(DBIndexKey))
             {
                 return _dbIndexByMakeKey[DBIndexKey];
             }

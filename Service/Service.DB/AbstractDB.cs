@@ -184,6 +184,7 @@ namespace Service.DB
                 return null;
 
             }
+            slot._isChanged = true;
             SetChanged(true);
 
             return slot;

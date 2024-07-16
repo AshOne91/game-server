@@ -205,19 +205,16 @@ namespace GameServer
 					if (gameUserObject.SessionData.SessionState != (int)SessionState.Logout
 						&& gameUserObject.SessionData.SessionState != (int)SessionState.PendingLogout)
 					{
-						gameUserObject.SessionData.SessionState = (int)SessionState.PendingDisconnect;
+						gameUserObject.SessionData.SessionState = (int)SessionState.PendingLogout;
 						GameBaseTemplateContext.Account.UpdateSessionInfo(gameUserObject);
 
 						Logger.Default.Log(ELogLevel.Trace, "PendingDisconnect {0}", gameUserObject.UserDBKey);
 					}
 
-					//DBSaveAll()
-					DBGameUserSave query = new DBGameUserSave();
-					query._isConnected = gameUserObject.GetSession().IsConnected();
-					query._user_db_key = gameUserObject.UserDBKey;
-					query._player_db_key = gameUserObject.PlayerDBKey;
-					query._userDB.Copy(gameUserObject.UserDB, true);
-					GameBaseTemplateContext.GetDBManager().PushQueryGame(gameUserObject.UserDBKey, gameUserObject.GameDBIdx, 0, query);
+					gameUserObject.DBSaveAll(()=>
+					{
+                        gameUserObject.IsDBLoaded = false;
+                    });
 
 					DBGlobal_User_Logout userLogoutQuery = new DBGlobal_User_Logout();
                     userLogoutQuery._encode_account_id = gameUserObject.GetAccountImpl<GameBaseAccountUserImpl>()._SiteUserId;
@@ -234,7 +231,8 @@ namespace GameServer
 						}
 
 						Logger.Default.Log(ELogLevel.Trace, "Disconnect", gameUserObject.UserDBKey);
-						GameBaseTemplateContext.Account.UpdateSessionInfo(gameUserObject);
+						gameUserObject.IsLogin = false;
+                        GameBaseTemplateContext.Account.UpdateSessionInfo(gameUserObject);
 					});
 				 }
 

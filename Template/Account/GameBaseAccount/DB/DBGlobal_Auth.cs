@@ -168,7 +168,7 @@ namespace GameBase.Template.GameBase
         {
             try
             {
-                QueryBuilder query = new QueryBuilder("call gp_auser_logout(?,?,?)");
+                QueryBuilder query = new QueryBuilder("call gp_auser_logout(?,?)");
                 query.SetInputParam("@p_encode_account_id", _encode_account_id);
                 query.SetInputParam("@p_user_db_key", _user_db_key);
 
@@ -242,6 +242,8 @@ namespace GameBase.Template.GameBase
         public string _player_name;
         public short _player_level;
         public SByte _player_class_type;
+
+        public UInt64 _uid;
 
 
         public DBGlobal_Player_Login() : base() { }
