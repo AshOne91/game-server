@@ -431,7 +431,7 @@ namespace TestClient.TestClient
                             _subUI += "no shop data\n";
                             break;
                         }
-                        _subUI += $"ProductId\tName\t\tShopId\tBuyType\tBuyPrice\tItemId\tItemName\tValue\tIsCur\n";
+                        _subUI += $"ProductId\tName\t\tShopId\tBuyType\tBuyPrice\tItemId\tItemName\tValue\tbuyCount\tIsCur\n";
                         ShopProduct shopProduct = PlayerManager.Instance.GetSelectPlayer().ShopManager.GetSeekProduct();
                         foreach(var shop in PlayerManager.Instance.GetSelectPlayer().ShopManager.ShopByShopId)
                         {
@@ -439,7 +439,7 @@ namespace TestClient.TestClient
                             {
                                 var productTable = DataTable<int, ShopProductListTable>.Instance.GetData(product.ShopProductId);
                                 var itemData = DataTable<int, ItemListTable>.Instance.GetData(productTable.itemId);
-                                _subUI += $"{productTable.id}\t\t{productTable.name}\t\t{productTable.shopId}\t{(ShopBuyType)productTable.buyType}\t{productTable.buyPrice}\t{itemData.id}\t{itemData.name}\t{productTable.value}";
+                                _subUI += $"{productTable.id}\t\t{productTable.name}\t\t{productTable.shopId}\t{(ShopBuyType)productTable.buyType}\t{productTable.buyPrice}\t{itemData.id}\t{itemData.name}\t{productTable.value}\t{product.BuyCount}";
                                 if (shopProduct == product)
                                 {
                                     _subUI += $"\t<<";
